@@ -10,12 +10,15 @@ env:
     value: "production"
     availability: ["BUILD", "RUNTIME"]
 
-# Instruksi Build & Run mendasar
+# AKTIFKAN KEMBALI SECRETS
+secrets:
+  - variable: VITE_GEMINI_API_KEY
+    secret: GEMINI_API_KEY
+
 scripts:
   buildCommand: "npm run build"
   runCommand: "npm run start"
 
-# Pengaturan Server
 runConfig:
   cpu: 1
   memoryMiB: 512
