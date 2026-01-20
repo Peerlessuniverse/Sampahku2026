@@ -13,7 +13,7 @@ const DIST_PATH = path.join(__dirname, 'dist');
 
 app.use(express.static(DIST_PATH));
 
-app.get('*', (req, res) => {
+app.get('(.*)', (req, res) => {
     res.sendFile(path.join(DIST_PATH, 'index.html'));
 });
 
