@@ -10,17 +10,12 @@ env:
     value: "production"
     availability: ["BUILD", "RUNTIME"]
 
-# SEMENTARA DIMATIKAN untuk debugging port
-# secrets:
-#   - variable: VITE_GEMINI_API_KEY
-#     secret: GEMINI_API_KEY
-#   - variable: GEMINI_API_KEY
-#     secret: GEMINI_API_KEY
-
+# Instruksi Build & Run mendasar
 scripts:
   buildCommand: "npm run build"
-  runCommand: "node server.js"
+  runCommand: "npm run start"
 
+# Pengaturan Server
 runConfig:
   cpu: 1
   memoryMiB: 512
