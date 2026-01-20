@@ -10,29 +10,17 @@ env:
     value: "production"
     availability: ["BUILD", "RUNTIME"]
 
-# Manajemen Rahasia (Disatukan agar tidak duplikat)
-secrets:
-  - variable: VITE_GEMINI_API_KEY
-    secret: GEMINI_API_KEY
-  - variable: GEMINI_API_KEY
-    secret: GEMINI_API_KEY
+# SEMENTARA DIMATIKAN untuk debugging port
+# secrets:
+#   - variable: VITE_GEMINI_API_KEY
+#     secret: GEMINI_API_KEY
+#   - variable: GEMINI_API_KEY
+#     secret: GEMINI_API_KEY
 
-# Instruksi Build & Run
 scripts:
   buildCommand: "npm run build"
   runCommand: "node server.js"
 
-# Pengaturan Output - Sertakan SEMUA file agar pasti bisa jalan
-# Firebase akan mengabaikan file yang tidak perlu secara otomatis
-outputFiles:
-  serverApp:
-    include:
-      - "."
-
-# Pengaturan Server
 runConfig:
   cpu: 1
   memoryMiB: 512
-  minInstances: 0
-  maxInstances: 10
-  concurrency: 80
