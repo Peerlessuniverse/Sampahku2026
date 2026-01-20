@@ -1,7 +1,9 @@
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 import { WasteAnalysis } from "../types";
 
-const genAI = new GoogleGenerativeAI(process.env.API_KEY || "");
+// Ambil API Key dari environment variable Vite (Lokal) atau App Hosting (Produksi)
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
+const genAI = new GoogleGenerativeAI(API_KEY);
 
 export const analyzeWasteImage = async (base64Image: string): Promise<WasteAnalysis> => {
   try {
