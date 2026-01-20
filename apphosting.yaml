@@ -1,0 +1,35 @@
+# Firebase App Hosting Configuration
+# Reference: https://firebase.google.com/docs/app-hosting/configure
+
+kind: "AppHostingYaml"
+schemaVersion: "v1"
+
+# Pengaturan Lingkungan (Environment Variables)
+env:
+  - variable: VITE_APP_NAME
+    value: "SampahKu 2026"
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_ENV
+    value: "production"
+    availability: ["BUILD", "RUNTIME"]
+
+# Manajemen Rahasia (Secrets)
+# Simpan API Key Gemini Anda di Google Cloud Secret Manager 
+# lalu hubungkan namanya di sini.
+secrets:
+  - variable: VITE_GEMINI_API_KEY
+    secret: GEMINI_API_KEY # Nama secret di Cloud Secret Manager
+
+# Konfigurasi Build
+# App Hosting akan secara otomatis mendeteksi Vite, 
+# namun kita bisa memberikan instruksi spesifik jika diperlukan.
+buildConfig:
+  runtime: "nodejs20" # Menggunakan Node.js versi 20
+
+# Konfigurasi Cloud Run (Backend Service)
+runConfig:
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0
+  maxInstances: 10
+  concurrency: 80
