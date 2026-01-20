@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "sirv dist --port $PORT --host 0.0.0.0 --single",
-    "start": "sirv dist --port $PORT --host 0.0.0.0 --single"
+    "preview": "node server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
