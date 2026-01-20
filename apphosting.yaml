@@ -24,7 +24,8 @@ secrets:
 # App Hosting akan secara otomatis mendeteksi Vite, 
 # namun kita bisa memberikan instruksi spesifik jika diperlukan.
 buildConfig:
-  runtime: "nodejs20" # Menggunakan Node.js versi 20
+  runtime: "nodejs20"
+  buildCommand: "npm run build"
 
 # Konfigurasi Cloud Run (Backend Service)
 runConfig:
@@ -33,3 +34,4 @@ runConfig:
   minInstances: 0
   maxInstances: 10
   concurrency: 80
+  runCommand: "npm run preview"
