@@ -1,7 +1,6 @@
 kind: "AppHostingYaml"
 schemaVersion: "v1"
 
-# Pengaturan Lingkungan (Environment Variables)
 env:
   - variable: VITE_APP_NAME
     value: "SampahKu 2026"
@@ -10,30 +9,18 @@ env:
     value: "production"
     availability: ["BUILD", "RUNTIME"]
 
-# Manajemen Rahasia (Secrets)
 secrets:
   - variable: VITE_GEMINI_API_KEY
     secret: GEMINI_API_KEY
 
-# Override Build dan Run Scripts
+secrets:
+  - variable: GEMINI_API_KEY
+    secret: GEMINI_API_KEY
+
 scripts:
   buildCommand: "npm run build"
-  runCommand: "node server.cjs"
+  runCommand: "node server.js"
 
-# Konfigurasi Output
-# PENTING: Memberitahu Firebase file mana yang harus dideploy ke server
-outputFiles:
-  serverApp:
-    include:
-      - "dist"
-      - "server.cjs"
-      - "package.json"
-      - "package-lock.json"
-
-# Pengaturan Cloud Run
 runConfig:
   cpu: 1
   memoryMiB: 512
-  minInstances: 0
-  maxInstances: 10
-  concurrency: 80
