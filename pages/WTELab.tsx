@@ -4,9 +4,17 @@ import {
     Binary, ArrowLeft, Thermometer
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { addCredits } from '../services/creditService';
+import { useEffect } from 'react';
+
 
 const WTELab: React.FC = () => {
+    useEffect(() => {
+        addCredits(30, "Akses Riset Eksklusif WTE Lab");
+    }, []);
+
     return (
+
         <div className="min-h-screen bg-[#02020a] pt-32 pb-32 px-6 overflow-hidden relative text-white">
             {/* Cosmic Background Gradients */}
             <div className="fixed top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_20%,_#1e1b4b_0%,_transparent_50%)] pointer-events-none -z-10"></div>

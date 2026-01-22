@@ -2,7 +2,9 @@ import React, { useState, useRef } from 'react';
 import { Camera, Upload, Loader2, CheckCircle2, AlertCircle, RefreshCw, X, Sparkles, Leaf, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { analyzeWasteImage } from '../services/geminiService';
+import { addCredits } from '../services/creditService';
 import { WasteAnalysis } from '../types';
+
 import SponsorScreen from '../components/SponsorScreen';
 
 const Scanner: React.FC = () => {
@@ -53,8 +55,11 @@ const Scanner: React.FC = () => {
     setShowSponsor(false);
     if (pendingResult) {
       setResult(pendingResult);
+      // Award credits when result is shown
+      addCredits(50, `Analisa Sampah: ${pendingResult.materialType}`);
     }
   };
+
 
   const resetScanner = () => {
     setImage(null);

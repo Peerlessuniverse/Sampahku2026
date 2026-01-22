@@ -13,6 +13,8 @@ import SponsorLanding from './pages/SponsorLanding';
 import Login from './pages/Login';
 import WTE from './pages/WTE';
 import WTELab from './pages/WTELab';
+import EcoCredits from './pages/EcoCredits';
+
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -43,7 +45,9 @@ const AppContent: React.FC = () => {
                     <Route path="/portals" element={<Login />} />
                     <Route path="/admin/portal" element={<AdminSponsors />} />
                     <Route path="/sponsor/info" element={<SponsorLanding />} />
+                    <Route path="/credits" element={<EcoCredits />} />
                 </Routes>
+
             </main>
             {!hideNavFooter && <Footer />}
         </div>

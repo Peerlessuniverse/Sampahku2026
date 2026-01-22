@@ -1,19 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Coins } from 'lucide-react';
+import { getCredits } from '../services/creditService';
+
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  const [credits, setCredits] = useState(getCredits());
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
+
+    const handleCreditsUpdate = (e: any) => {
+      setCredits(e.detail.credits);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('creditsUpdated', handleCreditsUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('creditsUpdated', handleCreditsUpdate);
+    };
   }, []);
+
 
   const navLinks = [
     { name: 'Beranda', path: '/' },
@@ -60,10 +75,28 @@ const Navbar: React.FC = () => {
                 <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#a78bfa] to-[#6366f1] transition-all duration-500 origin-left ${location.pathname === link.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100 opacity-50'}`}></span>
               </Link>
             ))}
+
+            {/* Eco-Credits Display */}
+            <Link to="/credits" className="flex items-center gap-3 px-5 py-2.5 bg-white/5 border border-white/10 rounded-2xl group hover:border-[#a78bfa]/50 transition-all cursor-pointer">
+              <div className="p-1.5 bg-[#a78bfa]/20 rounded-lg text-[#a78bfa] group-hover:scale-110 transition-transform">
+                <Coins size={18} />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[8px] font-black text-white/30 uppercase tracking-widest leading-none">Eco-Credits</span>
+                <span className="text-sm font-black text-white tracking-tighter leading-none mt-1">{credits.toLocaleString()}</span>
+              </div>
+            </Link>
           </div>
 
-          {/* Mobile Toggle */}
-          <div className="flex items-center md:hidden relative z-50">
+
+
+          <div className="flex items-center gap-4 md:hidden relative z-50">
+            {/* Mobile Credits */}
+            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
+              <Coins size={14} className="text-[#a78bfa]" />
+              <span className="text-xs font-black text-white tracking-tighter">{credits.toLocaleString()}</span>
+            </div>
+
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-3 sm:p-4 rounded-2xl text-white bg-white/5 backdrop-blur-md hover:bg-white/10 active:scale-90 transition-all border border-white/10 shadow-lg"
@@ -72,6 +105,7 @@ const Navbar: React.FC = () => {
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
+
         </div>
       </div>
 

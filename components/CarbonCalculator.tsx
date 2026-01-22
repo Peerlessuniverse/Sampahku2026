@@ -5,6 +5,8 @@ import {
     Globe, Plane, Thermometer, Wind, Trash2, Leaf
 } from 'lucide-react';
 import SponsorScreen from './SponsorScreen';
+import { addCredits } from '../services/creditService';
+
 
 interface CalculatorState {
     carKm: number;
@@ -134,7 +136,9 @@ const CarbonCalculator: React.FC<{ isStandalone?: boolean }> = ({ isStandalone =
     const handleSponsorComplete = () => {
         setShowSponsor(false);
         setShowResult(true);
+        addCredits(100, "Audit Jejak Karbon Tahunan");
     };
+
 
     const handleBack = () => {
         if (step > 0) setStep(step - 1);

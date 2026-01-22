@@ -5,6 +5,8 @@ import {
   Trash2, ArrowRight, Sparkles, Zap, Info, Factory,
   Layers, Database, Flame, Droplets, Sun, Wind
 } from 'lucide-react';
+import { addCredits } from '../services/creditService';
+
 
 interface Step {
   title: string;
@@ -766,12 +768,16 @@ const MethodModal: React.FC<{ method: TransformationMethod, onClose: () => void 
 
           <div className="pt-12 border-t border-white/5 flex justify-center">
             <button
-              onClick={onClose}
+              onClick={() => {
+                addCredits(25, `Mempelajari Metode: ${method.title}`);
+                onClose();
+              }}
               className="px-12 py-5 bg-[#4ade80] text-[#022c22] font-black uppercase italic tracking-[0.2em] rounded-2xl hover:scale-105 transition-transform shadow-xl"
             >
               Selesai Mempelajari
             </button>
           </div>
+
         </div>
       </div>
     </div>
