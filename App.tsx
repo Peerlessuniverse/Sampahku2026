@@ -18,6 +18,7 @@ import EcoCredits from './pages/EcoCredits';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import ScrollReset from './components/ScrollReset';
 
 const AppContent: React.FC = () => {
     const location = useLocation();
@@ -26,6 +27,7 @@ const AppContent: React.FC = () => {
 
     return (
         <div className="flex flex-col min-h-screen">
+            <ScrollReset />
             {!hideNavFooter && <Navbar />}
             <ScrollToTop />
             <main className={`flex-grow ${(!hideNavFooter && location.pathname !== '/') ? 'pt-20' : ''}`}>
