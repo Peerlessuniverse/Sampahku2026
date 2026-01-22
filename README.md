@@ -2,7 +2,7 @@
 
 **SampahKu 2026** adalah platform pengelolaan limbah cerdas dengan estetika **Premium Cosmic & Forest**, dirancang untuk mendigitalisasi ekosistem pengelolaan sampah melalui pendekatan yang inovatif dan visual yang memukau.
 
-## 🌌 Filosofi: "Olah Limbah, Tata Jiwa"
+## 🌌 Filosofi: "Mengolah Limbah, Menata Jiwa"
 Aplikasi ini bukan sekadar alat manajemen sampah, melainkan simbol transformasi energi. Kami percaya bahwa setiap limbah yang terolah dengan benar adalah langkah menuju keseimbangan alam dan ketenangan jiwa.
 
 ---
