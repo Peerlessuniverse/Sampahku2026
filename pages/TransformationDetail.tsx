@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import {
   ArrowLeft, PlayCircle, Leaf, Recycle, AlertTriangle,
   Trash2, ArrowRight, Sparkles, Zap, Info, Factory,
-  Layers, Database, Flame, Droplets, Sun, Wind
+  Layers, Database, Flame, Droplets, Sun, Wind, Cpu
 } from 'lucide-react';
 import { addCredits } from '../services/creditService';
 
@@ -31,6 +31,7 @@ interface TransformationMethod {
     tips?: { problem: string; solution: string }[];
     benefits: string[];
   };
+  researchList?: string[];
 }
 
 interface SubItem {
@@ -114,7 +115,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Penutupan', desc: 'Tutup dengan bantal sekam atas, kain hitam, dan tutup keranjang rapat-rapat.' }
           ],
           benefits: ['Praktis & Hemat Lahan', 'Tanpa Bau Busuk (Fermentasi)', 'Hasil Kompos Berkualitas']
-        }
+        },
+        researchList: [
+          'Efikasi Starter Mikroba dalam Mempercepat Dekomposisi Aerob.',
+          'Optimasi Sirkulasi Udara pada Desain Keranjang Takakura Komersial.',
+          'Analisis Kandungan Hara NPK Kompos Hasil Metode Takakura.'
+        ]
       },
       {
         title: 'Komposter Karung',
@@ -131,7 +137,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Tunggu Matang', desc: 'Letakkan di tempat teduh dan panen kompos dalam 2-3 bulan.' }
           ],
           benefits: ['Budget Rendah', 'Sirkulasi Udara Alami Baik', 'Bisa Dipindah dengan Mudah']
-        }
+        },
+        researchList: [
+          'Laju Dekomposisi Sampah Domestik pada Berbagai Jenis Material Karung.',
+          'Pemanfaatan MOL Nasi Basi sebagai Aktivator Komposter Karung.',
+          'Efisiensi Lahan Komposter Vertikal di Pemukiman Padat Penduduk.'
+        ]
       },
       {
         title: 'Budidaya Maggot BSF',
@@ -148,7 +159,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Panen Ganda', desc: 'Panen maggot untuk pakan ternak dan sisa urainya menjadi pupuk organik cair (Kasgot).' }
           ],
           benefits: ['Tercepat Mengurai Sampah', 'Bernilai Ekonomi (Pakan Ternak)', 'Zero Waste System']
-        }
+        },
+        researchList: [
+          'Laju Konversi Massa Sampah Organik Menjadi Biomassa Larva BSF.',
+          'Pengaruh Jenis Pakan Terhadap Kandungan Protein Maggot Sebagai Pakan Ternak.',
+          'Analisis Kualitas Kasgot (Bekas Maggot) Sebagai Pupuk Organik Padat.'
+        ]
       },
       {
         title: 'Komposter Drum',
@@ -170,7 +186,12 @@ const dataMap: Record<string, PageData> = {
             { problem: 'Terlalu Kering', solution: 'Proses melambat. Semprotkan air/MOL secukupnya.' }
           ],
           benefits: ['Kapasitas Besar', 'Terlindungi dari Hama', 'Proses Cukup Cepat']
-        }
+        },
+        researchList: [
+          'Optimasi Frekuensi Pemutaran Drum Terhadap Suhu Kematangan Kompos.',
+          'Desain Drum Komposter Skala Lingkungan dengan Filtrasi Cairan Lindi.',
+          'Uji Coba Pengolahan Sampah Pasar Induk Menggunakan Drum Komposter Raksa.'
+        ]
       },
       {
         title: 'Komposter Pot',
@@ -187,7 +208,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Nutrisi Alami', desc: 'Sampah akan terurai dan diserap langsung sebagai energi tanaman.' }
           ],
           benefits: ['Tanpa Perlu Wadah Khusus', 'Nutrisi Langsung ke Akar', 'Sangat Mudah Dilakukan']
-        }
+        },
+        researchList: [
+          'Siklus Nutrisi Tertutup: Integrasi Sampah Dapur Langsung ke Pot Sayuran.',
+          'Pengaruh Kompos Pot Terhadap Laju Pertumbuhan Tanaman Holtikultura.',
+          'Analisis Kehadiran Fauna Tanah pada Metode Komposter Pot Mandiri.'
+        ]
       },
       {
         title: 'Lubang Biopori',
@@ -204,7 +230,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Penutupan', desc: 'Tutup dengan kawat atau tutup biopori. Panen kompos dalam 3 bulan.' }
           ],
           benefits: ['Mencegah Banjir (Resapan)', 'Memperbaiki Struktur Tanah', 'Tanpa Mengambil Lahan Permukaan']
-        }
+        },
+        researchList: [
+          'Laju Resapan Air Hujan di Wilayah Urban dengan Lubang Resapan Biopori.',
+          'Pemanfaatan Sampah Daun Kering Sebagai Media Biopori di Area Perkantoran.',
+          'Konservasi Air Tanah Melalui Gerakan 1000 Biopori di Lahan Sempit.'
+        ]
       },
       {
         title: 'Bata Terawang',
@@ -221,7 +252,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Panen Mudah', desc: 'Ambil kompos yang sudah matang dari lubang bawah dalam 30 hari.' }
           ],
           benefits: ['Skala Menengah/Komunitas', 'Aerasi Sangat Baik', 'Perawatan Sangat Minim']
-        }
+        },
+        researchList: [
+          'Analisis Aliran Udara Konvektif pada Bak Kompos Model Bata Terawang.',
+          'Studi Kapasitas Dekomposisi Kompos Komunal di Kompleks Perumahan.',
+          'Estetika dan Efisiensi Bak Komposter Bata Terawang Sebagai Elemen Taman.'
+        ]
       },
       {
         title: 'Loseda',
@@ -238,7 +274,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Tutup Pipa', desc: 'Gunakan tutup pipa agar tidak ada serangga yang masuk.', image: '/images/loseda_step4.png' }
           ],
           benefits: ['Paling Hemat Tempat', 'Langsung di Titik Sumber', 'Tanah Sekitar Jadi Sangat Subur']
-        }
+        },
+        researchList: [
+          'Efektivitas Loseda dalam Mereduksi Sampah Sisa Makanan Rumah Tangga.',
+          'Sebaran Akar Tanaman Sekitar Loseda: Studi Kasus Kesuburan Tanah.',
+          'Pelatihan Masyarakat dalam Implementasi Lodong Sesa Dapur di Pedesaan.'
+        ]
       },
       {
         title: 'Eco-Enzyme',
@@ -255,7 +296,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Pembuangan Gas', desc: 'Buka tutup wadah secara berkala di bulan pertama untuk membuang gas.' }
           ],
           benefits: ['Pembersih Alami', 'Pupuk Cair Organik', 'Mengurangi Gas Metana']
-        }
+        },
+        researchList: [
+          'Aktivitas Antimikroba Eco-Enzyme dari Berbagai Variasi Kulit Buah.',
+          'Aplikasi Eco-Enzyme Sebagai Cairan Pembersih Lantai Ramah Lingkungan.',
+          'Pengaruh Eco-Enzyme Terhadap Pemurnian Air Sungai yang Tercemar Limbah Domestik.'
+        ]
       }
     ]
   },
@@ -316,7 +362,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Penyelesaian', desc: 'Tutup botol dengan rapat setelah penuh dan padat. Satu batang ecobrick siap digunakan.', image: '/images/ecobrick_step5.png' }
           ],
           benefits: ['Material Bangunan Kuat', 'Kedap Air & Tahan Lama', 'Mengunci Plastik dari Lingkungan']
-        }
+        },
+        researchList: [
+          'Uji Kuat Tekan Ecobrick Sebagai Pengganti Bata Merah pada Konstruksi Non-Struktural.',
+          'Analisis Degradasi Plastik Terkunci di Dalam Ecobrick Setelah 10 Tahun.',
+          'Pemanfaatan Ecobrick Dalam Pembangunan Fasilitas Publik di Desa Wisata.'
+        ]
       },
       {
         title: 'Bank Sampah',
@@ -333,7 +384,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Siklus Industri', desc: 'Sampah yang terkumpul akan diangkut ke offtaker/pabrik daur ulang untuk diproses menjadi material baru.' }
           ],
           benefits: ['Tambahan Penghasilan', 'Lingkungan Lebih Bersih', 'Mendukung Ekonomi Sirkular']
-        }
+        },
+        researchList: [
+          'Dampak Keberadaan Bank Sampah Terhadap Perilaku Pemilahan Limbah di Tingkat Rumah Tangga.',
+          'Optimasi Managemen Logistik Bank Sampah Berbasis Aplikasi Digital.',
+          'Analisis Ekonomi Sirkular pada Ekosistem Bank Sampah Unit dan Wilayah.'
+        ]
       },
       {
         title: 'Kerajinan Daur Ulang',
@@ -350,7 +406,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Finishing', desc: 'Tambahkan resleting atau hiasan lainnya untuk mempercantik tampilan.' }
           ],
           benefits: ['Produk Unik & Eksklusif', 'Mengurangi Beban TPA', 'Peluang Bisnis UMKM']
-        }
+        },
+        researchList: [
+          'Inovasi Desain Produk Fashion dari Limbah Multi-Layer Plastic (MLP).',
+          'Analisis Ketahanan Luntur dan Kekuatan Tarik Tas Produk Upcycling Sachet.',
+          'Strategi Pemasaran Produk Kerajinan Daur Ulang di Pasar Internasional.'
+        ]
       },
       {
         title: 'Pencacahan Plastik',
@@ -367,7 +428,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Pencucian & Pengeringan', desc: 'Cuci flakes untuk menghilangkan kotoran sisa, lalu keringkan sebelum dikemas.' }
           ],
           benefits: ['Efisiensi Logistik', 'Bahan Baku Industri Serat/Kain', 'Meningkatkan Harga Jual Limbah']
-        }
+        },
+        researchList: [
+          'Karakterisasi Flakes PET Hasil Cacahan Lokal Untuk Standar Industri Tekstil.',
+          'Efisiensi Mesin Shredder Skala IKM Dalam Menurunkan Biaya Logistik Sampah.',
+          'Studi Pengurangan Kontaminan Kimia pada Flakes Plastik Melalui Metode Pencucian Hot-Wash.'
+        ]
       }
     ]
   },
@@ -427,7 +493,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Pembuangan Aman', desc: 'Komponen yang benar-benar residu berbahaya dihancurkan dengan metode enkapsulasi.' }
           ],
           benefits: ['Mencegah Pencemaran Merkuri', 'Konservasi Logam Mulia', 'Keamanan Data Fisik']
-        }
+        },
+        researchList: [
+          'Analisis Konsentrasi Logam Berat di Sekitar Titik Pengumpulan E-Waste Urban.',
+          'Implementasi Blockchain Untuk Penelusuran (Traceability) Limbah Elektronik.',
+          'Efektivitas Kampanye Insentif Terhadap Partisipasi Masyarakat dalam Pengumpulan E-Waste.'
+        ]
       },
       {
         title: 'Minyak Jelantah',
@@ -444,7 +515,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Konversi Energi', desc: 'Minyak diproses secara kimiawi untuk menjadi Bio-Solar (B35/B100).' }
           ],
           benefits: ['Mencegah Penyumbatan Saluran', 'Bahan Baku Energi Terbarukan', 'Mengurangi Emisi Karbon']
-        }
+        },
+        researchList: [
+          'Optimasi Proses Transesterifikasi Minyak Jelantah Menjadi Biodiesel Standar EN 14214.',
+          'Studi Kelayakan Ekonomi Pengumpulan Jelantah Skala Rumah Tangga Untuk Industri Energi.',
+          'Analisis Penurunan Emisi Gas Buang Kendaraan Bermotor Menggunakan Campuran Bio-Solar Jelantah.'
+        ]
       },
       {
         title: 'Solidifikasi Medis',
@@ -461,7 +537,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Pembuangan Terkendali', desc: 'Residu steril akhir dibuang ke lahan urug khusus B3.' }
           ],
           benefits: ['Mutus Rantai Infeksi', 'Kepatuhan Regulasi Kesehatan', 'Keamanan Tenaga Sanitasi']
-        }
+        },
+        researchList: [
+          'Inaktivasi Virus Berbahaya pada Limbah Medis Menggunakan Teknologi Autoclave Suhu Tinggi.',
+          'Analisis Karakteristik Abu Insinerasi Medis Sebagai Bahan Campuran Batako.',
+          'Manajemen Rantai Pasok Limbah Medis di Wilayah Tertinggal Sepanjang Pandemi.'
+        ]
       },
       {
         title: 'Daur Ulang Batrai',
@@ -478,7 +559,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Kristalisasi Logam', desc: 'Pembentukan kembali logam murni untuk digunakan sebagai bahan baku baterai baru.' }
           ],
           benefits: ['Kemandirian Bahan Baku Baterai', 'Mencegah Ledakan di TPA', 'Mengurangi Penambangan Baru']
-        }
+        },
+        researchList: [
+          'Pemulihan Lithium dan Cobalt dari Baterai Bekas Melalui Metode Hidrometalurgi Ramah Lingkungan.',
+          'Studi Siklus Hidup (LCA) Baterai Kendaraan Listrik: Dari Bahan Baku Hingga Daur Ulang.',
+          'Desain Sistem Pengumpulan Baterai Bekas Berbasis Komunitas Untuk Mencegah Ledakan di TPA.'
+        ]
       }
     ]
   },
@@ -535,7 +621,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Pengiriman ke Industri', desc: 'Pelet RDF dikirim ke pabrik semen atau PLTU sebagai bahan bakar alternatif.' }
           ],
           benefits: ['Substitusi Batu Bara', 'Mereduksi Volume Sampah Drastis', 'Menghasilkan Listrik']
-        }
+        },
+        researchList: [
+          'Analisis Nilai Kalor Pelet RDF dari Sampah Pemukiman di Wilayah Tropis.',
+          'Substitusi Batu Bara Dengan RDF pada Kiln Semen: Dampak Terhadap Kualitas Produk.',
+          'Optimasi Proses Biodrying Untuk Penurunan Kadar Air Sampah Residu Secara Ekonomis.'
+        ]
       },
       {
         title: 'Sanitary Landfill',
@@ -552,7 +643,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Pengelolaan Lindi', desc: 'Cairan lindi dialirkan melalui pipa menuju unit pengolahan air limbah.' }
           ],
           benefits: ['Pencegahan Pencemaran Air Tanah', 'Stabilisasi Lahan', 'Area Bisa Direklamasi']
-        }
+        },
+        researchList: [
+          'Analisis Efektivitas Geomembran dalam Mencegah Kebocoran Lindi (Leachate) ke Akuifer.',
+          'Model Prediksi Penurunan (Settlement) Timbunan Sampah di TPA Sanitary Landfill.',
+          'Evaluasi Pengolahan Air Lindi Menggunakan Metode Koagulasi-Flokulasi dan Filtrasi Karbon Aktif.'
+        ]
       },
       {
         title: 'Ekstraksi Metana',
@@ -569,7 +665,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Pembangkitan Listrik', desc: 'Gas metana dibakar dalam mesin untuk menghasilkan energi listrik.' }
           ],
           benefits: ['Mengurangi Emisi Gas Rumah Kaca', 'Pemanfaatan Energi Gratis', 'Mencegah Kebakaran di TPA']
-        }
+        },
+        researchList: [
+          'Estimasi Potensi Pembangkitan Listrik dari Sumur Gas Metana TPA Skala Kota Madya.',
+          'Analisis Pengurangan Gas Rumah Kaca (GRK) Melalui Proyek CDM Ekstraksi Metana.',
+          'Perbandingan Metoda Adsorpsi dan Absorpsi dalam Pemurnian Gas Metana TPA.'
+        ]
       },
       {
         title: 'Insinerasi Modern',
@@ -586,7 +687,12 @@ const dataMap: Record<string, PageData> = {
             { title: 'Monitoring Emisi', desc: 'Sistem memantau kualitas udara buangan secara real-time untuk memastikan keamanan.' }
           ],
           benefits: ['Reduksi Volume Hingga 90%', 'Listrik Skala Kota', 'Lahan yang Dibutuhkan Kecil']
-        }
+        },
+        researchList: [
+          'Karakteristik Emisi Dioxin dan Furan pada Insinerator Modern Suhu Tinggi.',
+          'Efisiensi Konversi Energi Panas Menjadi Listrik pada Fasilitas Waste-to-Energy (WtE).',
+          'Pemanfaatan Abu Bottom Ash Insinerasi Sebagai Bahan Baku Paving Block Ramah Lingkungan.'
+        ]
       }
     ]
   }
@@ -649,130 +755,166 @@ const MethodModal: React.FC<{ method: TransformationMethod, onClose: () => void 
 
   return (
     <div className="fixed inset-0 z-[110] overflow-y-auto px-4 py-12 md:p-12 flex items-center justify-center">
-      <div className="fixed inset-0 bg-black/90 backdrop-blur-xl" onClick={onClose}></div>
+      <div className="fixed inset-0 bg-black/95 backdrop-blur-2xl" onClick={onClose}></div>
 
-      <div className="relative bg-[#022c22] border-4 border-[#4ade80]/30 rounded-[4rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-[0_0_100px_rgba(16,185,129,0.2)] animate-in fade-in zoom-in slide-in-from-bottom-12 duration-500">
+      <div className="relative bg-[#050510] border-2 border-white/10 rounded-[3rem] w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-[0_0_100px_rgba(74,222,128,0.15)] animate-in fade-in zoom-in slide-in-from-bottom-12 duration-500">
         <button
           onClick={onClose}
-          className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors z-20"
+          className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors z-20 p-2 bg-white/5 rounded-full"
         >
-          <ArrowLeft className="rotate-90 md:rotate-0 w-8 h-8" />
+          <ArrowLeft className="rotate-90 md:rotate-0 w-6 h-6" />
         </button>
 
         <div className="p-8 md:p-16 space-y-12">
           {/* Header */}
           <div className="space-y-6">
-            <h2 className="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none">
+            <h2 className="text-4xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none">
               {method.title}
             </h2>
-            <div className="p-6 bg-white/[0.03] border border-white/5 rounded-3xl">
-              <p className="text-xl md:text-2xl text-[#4ade80] font-bold italic uppercase tracking-tight leading-relaxed">
-                "{method.fullDetail.overview}"
+            <div className="p-8 bg-gradient-to-r from-white/[0.03] to-transparent border-l-4 border-[#4ade80] rounded-r-3xl">
+              <p className="text-xl md:text-2xl text-white/60 font-medium italic tracking-tight leading-relaxed">
+                {method.fullDetail.overview}
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Tools & Materials */}
-            <div className="space-y-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            {/* Specs & Hardware */}
+            <div className="lg:col-span-4 space-y-10">
               <div className="space-y-6">
-                <h3 className="text-xs font-black text-[#4ade80] uppercase tracking-[0.5em] italic flex items-center gap-3">
-                  <Zap size={16} /> Alat & Wadah
+                <h3 className="text-xs font-black text-[#4ade80] uppercase tracking-[0.4em] italic flex items-center gap-3">
+                  <Cpu size={16} /> Hardware Matrix
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {method.fullDetail.tools.map((t, i) => (
-                    <span key={i} className="px-5 py-2 bg-white/5 border border-white/5 rounded-xl text-white/50 font-black text-[10px] uppercase tracking-wider">{t}</span>
+                    <span key={i} className="px-4 py-2 bg-white/5 border border-white/5 rounded-xl text-white/50 font-black text-[9px] uppercase tracking-wider">{t}</span>
                   ))}
                 </div>
               </div>
 
               <div className="space-y-6">
-                <h3 className="text-xs font-black text-[#4ade80] uppercase tracking-[0.5em] italic flex items-center gap-3">
-                  <Layers size={16} /> Bahan Utama
+                <h3 className="text-xs font-black text-[#4ade80] uppercase tracking-[0.4em] italic flex items-center gap-3">
+                  <Layers size={16} /> Material Inputs
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {method.fullDetail.materials.map((m, i) => (
-                    <span key={i} className="px-5 py-2 bg-white/5 border border-white/10 rounded-xl text-white font-black text-[10px] uppercase tracking-wider">{m}</span>
+                    <span key={i} className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white font-black text-[9px] uppercase tracking-wider">{m}</span>
                   ))}
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <h3 className="text-xs font-black text-[#4ade80] uppercase tracking-[0.5em] italic flex items-center gap-3">
-                  <Sparkles size={16} /> Manfaat Utama
-                </h3>
-                <ul className="space-y-3">
-                  {method.fullDetail.benefits.map((b, i) => (
-                    <li key={i} className="flex items-center gap-3 text-white/70 font-bold italic uppercase text-sm">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></div> {b}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Steps */}
-            <div className="space-y-8">
-              <h3 className="text-xs font-black text-[#4ade80] uppercase tracking-[0.5em] italic flex items-center gap-3 border-b border-white/5 pb-4">
-                <PlayCircle size={16} /> Langkah Eksekusi
-              </h3>
-              <div className="space-y-6">
-                {method.fullDetail.steps.map((s, i) => (
-                  <div key={i} className="group flex flex-col md:flex-row gap-6 p-6 rounded-3xl hover:bg-white/[0.02] border border-transparent hover:border-white/5 transition-all">
-                    <div className="shrink-0 w-10 h-10 rounded-xl bg-[#4ade80] flex items-center justify-center text-[#022c22] font-black italic shadow-[0_0_20px_rgba(74,222,128,0.3)]">
-                      {i + 1}
-                    </div>
-                    <div className="flex-grow space-y-4">
-                      <div className="space-y-1">
-                        <h4 className="text-white font-black uppercase italic tracking-tighter text-lg lg:text-xl group-hover:text-[#4ade80] transition-colors">{s.title}</h4>
-                        <p className="text-white/30 font-bold text-xs uppercase tracking-tight leading-relaxed">{s.desc}</p>
-                      </div>
-
-                      {/* Comic Image placeholder/display */}
-                      <div className="relative aspect-video w-full md:max-w-md rounded-2xl overflow-hidden bg-white/5 border border-white/10 group-hover:border-[#4ade80]/30 transition-all">
-                        {s.image ? (
-                          <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity p-8">
-                            <div className="text-center">
-                              <Sparkles className="w-8 h-8 text-[#4ade80] mx-auto mb-2" />
-                              <span className="text-[8px] font-black text-white uppercase tracking-[0.3em]">Comic Illustration Loading...</span>
-                            </div>
-                          </div>
-                        )}
-                        <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
-                      </div>
-                    </div>
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-4">
+                <h3 className="text-[10px] font-black text-white/20 uppercase tracking-widest">Core Impact</h3>
+                {method.fullDetail.benefits.map((b, i) => (
+                  <div key={i} className="flex items-center gap-3 text-white/70 font-bold italic uppercase text-[10px] tracking-tight">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></div> {b}
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* Implementation Steps with Comic Styling */}
+            <div className="lg:col-span-8 space-y-8">
+              <h3 className="text-xs font-black text-[#4ade80] uppercase tracking-[0.4em] italic flex items-center gap-3 border-b border-white/5 pb-4">
+                <PlayCircle size={16} /> Execution Protocol
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {method.fullDetail.steps.map((s, i) => (
+                  <div key={i} className="group relative flex flex-col p-6 rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-white/20 transition-all hover:bg-white/[0.04] overflow-hidden">
+                    {/* Comic Panel Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-8 h-8 rounded-lg bg-[#4ade80] flex items-center justify-center text-black font-black italic text-sm shadow-[0_0_15px_rgba(74,222,128,0.4)]">
+                        {i + 1}
+                      </div>
+                      <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.3em] italic">Protocol Phase</span>
+                    </div>
+
+                    {/* Comic Illustration Placeholder/Frame */}
+                    <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[#0a0a20] border-2 border-white/10 mb-6 group-hover:border-[#4ade80]/40 transition-all transform group-hover:rotate-1 shadow-inner">
+                      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:10px_10px]"></div>
+
+                      {s.image ? (
+                        <img src={s.image} alt={s.title} className="w-full h-full object-cover mix-blend-lighten opacity-40 group-hover:opacity-80 transition-opacity" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center relative overflow-hidden">
+                          <div className="absolute inset-x-0 h-[2px] bg-[#4ade80]/50 blur-sm animate-[scan_3s_ease-in-out_infinite]"></div>
+
+                          <div className="text-center group-hover:scale-110 transition-transform relative z-10">
+                            <Sparkles className="w-10 h-10 text-[#4ade80]/40 mx-auto mb-3 animate-pulse" />
+                            <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.5em] italic">System Schematic</p>
+                            <div className="mt-2 w-16 h-1 bg-white/5 mx-auto rounded-full overflow-hidden">
+                              <div className="w-full h-full bg-[#4ade80]/40 animate-[loading-bar_2s_ease-in-out_infinite]"></div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#050510] via-transparent to-transparent"></div>
+                    </div>
+
+                    <div className="space-y-2 relative z-10">
+                      <h4 className="text-white font-black uppercase italic tracking-tighter text-base group-hover:text-[#4ade80] transition-colors">{s.title}</h4>
+                      <p className="text-white/40 font-bold text-xs leading-relaxed tracking-tight group-hover:text-white/60 transition-colors">{s.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Research & Applications List */}
+              {method.researchList && method.researchList.length > 0 && (
+                <div className="p-10 rounded-[3rem] bg-emerald-500/[0.03] border border-emerald-500/10 space-y-8 mt-12">
+                  <h3 className="text-xs font-black text-emerald-400 uppercase tracking-[0.4em] italic flex items-center gap-3">
+                    <Database size={16} /> Case Studies & Research
+                  </h3>
+                  <div className="grid grid-cols-1 gap-4">
+                    {method.researchList.map((res, i) => (
+                      <div key={i} className="flex gap-4 items-start group">
+                        <span className="shrink-0 w-6 h-6 rounded-md bg-white/5 border border-white/10 flex items-center justify-center text-[10px] font-black text-white/40 group-hover:bg-emerald-500 group-hover:text-black transition-all">
+                          {i + 1}
+                        </span>
+                        <p className="text-sm font-bold text-white/50 italic uppercase tracking-tight leading-relaxed group-hover:text-white transition-colors">
+                          {res}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Troubleshooting Tips if any */}
+          {/* Troubleshooting Guide */}
           {method.fullDetail.tips && (
-            <div className="mt-12 p-8 md:p-12 bg-yellow-500/5 border border-yellow-500/20 rounded-[3rem] space-y-8">
-              <h3 className="text-xs font-black text-yellow-500 uppercase tracking-[0.5em] italic flex items-center gap-3">
-                <Info size={16} /> Troubleshooting Guide
+            <div className="p-10 rounded-[3rem] bg-amber-500/5 border border-amber-500/10 space-y-8">
+              <h3 className="text-xs font-black text-amber-500 uppercase tracking-[0.4em] italic flex items-center gap-3">
+                <Info size={16} /> Optimization & Troubleshooting
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {method.fullDetail.tips.map((tip, i) => (
-                  <div key={i} className="space-y-3">
-                    <span className="text-[10px] font-black text-yellow-500/50 uppercase italic tracking-widest block">Masalah: {tip.problem}</span>
-                    <p className="text-white font-bold italic uppercase text-xs leading-relaxed">{tip.solution}</p>
+                  <div key={i} className="space-y-3 p-6 bg-white/[0.02] rounded-2xl border border-white/5">
+                    <span className="text-[8px] font-black text-amber-500/40 uppercase italic tracking-widest block">Issue: {tip.problem}</span>
+                    <p className="text-white font-bold italic uppercase text-[10px] leading-relaxed group-hover:text-white transition-colors">
+                      {tip.solution}
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          <div className="pt-12 border-t border-white/5 flex justify-center">
+          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="flex items-center gap-4">
+              <Info className="text-[#4ade80]" size={24} />
+              <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest max-w-md italic">
+                Data riset ini disediakan untuk tujuan edukasi dan panduan praktis pengelolaan sampah mandiri.
+              </p>
+            </div>
             <button
               onClick={() => {
                 addCredits(25, `Mempelajari Metode: ${method.title}`);
                 onClose();
               }}
-              className="px-12 py-5 bg-[#4ade80] text-[#022c22] font-black uppercase italic tracking-[0.2em] rounded-2xl hover:scale-105 transition-transform shadow-xl"
+              className="px-12 py-5 bg-[#4ade80] text-black font-black uppercase italic tracking-[0.2em] rounded-2xl hover:scale-105 transition-transform shadow-[0_0_30px_rgba(74,222,128,0.3)]"
             >
               Selesai Mempelajari
             </button>
