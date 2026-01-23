@@ -133,10 +133,11 @@ const CarbonCalculator: React.FC<{ isStandalone?: boolean }> = ({ isStandalone =
         }
     };
 
-    const handleSponsorComplete = () => {
+    const handleSponsorComplete = async () => {
         setShowSponsor(false);
         setShowResult(true);
-        addCredits(100, "Audit Jejak Karbon Tahunan");
+        // Update credits (real Firestore sync)
+        await addCredits(100, "Audit Jejak Karbon Tahunan");
     };
 
 

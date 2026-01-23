@@ -414,9 +414,9 @@ const MethodModal: React.FC<{ method: WTEMethod, onClose: () => void }> = ({ met
                             </p>
                         </div>
                         <button
-                            onClick={() => {
+                            onClick={async () => {
                                 const activityId = `wte_research_${method.id}`;
-                                const success = addCredits(25, `Mempelajari Riset: ${method.title}`, activityId);
+                                const success = await addCredits(25, `Mempelajari Riset: ${method.title}`, activityId);
                                 if (success) {
                                     alert(`Energi Tersinkronisasi! +25 Eco-Credits berhasil ditambahkan.`);
                                 }
@@ -443,7 +443,10 @@ const WTELab: React.FC = () => {
     const [pendingMethod, setPendingMethod] = useState<WTEMethod | null>(null);
 
     useEffect(() => {
-        addCredits(30, "Akses Riset Eksklusif WTE Lab", "wte_lab_first_entry");
+        const initCredits = async () => {
+            await addCredits(30, "Akses Riset Eksklusif WTE Lab", "wte_lab_first_entry");
+        };
+        initCredits();
     }, []);
 
     const handleCardClick = (method: WTEMethod) => {

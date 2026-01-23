@@ -915,9 +915,9 @@ const MethodModal: React.FC<{ method: TransformationMethod, onClose: () => void 
               </p>
             </div>
             <button
-              onClick={() => {
+              onClick={async () => {
                 const activityId = `transformation_${method.title.replace(/\s+/g, '_').toLowerCase()}`;
-                const success = addCredits(25, `Mempelajari Metode: ${method.title}`, activityId);
+                const success = await addCredits(25, `Mempelajari Metode: ${method.title}`, activityId);
                 if (success) {
                   alert(`Energi Tersinkronisasi! +25 Eco-Credits berhasil ditambahkan.`);
                 }

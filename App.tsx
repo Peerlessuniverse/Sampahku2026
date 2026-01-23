@@ -17,6 +17,8 @@ const WTE = lazy(() => import('./pages/WTE'));
 const WTELab = lazy(() => import('./pages/WTELab'));
 const EcoCredits = lazy(() => import('./pages/EcoCredits'));
 const Documentation = lazy(() => import('./pages/Documentation'));
+const HallOfFame = lazy(() => import('./pages/HallOfFame'));
+const Profile = lazy(() => import('./pages/Profile'));
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -63,6 +65,8 @@ const AppContent: React.FC = () => {
                         <Route path="/sponsor/info" element={<SponsorLanding />} />
                         <Route path="/credits" element={<EcoCredits />} />
                         <Route path="/docs" element={<Documentation />} />
+                        <Route path="/leaderboard" element={<HallOfFame />} />
+                        <Route path="/profile" element={<Profile />} />
                     </Routes>
                 </Suspense>
             </main>

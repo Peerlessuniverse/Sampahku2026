@@ -1,27 +1,35 @@
-import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 import { WasteAnalysis } from "../types";
 
-// Ambil API Key dari environment variable Vite (Lokal) atau App Hosting (Produksi)
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-const genAI = new GoogleGenerativeAI(API_KEY);
-
 export const analyzeWasteImage = async (base64Image: string): Promise<WasteAnalysis> => {
-  try {
-    // Memanggil API internal kita sendiri (Server-Side Proxy)
-    const response = await fetch('/api/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image: base64Image })
-    });
+  console.log("Radar: Mencoba koneksi ke Pusat (Produksi)...");
 
-    if (!response.ok) {
-      const errData = await response.json();
-      throw new Error(errData.error || "Gagal memanggil server AI");
+  // ALAMAT PRODUKSI KAMU - Kita pakai ini sebagai proxy yang sudah terverifikasi Google
+  const PROD_URL = 'https://bek2sampahku2026--sampahku2026.asia-southeast1.hosted.app/api/analyze';
+  const LOCAL_URL = '/api/analyze';
+
+  const endpoints = [PROD_URL, LOCAL_URL];
+
+  for (const url of endpoints) {
+    try {
+      console.log(`Radar: Menghubungi unit ${url}...`);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64Image })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Radar: Transmisi Berhasil!");
+        return data;
+      }
+
+      const errorText = await response.text().catch(() => "Unknown error");
+      console.warn(`Radar: Unit ${url} merespon error:`, errorText);
+    } catch (e) {
+      console.warn(`Radar: Unit ${url} tidak terjangkau.`);
     }
-
-    return await response.json() as WasteAnalysis;
-  } catch (error) {
-    console.error("Error analyzing waste:", error);
-    throw error;
   }
+
+  throw new Error("Sistem Radar: Semua jalur komunikasi terputus. Pastikan koneksi internet stabil dan server produksi aktif.");
 };

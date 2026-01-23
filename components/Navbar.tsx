@@ -34,6 +34,7 @@ const Navbar: React.FC = () => {
     { name: 'Beranda', path: '/' },
     { name: 'Transformasi', path: '/transformasi' },
     { name: 'AI Scanner', path: '/scanner' },
+    { name: 'Hall of Fame', path: '/leaderboard' },
     { name: 'Waste to Energy', path: '/wte' },
   ];
 
@@ -43,9 +44,9 @@ const Navbar: React.FC = () => {
     : 'bg-transparent py-4 md:py-7 border-transparent'
     }`;
 
-  const linkClasses = (path: string) => `px-1 py-2 text-[11px] font-black tracking-[0.2em] uppercase transition-all duration-500 relative group ${location.pathname === path
+  const linkClasses = (path: string) => `px-1 py-2 text-[10px] font-bold tracking-widest uppercase transition-all duration-500 relative group ${location.pathname === path
     ? 'text-[#a78bfa]' // Nebula Purple for active
-    : 'text-white/70 hover:text-[#818cf8]' // Indigo hover
+    : 'text-white/60 hover:text-[#818cf8]' // Indigo hover
     }`;
 
   return (
@@ -57,7 +58,7 @@ const Navbar: React.FC = () => {
               <div className="p-1 transition-all duration-700 group-hover:scale-110 group-hover:drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">
                 <img src="/logo.png" alt="SampahKu Logo" className="h-10 w-auto" />
               </div>
-              <span className="font-black text-2xl text-white tracking-tighter uppercase leading-none hidden sm:block">
+              <span className="font-black text-xl text-white tracking-tight uppercase leading-none hidden sm:block">
                 Sampah<span className="text-[#a78bfa]">Ku</span>
               </span>
             </Link>
@@ -82,8 +83,8 @@ const Navbar: React.FC = () => {
                 <Coins size={18} />
               </div>
               <div className="flex flex-col">
-                <span className="text-[8px] font-black text-white/30 uppercase tracking-widest leading-none">Eco-Credits</span>
-                <span className="text-sm font-black text-white tracking-tighter leading-none mt-1">{credits.toLocaleString()}</span>
+                <span className="text-[7px] font-black text-white/20 uppercase tracking-widest leading-none">Eco-Credits</span>
+                <span className="text-xs font-black text-white tracking-tight leading-none mt-1">{credits.toLocaleString()}</span>
               </div>
             </Link>
           </div>

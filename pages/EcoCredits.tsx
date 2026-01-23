@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Coins, ArrowLeft, History, Award, Zap, Gift, ShieldCheck, TrendingUp, Sparkles, LogOut, User as UserIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getCredits, getCreditHistory, CreditTransaction, redeemCredits } from '../services/creditService';
+import { getCredits, getCreditHistory, CreditTransaction, redeemCredits, syncWithCloud } from '../services/creditService';
 import { getCurrentUser, logout, isAuthenticated, UserProfile } from '../services/authService';
 
 const EcoCredits: React.FC = () => {
@@ -17,12 +17,20 @@ const EcoCredits: React.FC = () => {
             setHistory(getCreditHistory());
         };
 
-        const handleAuthUpdate = (e: any) => {
+        const handleAuthUpdate = async (e: any) => {
             setUser(e.detail.user);
+            if (e.detail.user) {
+                await syncWithCloud();
+            }
         };
 
         window.addEventListener('creditsUpdated', handleCreditsUpdate);
         window.addEventListener('authChanged', handleAuthUpdate);
+
+        // Initial sync if already logged in
+        if (isAuthenticated()) {
+            syncWithCloud();
+        }
 
         return () => {
             window.removeEventListener('creditsUpdated', handleCreditsUpdate);
@@ -30,13 +38,13 @@ const EcoCredits: React.FC = () => {
         };
     }, []);
 
-    const handleRedeem = (item: any) => {
+    const handleRedeem = async (item: any) => {
         if (!isAuthenticated()) {
             navigate('/login');
             return;
         }
 
-        const code = redeemCredits(item.cost, item.title);
+        const code = await redeemCredits(item.cost, item.title);
         if (code) {
             setRedeemResult(code);
         } else {
@@ -70,19 +78,33 @@ const EcoCredits: React.FC = () => {
                 {/* Auth Bar */}
                 <div className="flex justify-end mb-8">
                     {user ? (
-                        <div className="flex items-center gap-4 bg-white/5 border border-white/10 p-2 pr-6 rounded-full">
-                            <img src={user.photoURL} className="w-10 h-10 rounded-full border-2 border-violet-500" alt="Profile" />
-                            <div className="hidden md:block">
-                                <p className="text-[10px] font-black uppercase text-white/40 leading-none">Athenticated</p>
-                                <p className="text-xs font-black italic uppercase text-white">{user.displayName}</p>
+                        <Link to="/profile" className="flex items-center gap-4 bg-white/5 border border-white/10 p-2 pr-6 rounded-full group hover:bg-white/[0.08] transition-all cursor-pointer">
+                            <div className="relative">
+                                <img
+                                    src={user.photoURL}
+                                    className="w-10 h-10 rounded-full border-2 border-violet-500 shadow-[0_0_15px_rgba(139,92,246,0.5)] object-cover"
+                                    alt="Profile"
+                                    onError={(e) => {
+                                        (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/initials/svg?seed=${user.displayName}`;
+                                    }}
+                                />
+                                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-[#02020a] rounded-full"></div>
                             </div>
-                            <button onClick={handleLogout} className="ml-4 p-2 text-white/20 hover:text-rose-500 transition-colors">
-                                <LogOut size={18} />
+                            <div className="hidden md:block">
+                                <p className="text-[8px] font-black uppercase text-violet-400 tracking-widest leading-none mb-1">Authenticated</p>
+                                <p className="text-sm font-black italic uppercase text-white tracking-tighter">{user.displayName}</p>
+                            </div>
+                            <button
+                                onClick={handleLogout}
+                                title="Keluar dari Dimensi"
+                                className="ml-4 p-2 text-white/20 hover:text-rose-500 transition-all hover:scale-110"
+                            >
+                                <LogOut size={20} />
                             </button>
-                        </div>
+                        </Link>
                     ) : (
-                        <Link to="/login" className="px-6 py-2 bg-violet-600 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-violet-500 transition-all flex items-center gap-2">
-                            <UserIcon size={14} /> Sinkron Akun
+                        <Link to="/login" className="px-8 py-3 bg-violet-600 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-violet-500 transition-all flex items-center gap-3 shadow-lg shadow-violet-600/20 active:scale-95">
+                            <UserIcon size={16} /> Sinkron Akun
                         </Link>
                     )}
                 </div>
