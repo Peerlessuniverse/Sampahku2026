@@ -141,9 +141,9 @@ const WTE: React.FC = () => {
                                             </div>
                                             <div className="space-y-4">
                                                 {[
-                                                    { name: 'Batubara', level: '70%', color: 'bg-orange-600' },
-                                                    { name: 'Minyak Bumi', level: '20%', color: 'bg-orange-500' },
-                                                    { name: 'Energi Baru', level: '10%', color: 'bg-indigo-400' },
+                                                    { name: 'Batubara', level: '70%', width: 'w-[70%]', color: 'bg-orange-600' },
+                                                    { name: 'Minyak Bumi', level: '20%', width: 'w-[20%]', color: 'bg-orange-500' },
+                                                    { name: 'Energi Baru', level: '10%', width: 'w-[10%]', color: 'bg-indigo-400' },
                                                 ].map((bar, i) => (
                                                     <div key={i} className="space-y-2">
                                                         <div className="flex justify-between font-black text-[10px] text-white/40 uppercase tracking-widest italic">
@@ -151,7 +151,7 @@ const WTE: React.FC = () => {
                                                             <span>{bar.level}</span>
                                                         </div>
                                                         <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden">
-                                                            <div className={`${bar.color} h-full rounded-full transition-all duration-1000`} style={{ width: bar.level }}></div>
+                                                            <div className={`${bar.color} ${bar.width} h-full rounded-full transition-all duration-1000`}></div>
                                                         </div>
                                                     </div>
                                                 ))}
@@ -320,12 +320,12 @@ const WTE: React.FC = () => {
                     </div>
 
                     <div className="flex flex-col items-center">
-                        <Link
-                            to="#"
-                            className="inline-flex items-center gap-4 bg-white text-[#02020a] font-black px-10 py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_60px_rgba(34,211,238,0.1)] uppercase tracking-tighter text-xl italic group"
+                        <button
+                            onClick={() => window.open("https://utas.me/lp/tokosampah/3-hari-menghilangkan-bau-sampah-dapur", "_blank", "noopener,noreferrer")}
+                            className="inline-flex items-center gap-4 bg-white text-[#02020a] font-black px-10 py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_60px_rgba(34,211,238,0.1)] uppercase tracking-tighter text-xl italic group cursor-pointer"
                         >
                             Dapatkan Akses <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>

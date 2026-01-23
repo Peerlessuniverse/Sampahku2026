@@ -23,13 +23,14 @@ const Footer: React.FC = () => {
             </p>
 
             <div className="flex space-x-6">
-              {[Facebook, Instagram, Music, Feather].map((Icon, i) => (
+              {[{ icon: Facebook, name: 'Facebook' }, { icon: Instagram, name: 'Instagram' }, { icon: Music, name: 'TikTok' }, { icon: Feather, name: 'Thread' }].map((social, i) => (
                 <a
                   key={i}
                   href="#"
+                  title={social.name}
                   className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#a78bfa] hover:bg-[#8b5cf6]/10 hover:border-[#8b5cf6]/30 transition-all hover:-translate-y-2 shadow-2xl"
                 >
-                  <Icon className="h-6 w-6" />
+                  <social.icon className="h-6 w-6" />
                 </a>
               ))}
             </div>
@@ -58,7 +59,8 @@ const Footer: React.FC = () => {
               <ul className="space-y-4">
                 {[
                   { name: 'Term of Service', path: '/terms' },
-                  { name: 'Privacy Policy', path: '/privacy' }
+                  { name: 'Privacy Policy', path: '/privacy' },
+                  { name: 'Panduan Fitur', path: '/docs' }
                 ].map((link) => (
                   <li key={link.name}>
                     <Link to={link.path} className="text-lg font-bold text-white/30 hover:text-white transition-colors italic uppercase tracking-tighter">{link.name}</Link>

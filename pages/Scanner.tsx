@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Camera, Upload, Loader2, CheckCircle2, AlertCircle, RefreshCw, X, Sparkles, Leaf, ArrowRight } from 'lucide-react';
+import { Camera, Upload, Loader2, CheckCircle2, AlertCircle, RefreshCw, X, Sparkles, Leaf, ArrowRight, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { analyzeWasteImage } from '../services/geminiService';
 import { addCredits } from '../services/creditService';
@@ -13,6 +13,7 @@ const Scanner: React.FC = () => {
   const [showSponsor, setShowSponsor] = useState(false);
   const [result, setResult] = useState<WasteAnalysis | null>(null);
   const [pendingResult, setPendingResult] = useState<WasteAnalysis | null>(null);
+  const [verified, setVerified] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -55,8 +56,23 @@ const Scanner: React.FC = () => {
     setShowSponsor(false);
     if (pendingResult) {
       setResult(pendingResult);
-      // Award credits when result is shown
-      addCredits(50, `Analisa Sampah: ${pendingResult.materialType}`);
+      setVerified(false); // Reset verified state for new result
+    }
+  };
+
+  const handleVerify = () => {
+    if (result && !verified) {
+      addCredits(10, `Verifikasi Pemindaian: ${result.materialType}`);
+      setVerified(true);
+      alert(`Energi Tersinkronisasi! +10 Eco-Credits telah ditambahkan.`);
+    }
+  };
+
+  const handleReportIncorrect = () => {
+    if (result && !verified) {
+      addCredits(1, "Kontribusi Koreksi Data AI");
+      alert("Apresiasi Terkirim! +1 Eco-Credit untuk kontribusi koreksi Anda. Silakan pindai ulang.");
+      resetScanner();
     }
   };
 
@@ -65,6 +81,7 @@ const Scanner: React.FC = () => {
     setImage(null);
     setResult(null);
     setPendingResult(null);
+    setVerified(false);
     setError(null);
     setShowSponsor(false);
     if (fileInputRef.current) {
@@ -78,7 +95,7 @@ const Scanner: React.FC = () => {
       {showSponsor && (
         <SponsorScreen
           onComplete={handleSponsorComplete}
-          message="Menganalisa Materi Alam..."
+          message="Menganalisa Materi..."
           theme="forest"
         />
       )}
@@ -93,10 +110,10 @@ const Scanner: React.FC = () => {
             <Leaf className="h-16 w-16 text-[#4ade80] animate-pulse" />
           </div>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 tracking-tighter leading-[1.1] drop-shadow-[0_10px_30px_rgba(16,185,129,0.3)] uppercase">
-            Mata Alam
+            Scanner Sampahku
           </h1>
-          <p className="text-lg md:text-2xl lg:text-3xl text-[#4ade80] font-bold max-w-3xl mx-auto italic opacity-80 uppercase tracking-tighter drop-shadow-md">
-            Identifikasi jenis sampah melalui <br className="hidden md:block" /> teknologi AI pemindai alam.
+          <p className="text-lg md:text-2xl lg:text-3xl text-[#4ade80] font-bold max-w-3xl mx-auto italic opacity-90 uppercase tracking-tighter drop-shadow-md">
+            Identifikasi jenis sampah berpotensi menggunakan AI Scanner
           </p>
         </div>
 
@@ -115,7 +132,7 @@ const Scanner: React.FC = () => {
                       <Camera size={48} />
                     </div>
                     <p className="text-white text-3xl font-black mb-4 tracking-tighter uppercase leading-none italic">Pindai Objek</p>
-                    <p className="text-[10px] text-white/20 font-black uppercase tracking-[0.5em]">Input Gambar Sampah</p>
+                    <p className="text-[10px] text-white/40 font-black uppercase tracking-[0.5em]">Input Gambar Sampah</p>
                   </div>
                   <input
                     type="file"
@@ -123,6 +140,7 @@ const Scanner: React.FC = () => {
                     className="hidden"
                     accept="image/*"
                     onChange={handleFileChange}
+                    title="Unggah Gambar Sampah"
                   />
                 </div>
               ) : (
@@ -136,12 +154,10 @@ const Scanner: React.FC = () => {
                       Hapus Gambar
                     </button>
                   </div>
-                  {(loading || showSponsor) && (
-                    <div className="absolute inset-0 bg-[#064e3b]/80 backdrop-blur-md flex flex-col items-center justify-center">
-                      <Loader2 className="h-24 w-24 text-emerald-400 animate-spin mb-6" />
-                      <p className="text-emerald-400 font-black tracking-[0.4em] uppercase text-[10px]">Menganalisa Materi</p>
-                    </div>
-                  )}
+                  <div className="absolute inset-0 bg-[#064e3b]/80 backdrop-blur-md flex flex-col items-center justify-center">
+                    <Loader2 className="h-24 w-24 text-emerald-400 animate-spin mb-6" />
+                    <p className="text-emerald-400 font-black tracking-[0.4em] uppercase text-xs">Menganalisa Materi</p>
+                  </div>
                 </div>
               )}
             </div>
@@ -156,7 +172,7 @@ const Scanner: React.FC = () => {
                   </div>
                   <div className="space-y-4">
                     <h3 className="text-5xl font-black text-white leading-none tracking-tighter uppercase italic">Menganalisa <br /> Sampah...</h3>
-                    <p className="text-white/10 font-black uppercase tracking-[0.5em] text-[10px]">Scanning Nature Database</p>
+                    <p className="text-white/40 font-black uppercase tracking-[0.5em] text-xs">Scanning Nature Database</p>
                   </div>
                 </div>
               ) : error ? (
@@ -182,7 +198,7 @@ const Scanner: React.FC = () => {
                       <h3 className="font-black text-4xl text-white tracking-tighter leading-none mb-2 underline decoration-emerald-500/30 uppercase italic">
                         {result.isRecyclable ? "Dapat Didaur Ulang" : "Sampah Residu"}
                       </h3>
-                      <p className="text-[10px] font-black text-emerald-400/60 uppercase tracking-[0.4em]">
+                      <p className="text-xs font-black text-emerald-400 uppercase tracking-[0.4em]">
                         Tingkat Akurasi {(result.confidence * 100).toFixed(0)}%
                       </p>
                     </div>
@@ -198,16 +214,54 @@ const Scanner: React.FC = () => {
                       <span className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.5em]">Intruksi Pembuangan</span>
                       <p className="text-white text-2xl leading-[1.3] font-black tracking-tight uppercase italic">{result.disposalInstructions}</p>
                     </div>
+
+                    <div className="p-10 rounded-[3rem] bg-gradient-to-br from-violet-900/40 to-transparent border-4 border-violet-500/10 space-y-4">
+                      <div className="flex items-center gap-2">
+                        <Zap size={16} className="text-violet-400" />
+                        <span className="text-[10px] font-black text-violet-400 uppercase tracking-[0.5em]">Potensi Energi</span>
+                      </div>
+                      <p className="text-white text-2xl leading-[1.3] font-black tracking-tight uppercase italic">{result.energyPotential}</p>
+                    </div>
                   </div>
 
-                  <div className="pt-6">
-                    <button
-                      onClick={resetScanner}
-                      className="w-full flex items-center justify-center gap-6 bg-white text-[#064e3b] py-7 rounded-[2rem] hover:scale-105 hover:bg-emerald-50 transition-all font-black text-2xl shadow-[0_40px_80px_rgba(0,0,0,0.8)] active:scale-95 group uppercase tracking-tighter"
-                    >
-                      <RefreshCw size={32} className="group-hover:rotate-180 transition-transform duration-700 text-emerald-600" />
-                      PINDAI SAMPAH BARU
-                    </button>
+                  <div className="pt-6 space-y-4">
+                    {!verified ? (
+                      <div className="space-y-4">
+                        <button
+                          onClick={handleVerify}
+                          className="w-full flex items-center justify-center gap-6 bg-[#4ade80] text-black py-7 rounded-[2rem] hover:scale-105 transition-all font-black text-2xl shadow-[0_40px_80px_rgba(74,222,128,0.2)] active:scale-95 group uppercase tracking-tighter"
+                        >
+                          <CheckCircle2 size={32} />
+                          VERIFIKASI & KLAIM POIN
+                        </button>
+
+                        <button
+                          onClick={handleReportIncorrect}
+                          className="w-full py-4 text-white/40 hover:text-rose-400 font-black uppercase tracking-widest text-[10px] italic transition-colors"
+                        >
+                          Hasil Tidak Sesuai? Coba Pindai Ulang
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={resetScanner}
+                        className="w-full flex items-center justify-center gap-6 bg-white text-[#064e3b] py-7 rounded-[2rem] hover:scale-105 hover:bg-emerald-50 transition-all font-black text-2xl shadow-[0_40px_80px_rgba(0,0,0,0.8)] active:scale-95 group uppercase tracking-tighter"
+                      >
+                        <RefreshCw size={32} className="group-hover:rotate-180 transition-transform duration-700 text-emerald-600" />
+                        PINDAI SAMPAH BARU
+                      </button>
+                    )}
+
+                    {verified && (
+                      <div className="text-center space-y-2">
+                        <p className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.3em] animate-pulse">
+                          Siklus Materi Terkonfirmasi
+                        </p>
+                        <p className="text-white/20 text-[8px] font-bold uppercase tracking-widest leading-none">
+                          Terima kasih telah berkontribusi menjaga harmoni alam.
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
@@ -217,7 +271,7 @@ const Scanner: React.FC = () => {
                   </div>
                   <div className="space-y-4">
                     <p className="text-4xl font-black text-white tracking-tighter uppercase leading-none italic">Menunggu <br /> Input Gambar</p>
-                    <p className="text-lg font-bold text-white/10 italic max-w-xs mx-auto uppercase tracking-tighter">Silakan unggah foto sampah Anda melalui modul di samping.</p>
+                    <p className="text-lg font-bold text-white/30 italic max-w-xs mx-auto uppercase tracking-tighter">Silakan unggah foto sampah Anda melalui modul di samping.</p>
                   </div>
                 </div>
               )}
@@ -231,7 +285,7 @@ const Scanner: React.FC = () => {
         {/* Quote about waste and consciousness */}
         <div className="space-y-4">
           <p className="text-[#4ade80] text-lg md:text-xl font-bold italic uppercase tracking-[0.2em] opacity-40 leading-relaxed md:px-12">
-            "Mata AI adalah jendela untuk melihat potensi tersembunyi di balik sisa materi yang terabaikan."
+            "Scanner Sampahku adalah jendela untuk melihat potensi tersembunyi di balik sisa materi yang terabaikan."
           </p>
         </div>
 
@@ -246,12 +300,12 @@ const Scanner: React.FC = () => {
         </div>
 
         <div className="flex flex-col items-center">
-          <Link
-            to="#"
-            className="inline-flex items-center gap-4 bg-white text-[#064e3b] font-black px-10 py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_60px_rgba(74,222,128,0.1)] uppercase tracking-tighter text-xl italic group"
+          <button
+            onClick={() => window.open("https://utas.me/lp/tokosampah/3-hari-menghilangkan-bau-sampah-dapur", "_blank", "noopener,noreferrer")}
+            className="inline-flex items-center gap-4 bg-white text-[#064e3b] font-black px-10 py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_60px_rgba(74,222,128,0.1)] uppercase tracking-tighter text-xl italic group cursor-pointer"
           >
             Dapatkan Akses <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
-          </Link>
+          </button>
         </div>
       </div>
     </div>

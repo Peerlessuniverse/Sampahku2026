@@ -87,7 +87,10 @@ const Pricing: React.FC = () => {
                     <span className="opacity-20 font-black text-3xl">.000</span>
                   </div>
                 </div>
-                <button className="flex-1 bg-gradient-to-r from-[#8b5cf6] to-[#6366f1] text-white px-12 py-8 rounded-[2rem] font-black text-3xl hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-all flex items-center justify-center gap-4 group active:scale-[0.98] uppercase tracking-tighter">
+                <button
+                  onClick={() => window.open("https://utas.me/lp/tokosampah/3-hari-menghilangkan-bau-sampah-dapur", "_blank", "noopener,noreferrer")}
+                  className="flex-1 bg-gradient-to-r from-[#8b5cf6] to-[#6366f1] text-white px-12 py-8 rounded-[2rem] font-black text-3xl hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-all flex items-center justify-center gap-4 group active:scale-[0.98] uppercase tracking-tighter cursor-pointer"
+                >
                   Ambil Akses
                   <ArrowRight className="w-8 h-8 group-hover:translate-x-3 transition-transform" />
                 </button>

@@ -62,7 +62,7 @@ app.post('/api/analyze', async (req, res) => {
                 role: "user",
                 parts: [
                     { inlineData: { mimeType: "image/jpeg", data: image } },
-                    { text: "Analyze this waste image. Determine if recyclable, material type (Plastic, Paper, Organic, Metal, E-Waste, Residue), and disposal instructions in Indonesian. Return JSON." }
+                    { text: "Analyze this waste image. Determine if recyclable, material type (Plastic, Paper, Organic, Metal, E-Waste, Residue), and disposal instructions in Indonesian. Also, analyze its potential to be converted into energy (Waste-to-Energy potential) based on its characteristics, in Indonesian. Return JSON." }
                 ],
             }],
             generationConfig: {
@@ -73,9 +73,10 @@ app.post('/api/analyze', async (req, res) => {
                         isRecyclable: { type: SchemaType.BOOLEAN },
                         materialType: { type: SchemaType.STRING },
                         disposalInstructions: { type: SchemaType.STRING },
+                        energyPotential: { type: SchemaType.STRING },
                         confidence: { type: SchemaType.NUMBER },
                     },
-                    required: ["isRecyclable", "materialType", "disposalInstructions", "confidence"],
+                    required: ["isRecyclable", "materialType", "disposalInstructions", "energyPotential", "confidence"],
                 },
             },
         });

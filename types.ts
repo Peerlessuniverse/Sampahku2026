@@ -25,5 +25,6 @@ export interface WasteAnalysis {
   isRecyclable: boolean;
   materialType: string;
   disposalInstructions: string;
+  energyPotential: string;
   confidence: number;
 }

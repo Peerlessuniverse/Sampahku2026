@@ -377,8 +377,28 @@ const AdminSponsors: React.FC = () => {
                                                 </div>
                                             </div>
                                             <div className="space-y-3">
-                                                <label className="text-[10px] font-black text-violet-400 uppercase tracking-widest ml-2 italic">URL Aset Media (Google Drive/YouTube/MP4)</label>
+                                                <div className="flex justify-between items-center ml-2">
+                                                    <label className="text-[10px] font-black text-violet-400 uppercase tracking-widest italic">URL Aset Media (Google Drive/YouTube/MP4)</label>
+                                                    <span className="text-[8px] font-black text-amber-500 uppercase tracking-widest bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">External Host Only</span>
+                                                </div>
                                                 <input type="text" value={sponsor.mediaUrl} onChange={(e) => updateSponsor(sponsor.id, { mediaUrl: e.target.value })} className="w-full bg-white/5 border-2 border-white/5 rounded-2xl px-6 py-4 font-bold text-white focus:border-violet-500 outline-none" placeholder="Paste link video/image di sini..." />
+
+                                                {/* Technical manifestation instructions */}
+                                                <div className="mt-4 p-5 bg-white/[0.02] border border-white/5 rounded-2xl space-y-3">
+                                                    <h5 className="text-[9px] font-black text-white/40 uppercase tracking-widest flex items-center gap-2">
+                                                        <Activity size={12} className="text-violet-400" /> Manifestation Guide:
+                                                    </h5>
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div className="space-y-1">
+                                                            <p className="text-[8px] font-black text-white/30 uppercase tracking-tighter">Video Spec (Cosmic):</p>
+                                                            <p className="text-[9px] font-bold italic text-white/60">5-10 Detik | 1080p (16:9) | Max 5MB | Muted Default</p>
+                                                        </div>
+                                                        <div className="space-y-1">
+                                                            <p className="text-[8px] font-black text-white/30 uppercase tracking-tighter">Image Spec (All):</p>
+                                                            <p className="text-[9px] font-bold italic text-white/60">1920x1080px | Max 500KB | WebP Recommended</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div className="space-y-3">
                                                 <label className="text-[10px] font-black text-violet-400 uppercase tracking-widest ml-2 italic">Link Call to Action (Kunjungi Situs)</label>

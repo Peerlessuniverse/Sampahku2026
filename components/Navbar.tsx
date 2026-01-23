@@ -43,7 +43,7 @@ const Navbar: React.FC = () => {
     : 'bg-transparent py-4 md:py-7 border-transparent'
     }`;
 
-  const linkClasses = (path: string) => `px-1 py-2 text-sm font-black tracking-widest uppercase transition-all duration-500 relative group ${location.pathname === path
+  const linkClasses = (path: string) => `px-1 py-2 text-[11px] font-black tracking-[0.2em] uppercase transition-all duration-500 relative group ${location.pathname === path
     ? 'text-[#a78bfa]' // Nebula Purple for active
     : 'text-white/70 hover:text-[#818cf8]' // Indigo hover
     }`;
@@ -64,7 +64,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Desktop Nav - Cosmic Aesthetic */}
-          <div className="hidden md:flex md:items-center md:space-x-8 lg:space-x-12">
+          <div className="hidden md:flex md:items-center md:space-x-3 lg:space-x-8">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -92,10 +92,10 @@ const Navbar: React.FC = () => {
 
           <div className="flex items-center gap-4 md:hidden relative z-50">
             {/* Mobile Credits */}
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
+            <Link to="/credits" className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl hover:border-[#a78bfa]/50 transition-colors">
               <Coins size={14} className="text-[#a78bfa]" />
               <span className="text-xs font-black text-white tracking-tighter">{credits.toLocaleString()}</span>
-            </div>
+            </Link>
 
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -114,13 +114,13 @@ const Navbar: React.FC = () => {
         <div className="absolute inset-0 bg-[#02020a]/98 backdrop-blur-3xl" onClick={() => setIsOpen(false)}></div>
         <div className={`absolute top-0 left-0 right-0 bg-gradient-to-b from-[#0a0a2e] to-[#02020a] border-b border-white/10 shadow-[0_20px_100px_rgba(139,92,246,0.2)] transition-all duration-700 ease-in-out px-8 pt-28 pb-12 ${isOpen ? 'translate-y-0' : '-translate-y-full'}`}>
 
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-3">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center justify-between px-8 py-6 rounded-[2rem] text-xl font-black uppercase tracking-widest transition-all ${location.pathname === link.path
+                className={`flex items-center justify-between px-8 py-4 rounded-[2rem] text-lg font-black uppercase tracking-widest transition-all ${location.pathname === link.path
                   ? 'text-[#a78bfa] bg-white/5 shadow-inner'
                   : 'text-white/60 hover:text-[#818cf8] hover:bg-white/5'
                   }`}

@@ -3,9 +3,9 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import {
   ArrowLeft, PlayCircle, Leaf, Recycle, AlertTriangle,
   Trash2, ArrowRight, Sparkles, Zap, Info, Factory,
-  Layers, Database, Flame, Droplets, Sun, Wind, Cpu
+  Layers, Database, Flame, Droplets, Sun, Wind, Cpu, Star
 } from 'lucide-react';
-import { addCredits } from '../services/creditService';
+import { addCredits, isActivityCompleted } from '../services/creditService';
 
 
 interface Step {
@@ -109,10 +109,10 @@ const dataMap: Record<string, PageData> = {
           tools: ['Keranjang Plastik Berlubang', 'Kain Hitam Berpori', 'Kardus Bekas'],
           materials: ['Bantal Sekam (Atas & Bawah)', 'Sampah Organik Dapur (Tanpa Cairan)', 'Starter Kompos'],
           steps: [
-            { title: 'Persiapan Dasar', desc: 'Letakkan bantal sekam di dasar keranjang untuk menyerap cairan dan menjaga sirkulasi udara.' },
-            { title: 'Pelapisan Kardus', desc: 'Pasang kardus mengelilingi sisi dalam keranjang sebagai pengatur kelembapan.' },
-            { title: 'Input Sampah', desc: 'Masukkan sampah dapur yang sudah dicacah kecil (hilangkan airnya).' },
-            { title: 'Penutupan', desc: 'Tutup dengan bantal sekam atas, kain hitam, dan tutup keranjang rapat-rapat.' }
+            { title: 'Persiapan Dasar', desc: 'Letakkan bantal sekam di dasar keranjang untuk menyerap cairan dan menjaga sirkulasi udara.', image: '/images/takakura_step1.png' },
+            { title: 'Pelapisan Kardus', desc: 'Pasang kardus mengelilingi sisi dalam keranjang sebagai pengatur kelembapan.', image: '/images/takakura_step2.png' },
+            { title: 'Input Sampah', desc: 'Masukkan sampah dapur yang sudah dicacah kecil (hilangkan airnya).', image: '/images/takakura_step3.png' },
+            { title: 'Penutupan', desc: 'Tutup dengan bantal sekam atas, kain hitam, dan tutup keranjang rapat-rapat.', image: '/images/takakura_step4.png' }
           ],
           benefits: ['Praktis & Hemat Lahan', 'Tanpa Bau Busuk (Fermentasi)', 'Hasil Kompos Berkualitas']
         },
@@ -131,10 +131,10 @@ const dataMap: Record<string, PageData> = {
           tools: ['Karung HDPE/Goni', 'Pipa Aerasi (Pilihan)', 'Tatakan'],
           materials: ['Sampah Hijau & Cokelat', 'Aktivator/MOL', 'Tanah/Kompos Lama'],
           steps: [
-            { title: 'Lubang Udara', desc: 'Pastikan karung memiliki pori-pori yang cukup untuk sirkulasi oksigen.' },
-            { title: 'Metode Lasagna', desc: 'Susun selapis sampah cokelat (kering), kemudian selapis sampah hijau (basah).' },
-            { title: 'Aktivasi', desc: 'Semprotkan cairan MOL atau taburkan starter kompos untuk mempercepat proses.' },
-            { title: 'Tunggu Matang', desc: 'Letakkan di tempat teduh dan panen kompos dalam 2-3 bulan.' }
+            { title: 'Lubang Udara', desc: 'Pastikan karung memiliki pori-pori yang cukup untuk sirkulasi oksigen.', image: '/images/karung_step1.png' },
+            { title: 'Metode Lasagna', desc: 'Susun selapis sampah cokelat (kering), kemudian selapis sampah hijau (basah).', image: '/images/karung_step2.png' },
+            { title: 'Aktivasi', desc: 'Semprotkan cairan MOL atau taburkan starter kompos untuk mempercepat proses.', image: '/images/karung_step3.png' },
+            { title: 'Tunggu Matang', desc: 'Letakkan di tempat teduh dan panen kompos dalam 2-3 bulan.', image: '/images/karung_step4.png' }
           ],
           benefits: ['Budget Rendah', 'Sirkulasi Udara Alami Baik', 'Bisa Dipindah dengan Mudah']
         },
@@ -153,10 +153,10 @@ const dataMap: Record<string, PageData> = {
           tools: ['Biopond (Wadah)', 'Media Bertelur (Kayu)', 'Jaring Kandang'],
           materials: ['Larva BSF (Maggot)', 'Sampah Organik Melimpah', 'Dapur/Sisa Pasar'],
           steps: [
-            { title: 'Persiapan Media', desc: 'Siapkan wadah berisi bibit maggot dan sampah yang sudah dihaluskan.' },
-            { title: 'Pemberian Pakan', desc: 'Taburkan sampah organik setiap hari seiring pertumbuhan maggot.' },
-            { title: 'Monitoring', desc: 'Jaga kelembapan media agar tidak terlalu basah atau berbau.' },
-            { title: 'Panen Ganda', desc: 'Panen maggot untuk pakan ternak dan sisa urainya menjadi pupuk organik cair (Kasgot).' }
+            { title: 'Persiapan Media', desc: 'Siapkan wadah berisi bibit maggot dan sampah yang sudah dihaluskan.', image: '/images/maggot_step1.png' },
+            { title: 'Pemberian Pakan', desc: 'Taburkan sampah organik setiap hari seiring pertumbuhan maggot.', image: '/images/maggot_step2.png' },
+            { title: 'Monitoring', desc: 'Jaga kelembapan media agar tidak terlalu basah atau berbau.', image: '/images/maggot_step3.png' },
+            { title: 'Panen Ganda', desc: 'Panen maggot untuk pakan ternak dan sisa urainya menjadi pupuk organik cair (Kasgot).', image: '/images/maggot_step4.png' }
           ],
           benefits: ['Tercepat Mengurai Sampah', 'Bernilai Ekonomi (Pakan Ternak)', 'Zero Waste System']
         },
@@ -175,7 +175,7 @@ const dataMap: Record<string, PageData> = {
           tools: ['Drum/Tong Plastik', 'Sekop', 'Sarung Tangan'],
           materials: ['Sampah Terpilah (Cacah)', 'Aktivator MOL', 'Air', 'Serabut Gergaji'],
           steps: [
-            { title: 'Pencacahan', desc: 'Potong sampah organik hingga berukuran 2-3 cm untuk memudahkan penguraian.' },
+            { title: 'Pencacahan', desc: 'Potong sampah organik hingga berukuran 2-3 cm untuk memudahkan penguraian.', image: '/images/drum_step1.png' },
             { title: 'Pencampuran', desc: 'Campur 2 bagian sampah basah dengan 1 bagian sampah kering dalam drum.' },
             { title: 'Aplikasi MOL', desc: 'Siram merata dengan larutan MOL untuk memicu mikroorganisme.' },
             { title: 'Penutupan', desc: 'Aduk rata setiap beberapa hari dan tutup rapat. Matang dalam 3-4 minggu.' }
@@ -726,6 +726,11 @@ const SponsorTransition: React.FC<{ onComplete: () => void, sponsor: any }> = ({
         </div>
 
         <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center">
+          {sponsor.plan === 'cosmic' && (
+            <div className="absolute top-4 right-4 z-20 bg-amber-500 text-black px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest flex items-center gap-1 shadow-lg animate-bounce">
+              <Star size={10} fill="currentColor" /> Verified Partner
+            </div>
+          )}
           {sponsor.mediaUrl ? (
             <img src={sponsor.mediaUrl} alt={sponsor.name} className="w-full h-full object-cover" />
           ) : (
@@ -911,12 +916,22 @@ const MethodModal: React.FC<{ method: TransformationMethod, onClose: () => void 
             </div>
             <button
               onClick={() => {
-                addCredits(25, `Mempelajari Metode: ${method.title}`);
+                const activityId = `transformation_${method.title.replace(/\s+/g, '_').toLowerCase()}`;
+                const success = addCredits(25, `Mempelajari Metode: ${method.title}`, activityId);
+                if (success) {
+                  alert(`Energi Tersinkronisasi! +25 Eco-Credits berhasil ditambahkan.`);
+                }
                 onClose();
               }}
-              className="px-12 py-5 bg-[#4ade80] text-black font-black uppercase italic tracking-[0.2em] rounded-2xl hover:scale-105 transition-transform shadow-[0_0_30px_rgba(74,222,128,0.3)]"
+              disabled={isActivityCompleted(`transformation_${method.title.replace(/\s+/g, '_').toLowerCase()}`)}
+              className={`px-12 py-5 font-black uppercase italic tracking-[0.2em] rounded-2xl transition-all shadow-[0_0_30px_rgba(74,222,128,0.3)] ${isActivityCompleted(`transformation_${method.title.replace(/\s+/g, '_').toLowerCase()}`)
+                ? 'bg-white/10 text-white/20 cursor-not-allowed border border-white/5'
+                : 'bg-[#4ade80] text-black hover:scale-105'
+                }`}
             >
-              Selesai Mempelajari
+              {isActivityCompleted(`transformation_${method.title.replace(/\s+/g, '_').toLowerCase()}`)
+                ? 'Metode Telah Dikuasai'
+                : 'Selesai Mempelajari'}
             </button>
           </div>
 
@@ -1210,12 +1225,12 @@ const TransformationDetail: React.FC = () => {
           </div>
 
           <div className="flex flex-col items-center">
-            <Link
-              to="#"
-              className="inline-flex items-center gap-4 bg-white text-[#064e3b] font-black px-10 py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_60px_rgba(74,222,128,0.1)] uppercase tracking-tighter text-xl italic group"
+            <button
+              onClick={() => window.open("https://utas.me/lp/tokosampah/3-hari-menghilangkan-bau-sampah-dapur", "_blank", "noopener,noreferrer")}
+              className="inline-flex items-center gap-4 bg-white text-[#064e3b] font-black px-10 py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_60px_rgba(74,222,128,0.1)] uppercase tracking-tighter text-xl italic group cursor-pointer"
             >
               Dapatkan Akses <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
-            </Link>
+            </button>
           </div>
         </div>
       </div>

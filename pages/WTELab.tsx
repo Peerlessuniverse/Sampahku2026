@@ -5,7 +5,7 @@ import {
     Search, Cpu, ArrowRight, ShieldCheck, TrendingUp, Sprout
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { addCredits } from '../services/creditService';
+import { addCredits, isActivityCompleted } from '../services/creditService';
 import SponsorScreen from '../components/SponsorScreen';
 
 interface Step {
@@ -278,6 +278,7 @@ const MethodModal: React.FC<{ method: WTEMethod, onClose: () => void }> = ({ met
                 <button
                     onClick={onClose}
                     className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors z-20 p-2 bg-white/5 rounded-full"
+                    title="Tutup Detail Riset"
                 >
                     <ArrowLeft className="rotate-90 md:rotate-0 w-6 h-6" />
                 </button>
@@ -414,12 +415,20 @@ const MethodModal: React.FC<{ method: WTEMethod, onClose: () => void }> = ({ met
                         </div>
                         <button
                             onClick={() => {
-                                addCredits(25, `Mempelajari Riset: ${method.title}`);
+                                const activityId = `wte_research_${method.id}`;
+                                const success = addCredits(25, `Mempelajari Riset: ${method.title}`, activityId);
+                                if (success) {
+                                    alert(`Energi Tersinkronisasi! +25 Eco-Credits berhasil ditambahkan.`);
+                                }
                                 onClose();
                             }}
-                            className="w-full md:w-auto px-12 py-5 bg-[#a78bfa] text-black font-black uppercase italic tracking-[0.2em] rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(167,139,250,0.3)]"
+                            disabled={isActivityCompleted(`wte_research_${method.id}`)}
+                            className={`w-full md:w-auto px-12 py-5 font-black uppercase italic tracking-[0.2em] rounded-2xl transition-all shadow-[0_0_30px_rgba(167,139,250,0.3)] ${isActivityCompleted(`wte_research_${method.id}`)
+                                ? 'bg-white/10 text-white/20 cursor-not-allowed border border-white/5'
+                                : 'bg-[#a78bfa] text-black hover:scale-105 active:scale-95'
+                                }`}
                         >
-                            Selesai Mempelajari
+                            {isActivityCompleted(`wte_research_${method.id}`) ? 'Riset Telah Diselesaikan' : 'Selesai Mempelajari'}
                         </button>
                     </div>
                 </div>
@@ -434,7 +443,7 @@ const WTELab: React.FC = () => {
     const [pendingMethod, setPendingMethod] = useState<WTEMethod | null>(null);
 
     useEffect(() => {
-        addCredits(30, "Akses Riset Eksklusif WTE Lab");
+        addCredits(30, "Akses Riset Eksklusif WTE Lab", "wte_lab_first_entry");
     }, []);
 
     const handleCardClick = (method: WTEMethod) => {

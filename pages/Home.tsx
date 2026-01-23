@@ -88,7 +88,8 @@ const Home: React.FC = () => {
     };
   }, []);
 
-  const wasteSources: WasteSource[] = [
+  // Memoized Waste Sources to prevent re-creation on every render
+  const wasteSources: WasteSource[] = React.useMemo(() => [
     { id: 'household', icon: <HomeIcon size={24} />, label: 'Rumah Tangga', description: 'Sampah yang dihasilkan dari aktivitas sehari-hari di rumah.', color: 'bg-violet-100 text-violet-900 font-black' },
     { id: 'industry', icon: <Factory size={24} />, label: 'Industri', description: 'Limbah hasil proses produksi pabrik dan manufaktur.', color: 'bg-indigo-100 text-indigo-900 font-black' },
     { id: 'agriculture', icon: <Wheat size={24} />, label: 'Pertanian', description: 'Sisa panen, kotoran ternak, dan limbah pertanian lainnya.', color: 'bg-blue-100 text-blue-900 font-black' },
@@ -98,14 +99,14 @@ const Home: React.FC = () => {
     { id: 'special', icon: <Shirt size={24} />, label: 'Khusus', description: 'Tekstil, kosmetik, dan barang lain yang sulit didaur ulang.', color: 'bg-purple-100 text-purple-900 font-black' },
     { id: 'other', icon: <HelpCircle size={24} />, label: 'Lainnya', description: 'Jenis sampah yang tidak masuk kategori umum.', color: 'bg-slate-100 text-slate-900 font-black' },
     { id: 'carbon', icon: <Cloud size={24} />, label: 'Jejak Karbon', description: 'Emisi gas rumah kaca yang dihasilkan dari aktivitas kita.', color: 'bg-[#a78bfa] text-[#02020a] font-black', isCarbon: true },
-  ];
+  ], []);
 
-  const wasteTypes: WasteType[] = [
+  const wasteTypes: WasteType[] = React.useMemo(() => [
     { id: 'organic', label: 'Organik', icon: <Leaf size={24} />, examples: 'Sisa makanan, daun, ampas kopi', route: '/transformasi/organic', color: 'bg-violet-50 text-violet-800 border-violet-200' },
     { id: 'inorganic', label: 'Anorganik', icon: <Recycle size={24} />, examples: 'Botol plastik, kaleng, kaca', route: '/transformasi/inorganic', color: 'bg-indigo-50 text-indigo-800 border-indigo-200' },
     { id: 'b3', label: 'B3', icon: <AlertTriangle size={24} />, examples: 'Baterai, oli, obat kadaluarsa', route: '/transformasi/b3', color: 'bg-rose-50 text-rose-800 border-rose-200' },
     { id: 'residue', label: 'Residu', icon: <Trash2 size={24} />, examples: 'Popok, pembalut, puntung rokok', route: '/transformasi/residu', color: 'bg-slate-50 text-slate-800 border-slate-200' },
-  ];
+  ], []);
 
   const handleSourceClick = (source: WasteSource) => {
     if (source.isCarbon) {
@@ -141,6 +142,7 @@ const Home: React.FC = () => {
   const closeModal = () => {
     setSelectedSource(null);
   };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-[#02020a] text-white overflow-x-hidden">
@@ -196,8 +198,7 @@ const Home: React.FC = () => {
           <div className="absolute inset-0 z-10">
             <canvas
               ref={canvasRef}
-              style={{ width: '100%', height: '100%' }}
-              className="opacity-100 hover:scale-110 transition-transform duration-1000"
+              className="opacity-100 hover:scale-110 transition-transform duration-1000 w-full h-full"
             />
           </div>
 
@@ -213,6 +214,8 @@ const Home: React.FC = () => {
                 <button
                   key={source.id}
                   onClick={() => handleSourceClick(source)}
+                  aria-label={`Lihat detail sampah ${source.label}`}
+                  title={`Detail ${source.label}`}
                   className="absolute transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 md:w-24 md:h-24 bg-white/5 backdrop-blur-3xl border-2 border-white/10 rounded-[1.5rem] md:rounded-[2.5rem] flex items-center justify-center text-white hover:bg-[#8b5cf6] hover:border-[#a78bfa] hover:scale-125 transition-all duration-500 shadow-[0_20px_60px_rgba(0,0,0,0.6)] pointer-events-auto cursor-pointer group z-20"
                   style={{
                     top: `${top}%`,
@@ -238,8 +241,7 @@ const Home: React.FC = () => {
           <div className="absolute inset-0 bg-black/95 backdrop-blur-2xl animate-in fade-in duration-300"></div>
 
           <div
-            className="relative bg-[#02020a] text-white rounded-t-[2.5rem] md:rounded-[4rem] w-full max-w-2xl overflow-hidden animate-in slide-in-from-bottom duration-500 md:animate-float border-t-8 border-[#8b5cf6] shadow-[0_0_100px_rgba(139,92,246,0.3)] mb-0 md:mb-0"
-            style={{ maxHeight: '92vh' }}
+            className="relative bg-[#02020a] text-white rounded-t-[2.5rem] md:rounded-[4rem] w-full max-w-2xl overflow-hidden animate-in slide-in-from-bottom duration-500 md:animate-float border-t-8 border-[#8b5cf6] shadow-[0_0_100px_rgba(139,92,246,0.3)] mb-0 md:mb-0 max-h-[92vh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -250,11 +252,13 @@ const Home: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl md:text-4xl font-black tracking-tighter leading-none mb-1 md:mb-2 uppercase">{selectedSource.label}</h2>
-                  <p className="text-[10px] md:text-sm font-bold opacity-40 leading-relaxed max-w-[180px] md:max-w-none">{selectedSource.description}</p>
+                  <p className="text-[10px] md:text-sm font-bold opacity-60 leading-relaxed max-w-[180px] md:max-w-none">{selectedSource.description}</p>
                 </div>
               </div>
               <button
                 onClick={closeModal}
+                aria-label="Tutup Modal"
+                title="Tutup"
                 className="p-3 md:p-4 rounded-full bg-white/5 hover:bg-white/10 transition-all text-white active:scale-90 border border-white/10"
               >
                 <X size={20} />
@@ -262,7 +266,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Modal Content */}
-            <div className="p-6 md:p-12 overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(92vh - 120px)' }}>
+            <div className="p-6 md:p-12 overflow-y-auto custom-scrollbar max-h-[calc(92vh-120px)]">
               {selectedSource.isCarbon ? (
                 <div className="text-center py-4 md:py-12">
                   <div className="relative inline-block mb-6 md:mb-10">
@@ -301,7 +305,7 @@ const Home: React.FC = () => {
                             </div>
                             <div className="relative z-10 flex-1">
                               <h4 className="font-black text-xl md:text-2xl tracking-tighter mb-0 md:mb-1 uppercase">{type.label}</h4>
-                              <p className="text-[10px] md:text-sm opacity-30 font-bold italic line-clamp-1">{type.examples}</p>
+                              <p className="text-[10px] md:text-sm opacity-50 font-bold italic line-clamp-1">{type.examples}</p>
                             </div>
                             <div className="absolute -right-8 -bottom-8 w-40 h-40 bg-violet-600/5 rounded-full group-hover:scale-150 transition-transform duration-1000"></div>
                             <ArrowRight className="text-white/10 group-hover:text-[#a78bfa] group-hover:translate-x-3 transition-all scale-75 md:scale-100" size={32} />
@@ -318,7 +322,7 @@ const Home: React.FC = () => {
                         <Loader2 className="w-24 h-24 text-[#a78bfa] animate-spin relative z-10" />
                       </div>
                       <h3 className="text-3xl font-black mb-2 uppercase tracking-tighter">Mensinkronisasi Energi...</h3>
-                      <p className="text-xs font-black opacity-20 uppercase tracking-[0.4em]">Processing Nebula Data</p>
+                      <p className="text-xs font-black opacity-40 uppercase tracking-[0.4em]">Processing Nebula Data</p>
                     </div>
                   )}
 
@@ -382,8 +386,8 @@ const Home: React.FC = () => {
                 Bukan lagi tentang <span className="text-[#1d9371]">'HIJAU'</span>, tetapi tentang <span className="text-[#d516ec]">PARADIGMA</span>.
               </p>
               <p className="text-lg md:text-xl text-white/50 leading-relaxed font-bold italic max-w-3xl mx-auto">
-                Ukur seberapa besar distorsi energimu terhadap kestabilan semesta melalui jejak karbon,
-                berdasarkan prinsip mekanika universal: materi tidak hilang, ia hanya berpindah dan berubah wujud.
+                Ukur seberapa besar distorsi energimu terhadap kestabilan lingkungan melalui jejak karbon,
+                berdasarkan prinsip mekanika universal: Energi tidak hilang, ia hanya berpindah dan berubah wujud.
               </p>
             </div>
           </div>
@@ -412,12 +416,12 @@ const Home: React.FC = () => {
               Miliki panduan cepat Eksklusif - <span className="text-[#a78bfa] font-black">Sistem Sampah Masuk Akal</span> untuk orang sibuk.
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-              <Link
-                to="#"
-                className="px-12 py-5 bg-white text-[#1a1b4b] rounded-[2rem] font-black text-xl hover:scale-110 active:scale-95 transition-all shadow-3xl shadow-violet-500/20 uppercase tracking-tighter italic"
+              <button
+                onClick={() => window.open("https://utas.me/lp/tokosampah/3-hari-menghilangkan-bau-sampah-dapur", "_blank", "noopener,noreferrer")}
+                className="px-12 py-5 bg-white text-[#1a1b4b] rounded-[2rem] font-black text-xl hover:scale-110 active:scale-95 transition-all shadow-3xl shadow-violet-500/20 uppercase tracking-tighter italic cursor-pointer"
               >
                 Dapatkan Akses
-              </Link>
+              </button>
             </div>
           </div>
         </div>

@@ -128,9 +128,32 @@ export const getActiveSponsor = (): SponsorData => {
     const sponsors = getStoredSponsors();
     const activeOnes = sponsors.filter(s => s.status === 'active');
 
-    // In a real app, this might cycle or pick randomly
-    // If no active sponsor found, return the first one as fallback or a system default
-    return activeOnes.length > 0 ? activeOnes[0] : sponsors[0];
+    if (activeOnes.length === 0) return sponsors[0];
+
+    // Define weights for each plan
+    const weights: Record<string, number> = {
+        'cosmic': 100,  // Cosmic gets 10x more frequency than Nebula
+        'galactic': 30, // Galactic gets 3x more frequency
+        'nebula': 10,
+        'none': 1
+    };
+
+    // Calculate total weight
+    const totalWeight = activeOnes.reduce((sum, s) => sum + (weights[s.plan] || 1), 0);
+
+    // Pick a random number between 0 and totalWeight
+    let random = Math.random() * totalWeight;
+
+    // Select the sponsor
+    for (const sponsor of activeOnes) {
+        const weight = weights[sponsor.plan] || 1;
+        if (random < weight) {
+            return sponsor;
+        }
+        random -= weight;
+    }
+
+    return activeOnes[0];
 };
 
 export const trackImpression = (id: string) => {
