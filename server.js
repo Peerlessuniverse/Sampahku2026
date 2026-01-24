@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // RADAR VERSION TAG
-const RADAR_VERSION = "2.0.3-TITANIUM";
+const RADAR_VERSION = "2.0.4-ADAMANTIUM";
 console.log(`[SYS] Initializing RADAR ENGINE ${RADAR_VERSION}...`);
 
 // Health check endpoint
