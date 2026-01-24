@@ -34,10 +34,7 @@ env:
     value: "G-FCG2XK0FF3"
     availability: ["BUILD", "RUNTIME"]
 
-scripts:
-  buildCommand: "npm run build"
-  runCommand: "node server.js"
 
 runConfig:
   cpu: 1
-  memoryMiB: 1024
+  memoryMiB: 2048

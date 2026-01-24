@@ -22,7 +22,8 @@ app.use((req, res, next) => {
 });
 
 // RADAR VERSION TAG
-const RADAR_VERSION = "2.0.2-ULTRABOOST";
+const RADAR_VERSION = "2.0.3-TITANIUM";
+console.log(`[SYS] Initializing RADAR ENGINE ${RADAR_VERSION}...`);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
