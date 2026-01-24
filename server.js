@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // RADAR VERSION TAG
-const RADAR_VERSION = "2.0.6-VIBRANIUM-XT";
+const RADAR_VERSION = "2.0.7-QUANTUM";
 console.log(`[SYS] Initializing RADAR ENGINE ${RADAR_VERSION}...`);
 
 // Health check endpoint
@@ -44,9 +44,7 @@ app.get('/health', (req, res) => {
 app.use(express.static(distPath));
 
 function getApiKey() {
-    const key = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-    console.log(`[SYS] API Key Detection: ${key ? "FOUND (Length: " + key.length + ")" : "MISSING!"}`);
-    return key || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM"; // Hardcoded fallback for emergency
+    return process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
 }
 
 const API_KEY = getApiKey();
@@ -56,23 +54,19 @@ app.post('/api/analyze', async (req, res) => {
     const { image } = req.body;
     if (!image) return res.status(400).json({ error: "Gambar kosong" });
 
-    // Coba model paling umum dengan dan tanpa prefix 'models/'
+    // Model list yang lebih variatif untuk antisipasi restriksi project
     const modelsToTry = [
+        "gemini-1.5-flash-latest",
         "gemini-1.5-flash",
-        "models/gemini-1.5-flash",
         "gemini-1.5-flash-8b",
-        "gemini-2.0-flash-exp"
+        "gemini-1.5-pro-latest"
     ];
 
     let attemptHistory = [];
 
-    if (API_KEY.includes("AIza") === false) {
-        return res.status(500).json({ error: "Invalid API Key Format detected." });
-    }
-
     for (const modelName of modelsToTry) {
         try {
-            console.log(`[RADAR] Launching Probe: ${modelName}`);
+            console.log(`[RADAR] Launching Quantum Probe: ${modelName}`);
             const model = genAI.getGenerativeModel({ model: modelName });
 
             const result = await model.generateContent([
@@ -104,14 +98,23 @@ app.post('/api/analyze', async (req, res) => {
 
             if (startIdx !== -1 && endIdx !== -1) {
                 const cleanJson = text.substring(startIdx, endIdx + 1);
-                const parsed = JSON.parse(cleanJson);
-                console.log(`[RADAR] ${modelName} Success!`);
-                return res.json(parsed);
+                console.log(`[RADAR] ${modelName} Transmitted Successfully.`);
+                return res.json(JSON.parse(cleanJson));
             }
-            throw new Error("Invalid AI Response Payload format from " + modelName);
+            throw new Error("Invalid AI Signal Format.");
 
         } catch (err) {
-            console.error(`[RADAR] ${modelName} Failed:`, err.message);
+            console.error(`[RADAR] ${modelName} Failure:`, err.message);
+
+            // Jika kena quota limit 0, langsung stop dan lapor user
+            if (err.message.includes('429') || err.message.includes('quota')) {
+                return res.status(429).json({
+                    error: "KRITIS: Kuota API Anda Dinonaktifkan (limit: 0).",
+                    details: [err.message],
+                    suggestion: "BRO! Buat API KEY BARU di aistudio.google.com terus ganti di apphosting.yaml. API Key ini lagi diblokir Google."
+                });
+            }
+
             attemptHistory.push(`${modelName}: ${err.message}`);
         }
     }
@@ -119,7 +122,7 @@ app.post('/api/analyze', async (req, res) => {
     res.status(500).json({
         error: `Radar Failure [${RADAR_VERSION}]`,
         details: attemptHistory,
-        suggestion: "Mungkin gambar terlalu gelap atau API Key bermasalah."
+        suggestion: "Radar tidak menemukan model aktif. Cek status API Key Anda."
     });
 });
 
