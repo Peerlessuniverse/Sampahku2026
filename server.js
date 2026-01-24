@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // RADAR VERSION TAG
-const RADAR_VERSION = "2.0.9-NUCLEAR";
+const RADAR_VERSION = "2.1.0-GALAXY";
 console.log(`[SYS] Initializing RADAR ENGINE ${RADAR_VERSION}...`);
 
 // Health check endpoint
@@ -52,62 +52,74 @@ const API_KEY = getApiKey();
 app.post('/api/analyze', async (req, res) => {
     const { image } = req.body;
     if (!image) return res.status(400).json({ error: "Gambar kosong" });
-    if (!API_KEY) return res.status(500).json({ error: "API KEY TIDAK TERDETEKSI DI SERVER!" });
+    if (!API_KEY) return res.status(500).json({ error: "API KEY TIDAK TERDETEKSI!" });
 
     const maskedKey = `***${API_KEY.slice(-5)}`;
-    console.log(`[RADAR] Launching Nuclear Probe with Key ending in: ${maskedKey}...`);
 
-    // Model yang paling aman
-    const modelName = "gemini-1.5-flash";
+    // List kombinasi Model dan API Version yang akan dicoba secara berurutan
+    const strategies = [
+        { v: "v1beta", m: "gemini-1.5-flash" },
+        { v: "v1beta", m: "gemini-1.5-flash-latest" },
+        { v: "v1", m: "gemini-1.5-flash" },
+        { v: "v1beta", m: "gemini-1.5-flash-8b" },
+        { v: "v1beta", m: "gemini-2.0-flash-exp" }
+    ];
 
-    // PEMANGGILAN RAW HTTP (Bypass SDK untuk menghindari 404 dari v1beta)
-    const ENDPOINT = `https://generativelanguage.googleapis.com/v1/models/${modelName}:generateContent?key=${API_KEY}`;
+    let lastErrors = [];
 
-    const payload = {
-        contents: [{
-            parts: [
-                { text: "ANDA ADALAH: Master Radar AI. ANALISIS GAMBAR INI (Output JSON murni):\n{\n  \"isRecyclable\": boolean,\n  \"materialType\": \"Plastic/Paper/Organic/Metal/E-Waste/Residue/Human/Non-Waste\",\n  \"disposalInstructions\": \"Instruksi spesifik\",\n  \"energyPotential\": \"Narasi potensi\",\n  \"transformationRoute\": \"organic|inorganic|b3|residu|none\",\n  \"confidence\": number\n}" },
-                { inlineData: { mimeType: "image/jpeg", data: image } }
-            ]
-        }]
-    };
+    for (const strat of strategies) {
+        const ENDPOINT = `https://generativelanguage.googleapis.com/${strat.v}/models/${strat.m}:generateContent?key=${API_KEY}`;
 
-    try {
-        const response = await fetch(ENDPOINT, {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' }
-        });
+        try {
+            console.log(`[RADAR] Trying Strategy: ${strat.v} | ${strat.m}`);
 
-        const data = await response.json();
+            const payload = {
+                contents: [{
+                    parts: [
+                        { text: "ANDA ADALAH: Master Radar AI. ANALISIS GAMBAR INI (Output JSON murni):\n{\n  \"isRecyclable\": boolean,\n  \"materialType\": \"Plastic/Paper/Organic/Metal/E-Waste/Residue/Human/Non-Waste\",\n  \"disposalInstructions\": \"Instruksi spesifik\",\n  \"energyPotential\": \"Narasi potensi\",\n  \"transformationRoute\": \"organic|inorganic|b3|residu|none\",\n  \"confidence\": number\n}" },
+                        { inlineData: { mimeType: "image/jpeg", data: image } }
+                    ]
+                }]
+            };
 
-        if (!response.ok) {
-            console.error("[RADAR] Raw API Error:", JSON.stringify(data));
-            return res.status(response.status).json({
-                error: `HTTP ${response.status}: ${data.error?.message || "Unknown API Error"}`,
-                details: [data.error?.status || "ERROR", `Model: ${modelName}`, `Key Check: ${maskedKey}`],
-                suggestion: "BRO! Kalau ini masih 404, artinya Project Google Cloud kamu MATI. Solusi: Kamu harus klik 'Create API Key in NEW PROJECT' di AI Studio."
+            const response = await fetch(ENDPOINT, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
             });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const msg = data.error?.message || "Unknown error";
+                console.warn(`[RADAR] Strategy ${strat.m} failed: ${msg}`);
+                lastErrors.push(`${strat.m} (${strat.v}): ${msg}`);
+                continue; // Coba strategi berikutnya
+            }
+
+            // Jika Berhasil
+            const text = data.candidates[0].content.parts[0].text;
+            const startIdx = text.indexOf('{');
+            const endIdx = text.lastIndexOf('}');
+
+            if (startIdx !== -1 && endIdx !== -1) {
+                console.log(`[RADAR] SUCCESS with ${strat.m} (${strat.v})`);
+                return res.json(JSON.parse(text.substring(startIdx, endIdx + 1)));
+            }
+
+        } catch (err) {
+            console.error(`[RADAR] Error on ${strat.m}:`, err.message);
+            lastErrors.push(`${strat.m}: ${err.message}`);
         }
-
-        const text = data.candidates[0].content.parts[0].text;
-        const startIdx = text.indexOf('{');
-        const endIdx = text.lastIndexOf('}');
-
-        if (startIdx !== -1 && endIdx !== -1) {
-            return res.json(JSON.parse(text.substring(startIdx, endIdx + 1)));
-        }
-
-        throw new Error("Invalid format in AI response candidates.");
-
-    } catch (err) {
-        console.error("[RADAR] Nuclear Crash:", err.message);
-        res.status(500).json({
-            error: "Radar Nuclear System Failure",
-            details: [err.message],
-            suggestion: "Periksa kestabilan server atau buat API Key dari akun Google lain."
-        });
     }
+
+    // Jika semua strategi gagal
+    res.status(500).json({
+        error: "Analisis Radar Gagal Total",
+        details: lastErrors,
+        keyCheck: maskedKey,
+        suggestion: "Bro, kalau semua 404, coba buka AI Studio pake akun baru itu, terus PASTIKAN kamu bisa chat di sana. Kalau di chat AI Studio aja nggak bisa, berarti akunnya kena blokir region atau butuh SMS verification."
+    });
 });
 
 // Single point of entry for all frontend requests
