@@ -59,8 +59,8 @@ Alat ukur jejak karbon personal untuk meningkatkan kesadaran dampak lingkungan.
 
 ## 🔒 Akses Admin (Mode Demo)
 - **URL:** `/login` atau melalui footer "Menjadi Sponsor".
-- **Username:** `Uko_Scavengers`
-- **Password:** `0xB91C3dFc90085E8fb95b6Da478f29D31A1b959E6`
+- **Username:** `admin`
+- **Password:** `admin123`
 
 ---
 
