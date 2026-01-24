@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // RADAR VERSION TAG
-const RADAR_VERSION = "2.0.4-ADAMANTIUM";
+const RADAR_VERSION = "2.0.5-VIBRANIUM";
 console.log(`[SYS] Initializing RADAR ENGINE ${RADAR_VERSION}...`);
 
 // Health check endpoint
@@ -44,9 +44,7 @@ app.get('/health', (req, res) => {
 app.use(express.static(distPath));
 
 function getApiKey() {
-    if (process.env.VITE_GEMINI_API_KEY) return process.env.VITE_GEMINI_API_KEY;
-    // Fallback logic
-    return "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
+    return process.env.VITE_GEMINI_API_KEY || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
 }
 
 const API_KEY = getApiKey();
@@ -56,33 +54,40 @@ app.post('/api/analyze', async (req, res) => {
     const { image } = req.body;
     if (!image) return res.status(400).json({ error: "Gambar kosong" });
 
-    // Coba yang paling stabil dulu di cloud
+    // Gunakan penamaan lengkap (models/...) untuk menghindari 404 di beberapa region
     const modelsToTry = [
-        "gemini-1.5-flash",
-        "gemini-1.5-flash-8b",
-        "gemini-2.0-flash-exp",
-        "gemini-1.5-pro"
+        "models/gemini-1.5-flash",
+        "models/gemini-1.5-flash-8b",
+        "models/gemini-2.0-flash-exp",
+        "models/gemini-1.5-pro"
     ];
 
-    let lastError = "";
+    let attemptHistory = [];
 
     for (const modelName of modelsToTry) {
         try {
-            console.log(`[RADAR] Trying Model: ${modelName}`);
+            console.log(`[RADAR] Launching Probe: ${modelName}`);
             const model = genAI.getGenerativeModel({ model: modelName });
 
             const result = await model.generateContent([
-                `ANDA ADALAH: Master Radar AI - Inti Kesadaran Ekosistem SampahKu.
-                PROTOKOL ANALISIS (Gunakan JSON murni):
                 {
-                  "isRecyclable": boolean,
-                  "materialType": "Plastic/Paper/Organic/Metal/E-Waste/Residue/Human/Non-Waste",
-                  "disposalInstructions": "Instruksi/Jokes spesifik",
-                  "energyPotential": "Narasi potensi",
-                  "transformationRoute": "organic|inorganic|b3|residu|none",
-                  "confidence": number
-                }`,
-                { inlineData: { mimeType: "image/jpeg", data: image } }
+                    text: `ANDA ADALAH: Master Radar AI - Inti Kesadaran Ekosistem SampahKu.
+                    PROTOKOL ANALISIS (Gunakan JSON murni):
+                    {
+                      "isRecyclable": boolean,
+                      "materialType": "Plastic/Paper/Organic/Metal/E-Waste/Residue/Human/Non-Waste",
+                      "disposalInstructions": "Instruksi/Jokes spesifik",
+                      "energyPotential": "Narasi potensi",
+                      "transformationRoute": "organic|inorganic|b3|residu|none",
+                      "confidence": number
+                    }`
+                },
+                {
+                    inlineData: {
+                        mimeType: "image/jpeg",
+                        data: image
+                    }
+                }
             ]);
 
             const text = result.response.text();
@@ -91,17 +96,23 @@ app.post('/api/analyze', async (req, res) => {
 
             if (startIdx !== -1 && endIdx !== -1) {
                 const cleanJson = text.substring(startIdx, endIdx + 1);
-                return res.json(JSON.parse(cleanJson));
+                const parsed = JSON.parse(cleanJson);
+                console.log(`[RADAR] ${modelName} Success!`);
+                return res.json(parsed);
             }
-            throw new Error("Invalid AI Response Format");
+            throw new Error("Invalid AI Response Payload");
 
         } catch (err) {
-            console.error(`[RADAR] Fail ${modelName}:`, err.message);
-            lastError = err.message;
+            console.error(`[RADAR] ${modelName} Failed:`, err.message);
+            attemptHistory.push(`${modelName}: ${err.message}`);
         }
     }
 
-    res.status(500).json({ error: `Radar Error [${RADAR_VERSION}]: ${lastError}` });
+    res.status(500).json({
+        error: `Radar Failure [${RADAR_VERSION}]`,
+        details: attemptHistory,
+        suggestion: "Periksa kuota API Key atau format gambar."
+    });
 });
 
 // Single point of entry for all frontend requests
