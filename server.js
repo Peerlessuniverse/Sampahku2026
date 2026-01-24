@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // RADAR VERSION TAG
-const RADAR_VERSION = "2.0.7-QUANTUM";
+const RADAR_VERSION = "2.0.8-CORE-REPAIR";
 console.log(`[SYS] Initializing RADAR ENGINE ${RADAR_VERSION}...`);
 
 // Health check endpoint
@@ -44,7 +44,7 @@ app.get('/health', (req, res) => {
 app.use(express.static(distPath));
 
 function getApiKey() {
-    return process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    return process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "";
 }
 
 const API_KEY = getApiKey();
@@ -53,35 +53,50 @@ const genAI = new GoogleGenerativeAI(API_KEY);
 app.post('/api/analyze', async (req, res) => {
     const { image } = req.body;
     if (!image) return res.status(400).json({ error: "Gambar kosong" });
+    if (!API_KEY) return res.status(500).json({ error: "API KEY TIDAK TERDETEKSI DI SERVER!" });
 
-    // Model list yang lebih variatif untuk antisipasi restriksi project
+    // Gunakan nama model yang paling standar & universal
     const modelsToTry = [
-        "gemini-1.5-flash-latest",
         "gemini-1.5-flash",
         "gemini-1.5-flash-8b",
-        "gemini-1.5-pro-latest"
+        "gemini-1.5-pro"
     ];
 
-    let attemptHistory = [];
+    let lastErrorDetails = [];
 
+    // TAHAP 1: PROBE TEKS (Hanya untuk diagnostik apakah API Projekt nyambung)
+    try {
+        console.log("[RADAR] Phase 1: Text Connectivity Test...");
+        const probeModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        await probeModel.generateContent("test");
+        console.log("[RADAR] Phase 1: SUCCESS. Project API is active.");
+    } catch (probeErr) {
+        console.error("[RADAR] Phase 1: FAILED! Project/Key Issue:", probeErr.message);
+        return res.status(500).json({
+            error: "PROJECT API MATI (404/429)",
+            details: [probeErr.message],
+            suggestion: "BRO! Ini fiks Project Google Cloud kamu belum aktifin 'Generative Language API'. Bikin KEY BARU di AI Studio tapi pilih 'Create API key in NEW project' (Jangan pake project lama)."
+        });
+    }
+
+    // TAHAP 2: PROBE GAMBAR (Analisis Sebenarnya)
     for (const modelName of modelsToTry) {
         try {
-            console.log(`[RADAR] Launching Quantum Probe: ${modelName}`);
+            console.log(`[RADAR] Phase 2: Analyzing with ${modelName}...`);
             const model = genAI.getGenerativeModel({ model: modelName });
 
+            const prompt = `ANDA ADALAH: Master Radar AI. ANALISIS GAMBAR INI (Output JSON murni):
+            {
+              "isRecyclable": boolean,
+              "materialType": "Plastic/Paper/Organic/Metal/E-Waste/Residue/Human/Non-Waste",
+              "disposalInstructions": "Instruksi spesifik",
+              "energyPotential": "Narasi potensi",
+              "transformationRoute": "organic|inorganic|b3|residu|none",
+              "confidence": number
+            }`;
+
             const result = await model.generateContent([
-                {
-                    text: `ANDA ADALAH: Master Radar AI - Inti Kesadaran Ekosistem SampahKu.
-                    PROTOKOL ANALISIS (Gunakan JSON murni):
-                    {
-                      "isRecyclable": boolean,
-                      "materialType": "Plastic/Paper/Organic/Metal/E-Waste/Residue/Human/Non-Waste",
-                      "disposalInstructions": "Instruksi/Jokes spesifik",
-                      "energyPotential": "Narasi potensi",
-                      "transformationRoute": "organic|inorganic|b3|residu|none",
-                      "confidence": number
-                    }`
-                },
+                prompt,
                 {
                     inlineData: {
                         mimeType: "image/jpeg",
@@ -90,39 +105,25 @@ app.post('/api/analyze', async (req, res) => {
                 }
             ]);
 
-            const response = await result.response;
-            const text = response.text();
-
+            const text = result.response.text();
             const startIdx = text.indexOf('{');
             const endIdx = text.lastIndexOf('}');
 
             if (startIdx !== -1 && endIdx !== -1) {
-                const cleanJson = text.substring(startIdx, endIdx + 1);
-                console.log(`[RADAR] ${modelName} Transmitted Successfully.`);
-                return res.json(JSON.parse(cleanJson));
+                return res.json(JSON.parse(text.substring(startIdx, endIdx + 1)));
             }
-            throw new Error("Invalid AI Signal Format.");
+            throw new Error("Invalid format from AI");
 
         } catch (err) {
-            console.error(`[RADAR] ${modelName} Failure:`, err.message);
-
-            // Jika kena quota limit 0, langsung stop dan lapor user
-            if (err.message.includes('429') || err.message.includes('quota')) {
-                return res.status(429).json({
-                    error: "KRITIS: Kuota API Anda Dinonaktifkan (limit: 0).",
-                    details: [err.message],
-                    suggestion: "BRO! Buat API KEY BARU di aistudio.google.com terus ganti di apphosting.yaml. API Key ini lagi diblokir Google."
-                });
-            }
-
-            attemptHistory.push(`${modelName}: ${err.message}`);
+            console.error(`[RADAR] ${modelName} FAILED:`, err.message);
+            lastErrorDetails.push(`${modelName}: ${err.message}`);
         }
     }
 
     res.status(500).json({
-        error: `Radar Failure [${RADAR_VERSION}]`,
-        details: attemptHistory,
-        suggestion: "Radar tidak menemukan model aktif. Cek status API Key Anda."
+        error: "Radar Analysis Failed",
+        details: lastErrorDetails,
+        suggestion: "Coba foto objek lain atau buat API Key baru di project yang berbeda."
     });
 });
 
