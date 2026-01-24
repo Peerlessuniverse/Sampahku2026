@@ -20,6 +20,11 @@ app.use((req, res, next) => {
     next();
 });
 
+// Health check endpoint for testing production status
+app.get('/health', (req, res) => {
+    res.send('Radar AI Backend: ONLINE 🚀');
+});
+
 const distPath = path.join(__dirname, 'dist');
 
 // Log the resolution path for debugging in production
