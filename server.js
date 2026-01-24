@@ -20,7 +20,15 @@ app.use((req, res, next) => {
     next();
 });
 
+// Serve static files from the Vite build directory
+const distPath = path.join(__dirname, 'dist');
+app.use(express.static(distPath));
+
 function getApiKey() {
+    // Priority 1: Environment Variable (for Production)
+    if (process.env.VITE_GEMINI_API_KEY) return process.env.VITE_GEMINI_API_KEY;
+
+    // Priority 2: .env.local (for Local Development)
     try {
         const envPath = path.join(process.cwd(), '.env.local');
         if (fs.existsSync(envPath)) {
@@ -45,7 +53,6 @@ app.post('/api/analyze', async (req, res) => {
     const { image } = req.body;
     if (!image) return res.status(400).json({ error: "Gambar kosong" });
 
-    // PAKAI MODEL YANG TERSEDIA DI AKUN ANDA (Hasil Scan)
     const modelsToTry = [
         "gemini-2.0-flash-exp",
         "gemini-2.5-flash",
@@ -56,7 +63,7 @@ app.post('/api/analyze', async (req, res) => {
 
     for (const modelName of modelsToTry) {
         try {
-            console.log(`[${new Date().toLocaleTimeString()}] Mencoba Model Spesifik: ${modelName}`);
+            console.log(`[${new Date().toLocaleTimeString()}] Mencoba Model: ${modelName}`);
             const model = genAI.getGenerativeModel({ model: modelName });
 
             const result = await model.generateContent([
@@ -66,18 +73,21 @@ app.post('/api/analyze', async (req, res) => {
 
             const text = result.response.text();
             const cleanJson = text.replace(/```json/g, "").replace(/```/g, "").trim();
-            console.log(`✅ BERHASIL DENGAN: ${modelName}`);
             return res.json(JSON.parse(cleanJson));
 
         } catch (err) {
-            console.warn(`❌ Gagal (${modelName}): ${err.message}`);
             lastError = err.message;
         }
     }
 
-    res.status(500).json({ error: "Semua model di akun Anda gagal. Terakhir: " + lastError });
+    res.status(500).json({ error: "Gagal: " + lastError });
+});
+
+// Handle SPA routing: send index.html for any unknown routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`\n🚀 SCANNER SERVER (MODERN MODELS) AKTIF DI PORT ${PORT}`);
+    console.log(`\n🚀 SERVING APP + SCANNER ON PORT ${PORT}`);
 });
