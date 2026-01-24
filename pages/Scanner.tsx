@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Camera, Upload, Loader2, CheckCircle2, AlertCircle, RefreshCw, X, Sparkles, Leaf, ArrowRight, Zap } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { analyzeWasteImage } from '../services/geminiService';
 import { addCredits } from '../services/creditService';
 import { getCurrentUser, loginWithGoogle, onAuthUIStateChanged } from '../services/authService';
@@ -9,6 +9,7 @@ import { WasteAnalysis } from '../types';
 import SponsorScreen from '../components/SponsorScreen';
 
 const Scanner: React.FC = () => {
+  const navigate = useNavigate();
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showSponsor, setShowSponsor] = useState(false);
@@ -102,6 +103,39 @@ const Scanner: React.FC = () => {
     }
   };
 
+  const handleStudyAndClaim = async () => {
+    if (!result) return;
+
+    // Auto claim points if not verified
+    if (!verified) {
+      await handleVerify();
+    }
+
+    // Navigate to method detail (cleaned for AI potential messiness)
+    const rawRoute = (result.transformationRoute || '')
+      .replace(/['"]/g, '')
+      .trim()
+      .toLowerCase();
+
+    // IF AI FAILS TO PROVIDE ROUTE, GO TO LANDING INSTEAD OF GUESSING ORGANIC
+    const cleanRoute = ['organic', 'inorganic', 'b3', 'residu'].includes(rawRoute)
+      ? rawRoute
+      : '';
+
+    navigate(cleanRoute ? `/transformasi/${cleanRoute}` : '/transformasi');
+  };
+
+  const handleStudyWTE = async () => {
+    if (!result) return;
+
+    // Auto claim points if not verified (using unique ID for WTE study)
+    const wteActivityId = `wte_education_${result.materialType}_${Date.now()}`;
+    await addCredits(10, `Pakar: Mempelajari Potensi Energi ${result.materialType}`, wteActivityId);
+
+    // Navigate to WTE page
+    navigate('/wte');
+  };
+
   const handleReportIncorrect = async () => {
     if (result && !verified) {
       await addCredits(1, "Kontribusi Koreksi Data AI");
@@ -179,7 +213,7 @@ const Scanner: React.FC = () => {
                 </div>
               ) : (
                 <div className="relative w-full max-h-[400px] rounded-2xl overflow-hidden shadow-2xl group border-2 border-white/10 animate-in zoom-in duration-700 flex items-center justify-center bg-black/40">
-                  <img src={image} alt="Uploaded Material" className="w-full h-full object-contain grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000" />
+                  <img src={image} alt="Uploaded Material" className="w-full h-full object-contain opacity-100 group-hover:opacity-40 group-hover:grayscale transition-all duration-1000" />
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
                     <button
                       onClick={resetScanner}
@@ -258,6 +292,24 @@ const Scanner: React.FC = () => {
                       </div>
                       <p className="text-white text-[13px] leading-tight font-bold uppercase italic tracking-tight">{result.energyPotential}</p>
                     </div>
+
+                    {result.transformationRoute !== 'none' && (
+                      <>
+                        <button
+                          onClick={handleStudyAndClaim}
+                          className="w-full flex items-center justify-center gap-3 p-4 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 transition-all font-black text-[10px] uppercase tracking-widest text-[#4ade80] group/link"
+                        >
+                          <Leaf size={14} className="group-hover/link:rotate-12 transition-transform" /> Pelajari Metode Transformasi <ArrowRight size={14} />
+                        </button>
+
+                        <button
+                          onClick={handleStudyWTE}
+                          className="w-full flex items-center justify-center gap-3 p-4 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 transition-all font-black text-[10px] uppercase tracking-widest text-orange-400 group/link"
+                        >
+                          <Zap size={14} className="group-hover/link:scale-125 transition-transform" /> Pelajari Transformasi Energi <ArrowRight size={14} />
+                        </button>
+                      </>
+                    )}
                   </div>
 
                   <div className="pt-2 space-y-2">

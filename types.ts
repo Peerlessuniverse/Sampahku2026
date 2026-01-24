@@ -26,5 +26,6 @@ export interface WasteAnalysis {
   materialType: string;
   disposalInstructions: string;
   energyPotential: string;
+  transformationRoute: 'organic' | 'inorganic' | 'b3' | 'residu';
   confidence: number;
 }

@@ -37,8 +37,12 @@ export const loginWithGoogle = async (): Promise<UserProfile> => {
         localStorage.setItem(USER_KEY, JSON.stringify(userProfile));
         window.dispatchEvent(new CustomEvent('authChanged', { detail: { user: userProfile } }));
         return userProfile;
-    } catch (error) {
-        console.error("Auth Error:", error);
+    } catch (error: any) {
+        console.error("Firebase Auth Error Details:", {
+            code: error.code,
+            message: error.message,
+            stack: error.stack
+        });
         throw error;
     }
 };

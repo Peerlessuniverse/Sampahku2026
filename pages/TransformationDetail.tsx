@@ -969,20 +969,25 @@ const TransformationDetail: React.FC = () => {
   const [showTransition, setShowTransition] = React.useState(false);
   const [activeSponsor, setActiveSponsor] = React.useState<any>(null);
 
-  // Normalize ID (taking 'organic' from 'TransformasiSampahOrganik' if needed, 
-  // but let's assume we use /transformasi/organic format now)
-  const categoryId = id?.toLowerCase().includes('inorganic') ? 'inorganic' :
-    id?.toLowerCase().includes('organic') ? 'organic' :
-      id?.toLowerCase().includes('b3') ? 'b3' :
-        id?.toLowerCase().includes('residu') ? 'residu' : id || 'organic';
+  // Normalize ID with more flexibility
+  const rawId = id?.toLowerCase() || '';
+  const categoryId =
+    rawId.includes('inorganic') || rawId.includes('anorganic') || rawId.includes('anorganik') ? 'inorganic' :
+      rawId.includes('organic') || rawId.includes('organik') ? 'organic' :
+        rawId.includes('b3') || rawId.includes('bahaya') ? 'b3' :
+          rawId.includes('residu') || rawId.includes('residue') ? 'residu' : 'organic';
 
   const data = dataMap[categoryId as keyof typeof dataMap];
 
   if (!data) return (
     <div className="min-h-screen bg-[#022c22] flex items-center justify-center text-white p-6 text-center">
       <div>
-        <h1 className="text-4xl font-black mb-4 uppercase">Data Tidak Ditemukan</h1>
-        <button onClick={() => navigate('/transformasi')} className="text-[#4ade80] underline font-bold">Kembali ke Kategori</button>
+        <div className="w-20 h-20 bg-rose-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-rose-500">
+          <AlertTriangle size={40} />
+        </div>
+        <h1 className="text-4xl font-black mb-4 uppercase tracking-tighter">Sinyal Terdistorsi</h1>
+        <p className="text-white/40 font-bold mb-8 uppercase text-xs tracking-widest italic">Data Transformasi Terhapus di Blackhole</p>
+        <button onClick={() => navigate('/transformasi')} className="px-8 py-4 bg-white text-black font-black uppercase italic tracking-tighter rounded-2xl hover:scale-105 transition-all">Kembali ke Orbit</button>
       </div>
     </div>
   );

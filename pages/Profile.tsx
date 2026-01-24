@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     User, Award, Zap, ShieldCheck, TrendingUp, History,
     Settings, LogOut, ChevronRight, Star, Leaf, Globe,
-    MapPin, Calendar, Mail, Edit3, Camera
+    MapPin, Calendar, Mail, Edit3, Camera, RefreshCw
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, UserProfile as UserProfileType } from '../services/authService';
@@ -42,6 +42,14 @@ const Profile: React.FC = () => {
     const handleLogout = () => {
         logout();
         navigate('/');
+    };
+
+    const handleForceReset = () => {
+        if (window.confirm("DEBUG: Hapus semua data lokal dan logout?")) {
+            localStorage.clear();
+            logout();
+            window.location.href = '/';
+        }
     };
 
     const badges = [
@@ -101,6 +109,13 @@ const Profile: React.FC = () => {
                             </div>
 
                             <div className="pb-4 flex gap-4">
+                                <button
+                                    onClick={handleForceReset}
+                                    className="p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-rose-500/20 transition-all text-white/40 hover:text-rose-400"
+                                    title="Reset Debug Data"
+                                >
+                                    <RefreshCw size={20} />
+                                </button>
                                 <button
                                     className="p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all text-white/60 hover:text-white"
                                     title="Pengaturan Akun"

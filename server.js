@@ -20,15 +20,11 @@ app.use((req, res, next) => {
     next();
 });
 
-// Serve static files from the Vite build directory
 const distPath = path.join(__dirname, 'dist');
 app.use(express.static(distPath));
 
 function getApiKey() {
-    // Priority 1: Environment Variable (for Production)
     if (process.env.VITE_GEMINI_API_KEY) return process.env.VITE_GEMINI_API_KEY;
-
-    // Priority 2: .env.local (for Local Development)
     try {
         const envPath = path.join(process.cwd(), '.env.local');
         if (fs.existsSync(envPath)) {
@@ -48,15 +44,15 @@ const API_KEY = getApiKey();
 const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
 
 app.post('/api/analyze', async (req, res) => {
-    if (!genAI) return res.status(500).json({ error: "Server: API Key tidak terbaca." });
+    if (!genAI) return res.status(500).json({ error: "Server Error: API Key tidak terbaca." });
 
     const { image } = req.body;
     if (!image) return res.status(400).json({ error: "Gambar kosong" });
 
     const modelsToTry = [
+        "gemini-1.5-flash",
         "gemini-2.0-flash-exp",
-        "gemini-2.5-flash",
-        "gemini-2.0-flash"
+        "gemini-1.5-pro"
     ];
 
     let lastError = "";
@@ -67,24 +63,45 @@ app.post('/api/analyze', async (req, res) => {
             const model = genAI.getGenerativeModel({ model: modelName });
 
             const result = await model.generateContent([
-                "Analisis sampah ini. Harus JSON mentah: {\"isRecyclable\": boolean, \"materialType\": \"Plastic/Paper/Organic/Metal/E-Waste/Residue\", \"disposalInstructions\": \"string\", \"energyPotential\": \"string\", \"confidence\": number}. Bahasa Indonesia.",
+                `ANDA ADALAH: Master Radar AI - Inti Kesadaran Ekosistem SampahKu.
+                PROTOKOL ANALISIS (Gunakan JSON murni tanpa markdown):
+                {
+                  "isRecyclable": boolean,
+                  "materialType": "Plastic/Paper/Organic/Metal/E-Waste/Residue/Human/Non-Waste",
+                  "disposalInstructions": "Instruksi/Jokes spesifik",
+                  "energyPotential": "Narasi potensi",
+                  "transformationRoute": "organic|inorganic|b3|residu|none",
+                  "confidence": number
+                }
+                
+                JIKA MANUSIA: Gunakan jokes "Sampah Masyarakat & Polisi".
+                JIKA BUKAN SAMPAH: Set route 'none'.`,
                 { inlineData: { mimeType: "image/jpeg", data: image } }
             ]);
 
             const text = result.response.text();
-            const cleanJson = text.replace(/```json/g, "").replace(/```/g, "").trim();
+            console.log("AI Response Raw:", text);
+
+            const startIdx = text.indexOf('{');
+            const endIdx = text.lastIndexOf('}');
+
+            if (startIdx === -1 || endIdx === -1) {
+                throw new Error("Format JSON tidak ditemukan dalam respon AI.");
+            }
+
+            const cleanJson = text.substring(startIdx, endIdx + 1);
             return res.json(JSON.parse(cleanJson));
 
         } catch (err) {
+            console.error(`Error dengan model ${modelName}:`, err.message);
             lastError = err.message;
         }
     }
 
-    res.status(500).json({ error: "Gagal: " + lastError });
+    res.status(500).json({ error: "Radar Gagal: " + lastError });
 });
 
-// Handle SPA routing: send index.html for any unknown routes
-app.get('*', (req, res) => {
+app.use((req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
 });
 

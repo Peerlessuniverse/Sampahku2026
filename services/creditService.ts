@@ -63,7 +63,7 @@ export const addCredits = async (amount: number, description: string, activityId
     // Sync to Cloud if authenticated
     const user = getCurrentUser();
     if (user) {
-        updateUserCredits(user.uid, amount, description, activityId);
+        await updateUserCredits(user.uid, amount, description, activityId);
     }
 
     window.dispatchEvent(new CustomEvent('creditsUpdated', { detail: { credits: newValue, transaction } }));
