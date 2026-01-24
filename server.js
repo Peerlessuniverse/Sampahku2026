@@ -163,19 +163,22 @@ app.use((req, res) => {
         // RADAR DYNAMIC INJECTION: Menyuntikkan API Key secara dinamis saat halaman dimuat
         let html = fs.readFileSync(indexPath, 'utf8');
 
+        const firebaseApiKey = process.env.VITE_FIREBASE_API_KEY || "AIzaSyCqLvs1Oa0fjghLgVsBjIyWfUQku9AhsKQ";
+        const geminiApiKey = process.env.VITE_GEMINI_API_KEY || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
+
         const runtimeConfig = `
         <script>
             window.RADAR_CONFIG = {
-                VITE_FIREBASE_API_KEY: "${process.env.VITE_FIREBASE_API_KEY || ''}",
-                VITE_FIREBASE_AUTH_DOMAIN: "${process.env.VITE_FIREBASE_AUTH_DOMAIN || ''}",
-                VITE_FIREBASE_PROJECT_ID: "${process.env.VITE_FIREBASE_PROJECT_ID || ''}",
-                VITE_FIREBASE_STORAGE_BUCKET: "${process.env.VITE_FIREBASE_STORAGE_BUCKET || ''}",
-                VITE_FIREBASE_MESSAGING_SENDER_ID: "${process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || ''}",
-                VITE_FIREBASE_APP_ID: "${process.env.VITE_FIREBASE_APP_ID || ''}",
-                VITE_FIREBASE_MEASUREMENT_ID: "${process.env.VITE_FIREBASE_MEASUREMENT_ID || ''}",
-                VITE_GEMINI_API_KEY: "${process.env.VITE_GEMINI_API_KEY || ''}"
+                VITE_FIREBASE_API_KEY: "${firebaseApiKey}",
+                VITE_FIREBASE_AUTH_DOMAIN: "${process.env.VITE_FIREBASE_AUTH_DOMAIN || 'sampahku2026.firebaseapp.com'}",
+                VITE_FIREBASE_PROJECT_ID: "${process.env.VITE_FIREBASE_PROJECT_ID || 'sampahku2026'}",
+                VITE_FIREBASE_STORAGE_BUCKET: "${process.env.VITE_FIREBASE_STORAGE_BUCKET || 'sampahku2026.firebasestorage.app'}",
+                VITE_FIREBASE_MESSAGING_SENDER_ID: "${process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '776475826770'}",
+                VITE_FIREBASE_APP_ID: "${process.env.VITE_FIREBASE_APP_ID || '1:776475826770:web:e874257466f2f0324ddd8b'}",
+                VITE_FIREBASE_MEASUREMENT_ID: "${process.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-FCG2XK0FF3'}",
+                VITE_GEMINI_API_KEY: "${geminiApiKey}"
             };
-            console.log("📡 Radar Dynamic Config: Injected Successfully");
+            console.log("📡 Radar Security: Master Key Active");
         </script>
         `;
 
