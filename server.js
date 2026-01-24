@@ -157,12 +157,16 @@ app.post('/api/analyze', async (req, res) => {
     res.status(500).json({ error: "Radar Gagal: " + lastError });
 });
 
-app.use((req, res) => {
+app.get('*', (req, res) => {
+    // Skip API routes if any were missed
+    if (req.path.startsWith('/api')) return next();
+
     const indexPath = path.join(distPath, 'index.html');
     if (fs.existsSync(indexPath)) {
         // RADAR DYNAMIC INJECTION: Menyuntikkan API Key secara dinamis saat halaman dimuat
         let html = fs.readFileSync(indexPath, 'utf8');
 
+        // Capture from environment or use master fallbacks
         const firebaseApiKey = process.env.VITE_FIREBASE_API_KEY || "AIzaSyCqLvs1Oa0fjghLgVsBjIyWfUQku9AhsKQ";
         const geminiApiKey = process.env.VITE_GEMINI_API_KEY || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
 
@@ -176,25 +180,28 @@ app.use((req, res) => {
                 VITE_FIREBASE_MESSAGING_SENDER_ID: "${process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '776475826770'}",
                 VITE_FIREBASE_APP_ID: "${process.env.VITE_FIREBASE_APP_ID || '1:776475826770:web:e874257466f2f0324ddd8b'}",
                 VITE_FIREBASE_MEASUREMENT_ID: "${process.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-FCG2XK0FF3'}",
-                VITE_GEMINI_API_KEY: "${geminiApiKey}"
+                VITE_GEMINI_API_KEY: "${geminiApiKey}",
+                VITE_ENV: "production"
             };
-            console.log("📡 Radar Security: Master Key Active");
+            console.log("📡 Radar Security: Master Key Active (" + window.location.hostname + ")");
         </script>
         `;
 
-        // Sisipkan script config tepat sebelum </head>
-        html = html.replace('</head>', `${runtimeConfig}</head>`);
+        // Inject config BEFORE any other scripts to ensure it's available
+        html = html.replace('<head>', `<head>${runtimeConfig}`);
 
+        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
         res.send(html);
     } else {
         res.status(404).send(`
-            <div style="font-family: sans-serif; padding: 20px; background: #02020a; color: #fff; height: 100vh;">
-                <h1 style="color: #ef4444;">📡 Radar Error: Terminal Offline</h1>
-                <p>File 'index.html' tidak ditemukan di direktori build.</p>
-                <hr style="border: 1px solid #1e1b4b;">
-                <p><b>Path:</b> ${indexPath}</p>
-                <p><b>Unit Status:</b> Backend Online, Frontend Hilang.</p>
-                <p>Pastikan 'npm run build' berhasil dijalankan sebelum memulai server.</p>
+            <div style="font-family: sans-serif; padding: 40px; background: #02020a; color: #fff; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                <h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 20px;">📡 Radar Error: Terminal Offline</h1>
+                <p style="font-size: 1.2rem; color: #94a3b8;">File 'index.html' tidak ditemukan di direktori build.</p>
+                <div style="margin-top: 30px; padding: 20px; background: #1e1b4b; border-radius: 12px; text-align: left; width: 100%; max-width: 600px;">
+                    <p><b>Path:</b> ${indexPath}</p>
+                    <p><b>Unit Status:</b> Backend Online, Frontend Hilang.</p>
+                </div>
+                <p style="margin-top: 20px; color: #4ade80;">Pastikan 'npm run build' berhasil dijalankan.</p>
             </div>
         `);
     }
