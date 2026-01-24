@@ -33,7 +33,7 @@ app.get('/health', (req, res) => {
         const allEnvKeys = Object.keys(process.env);
         const viteEnv = {};
         allEnvKeys.forEach(key => {
-            if (key.startsWith('VITE_') || key.includes('KEY')) {
+            if (key.includes('VITE') || key.includes('API') || key.includes('KEY') || key.includes('GEMINI') || key.includes('FIREBASE')) {
                 const val = process.env[key] || "";
                 viteEnv[key] = val ? `DITETAPKAN (Panjang: ${val.length})` : "KOSONG/UNDEFINED";
             }
@@ -160,7 +160,29 @@ app.post('/api/analyze', async (req, res) => {
 app.use((req, res) => {
     const indexPath = path.join(distPath, 'index.html');
     if (fs.existsSync(indexPath)) {
-        res.sendFile(indexPath);
+        // RADAR DYNAMIC INJECTION: Menyuntikkan API Key secara dinamis saat halaman dimuat
+        let html = fs.readFileSync(indexPath, 'utf8');
+
+        const runtimeConfig = `
+        <script>
+            window.RADAR_CONFIG = {
+                VITE_FIREBASE_API_KEY: "${process.env.VITE_FIREBASE_API_KEY || ''}",
+                VITE_FIREBASE_AUTH_DOMAIN: "${process.env.VITE_FIREBASE_AUTH_DOMAIN || ''}",
+                VITE_FIREBASE_PROJECT_ID: "${process.env.VITE_FIREBASE_PROJECT_ID || ''}",
+                VITE_FIREBASE_STORAGE_BUCKET: "${process.env.VITE_FIREBASE_STORAGE_BUCKET || ''}",
+                VITE_FIREBASE_MESSAGING_SENDER_ID: "${process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || ''}",
+                VITE_FIREBASE_APP_ID: "${process.env.VITE_FIREBASE_APP_ID || ''}",
+                VITE_FIREBASE_MEASUREMENT_ID: "${process.env.VITE_FIREBASE_MEASUREMENT_ID || ''}",
+                VITE_GEMINI_API_KEY: "${process.env.VITE_GEMINI_API_KEY || ''}"
+            };
+            console.log("📡 Radar Dynamic Config: Injected Successfully");
+        </script>
+        `;
+
+        // Sisipkan script config tepat sebelum </head>
+        html = html.replace('</head>', `${runtimeConfig}</head>`);
+
+        res.send(html);
     } else {
         res.status(404).send(`
             <div style="font-family: sans-serif; padding: 20px; background: #02020a; color: #fff; height: 100vh;">
