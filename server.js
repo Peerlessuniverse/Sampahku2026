@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // RADAR VERSION TAG
-const RADAR_VERSION = "2.0.5-VIBRANIUM";
+const RADAR_VERSION = "2.0.6-VIBRANIUM-XT";
 console.log(`[SYS] Initializing RADAR ENGINE ${RADAR_VERSION}...`);
 
 // Health check endpoint
@@ -44,7 +44,9 @@ app.get('/health', (req, res) => {
 app.use(express.static(distPath));
 
 function getApiKey() {
-    return process.env.VITE_GEMINI_API_KEY || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
+    const key = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    console.log(`[SYS] API Key Detection: ${key ? "FOUND (Length: " + key.length + ")" : "MISSING!"}`);
+    return key || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM"; // Hardcoded fallback for emergency
 }
 
 const API_KEY = getApiKey();
@@ -54,15 +56,19 @@ app.post('/api/analyze', async (req, res) => {
     const { image } = req.body;
     if (!image) return res.status(400).json({ error: "Gambar kosong" });
 
-    // Gunakan penamaan lengkap (models/...) untuk menghindari 404 di beberapa region
+    // Coba model paling umum dengan dan tanpa prefix 'models/'
     const modelsToTry = [
+        "gemini-1.5-flash",
         "models/gemini-1.5-flash",
-        "models/gemini-1.5-flash-8b",
-        "models/gemini-2.0-flash-exp",
-        "models/gemini-1.5-pro"
+        "gemini-1.5-flash-8b",
+        "gemini-2.0-flash-exp"
     ];
 
     let attemptHistory = [];
+
+    if (API_KEY.includes("AIza") === false) {
+        return res.status(500).json({ error: "Invalid API Key Format detected." });
+    }
 
     for (const modelName of modelsToTry) {
         try {
@@ -90,7 +96,9 @@ app.post('/api/analyze', async (req, res) => {
                 }
             ]);
 
-            const text = result.response.text();
+            const response = await result.response;
+            const text = response.text();
+
             const startIdx = text.indexOf('{');
             const endIdx = text.lastIndexOf('}');
 
@@ -100,7 +108,7 @@ app.post('/api/analyze', async (req, res) => {
                 console.log(`[RADAR] ${modelName} Success!`);
                 return res.json(parsed);
             }
-            throw new Error("Invalid AI Response Payload");
+            throw new Error("Invalid AI Response Payload format from " + modelName);
 
         } catch (err) {
             console.error(`[RADAR] ${modelName} Failed:`, err.message);
@@ -111,7 +119,7 @@ app.post('/api/analyze', async (req, res) => {
     res.status(500).json({
         error: `Radar Failure [${RADAR_VERSION}]`,
         details: attemptHistory,
-        suggestion: "Periksa kuota API Key atau format gambar."
+        suggestion: "Mungkin gambar terlalu gelap atau API Key bermasalah."
     });
 });
 

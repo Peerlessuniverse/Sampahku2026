@@ -20,7 +20,10 @@ export const analyzeWasteImage = async (base64Image: string): Promise<WasteAnaly
     }
 
     const errorData = await response.json().catch(() => ({ error: "Gagal membaca detail error" }));
-    const specificError = errorData.error || `Error status: ${response.status}`;
+    let specificError = errorData.error || `Error status: ${response.status}`;
+    if (errorData.details && Array.isArray(errorData.details)) {
+      specificError += "\n" + errorData.details.join("\n");
+    }
     console.warn(`Radar: Unit ${ENDPOINT} merespon error:`, specificError);
     throw new Error(specificError);
 

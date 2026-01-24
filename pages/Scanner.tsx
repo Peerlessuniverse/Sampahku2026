@@ -288,14 +288,21 @@ const Scanner: React.FC = () => {
                   </div>
                 </div>
               ) : error ? (
-                <div className="text-center space-y-10 animate-in zoom-in duration-500">
-                  <div className="p-10 bg-rose-500/10 rounded-[3rem] border-4 border-rose-500/20 shadow-2xl">
-                    <AlertCircle size={64} className="text-rose-500 mx-auto mb-8" />
-                    <p className="text-white font-black text-2xl leading-tight tracking-tight uppercase">{error}</p>
+                <div className="text-center space-y-6 animate-in zoom-in duration-500 overflow-y-auto max-h-[500px] p-4">
+                  <div className="p-8 bg-rose-500/10 rounded-[3rem] border-4 border-rose-500/20 shadow-2xl">
+                    <AlertCircle size={48} className="text-rose-500 mx-auto mb-6" />
+                    <p className="text-white font-black text-xl leading-tight tracking-tight uppercase mb-4">{error}</p>
+                    {/* Detailed Log display for debugging */}
+                    <div className="text-left bg-black/40 rounded-2xl p-4 border border-rose-500/10">
+                      <p className="text-[8px] font-black text-rose-400 uppercase tracking-widest mb-2">Diagnostic Log:</p>
+                      <pre className="text-[10px] text-white/40 font-mono whitespace-pre-wrap break-all leading-tight">
+                        {error.includes('[') ? 'Cek detail di log browser/jaringan' : 'Menghubungi pusat data...'}
+                      </pre>
+                    </div>
                   </div>
                   <button
                     onClick={resetScanner}
-                    className="w-full py-6 bg-white/5 rounded-2xl font-black text-white hover:bg-white/10 transition-all uppercase tracking-widest border-2 border-white/5"
+                    className="w-full py-5 bg-white/5 rounded-2xl font-black text-white hover:bg-white/10 transition-all uppercase tracking-widest border-2 border-white/5"
                   >
                     Ulangi Pemindaian
                   </button>
