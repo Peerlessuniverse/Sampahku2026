@@ -27,6 +27,9 @@ app.get('/health', (req, res) => {
         const distExists = fs.existsSync(distPath);
         const distFiles = distExists ? fs.readdirSync(distPath) : ["DIST NOT FOUND"];
 
+        const assetsPath = path.join(distPath, 'assets');
+        const assetsFiles = fs.existsSync(assetsPath) ? fs.readdirSync(assetsPath) : ["ASSETS NOT FOUND"];
+
         res.json({
             status: 'Radar AI Backend: ONLINE 🚀',
             timestamp: new Date().toISOString(),
@@ -36,6 +39,7 @@ app.get('/health', (req, res) => {
             distExists: distExists,
             filesInRoot: rootFiles,
             filesInDist: distFiles,
+            filesInAssets: assetsFiles,
             env: {
                 NODE_ENV: process.env.NODE_ENV,
                 VITE_ENV: process.env.VITE_ENV,
