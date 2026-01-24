@@ -21,6 +21,15 @@ app.use((req, res, next) => {
 });
 
 const distPath = path.join(__dirname, 'dist');
+
+// Log the resolution path for debugging in production
+console.log(`Checking build directory: ${distPath}`);
+if (fs.existsSync(distPath)) {
+    console.log("✅ Build directory found.");
+} else {
+    console.error("❌ ERROR: Build directory 'dist' NOT FOUND!");
+}
+
 app.use(express.static(distPath));
 
 function getApiKey() {
