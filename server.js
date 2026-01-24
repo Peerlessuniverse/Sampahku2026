@@ -30,6 +30,15 @@ app.get('/health', (req, res) => {
         const assetsPath = path.join(distPath, 'assets');
         const assetsFiles = fs.existsSync(assetsPath) ? fs.readdirSync(assetsPath) : ["ASSETS NOT FOUND"];
 
+        const viteEnv = {};
+        Object.keys(process.env).forEach(key => {
+            if (key.startsWith('VITE_')) {
+                const val = process.env[key] || "";
+                // Jangan tampilkan isi Key-nya, cuma status ada dan panjangnya saja buat debug
+                viteEnv[key] = val ? `DITETAPKAN (Panjang: ${val.length})` : "KOSONG/UNDEFINED";
+            }
+        });
+
         res.json({
             status: 'Radar AI Backend: ONLINE 🚀',
             timestamp: new Date().toISOString(),
@@ -40,9 +49,9 @@ app.get('/health', (req, res) => {
             filesInRoot: rootFiles,
             filesInDist: distFiles,
             filesInAssets: assetsFiles,
-            env: {
+            envVars: viteEnv,
+            system: {
                 NODE_ENV: process.env.NODE_ENV,
-                VITE_ENV: process.env.VITE_ENV,
                 PORT: process.env.PORT
             }
         });
