@@ -44,7 +44,7 @@ app.get('/health', (req, res) => {
 app.use(express.static(distPath));
 
 function getApiKey() {
-    return process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
+    return process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
 }
 
 const API_KEY = getApiKey();
@@ -136,7 +136,7 @@ app.get('*', (req, res) => {
         let html = fs.readFileSync(indexPath, 'utf8');
 
         const firebaseApiKey = process.env.VITE_FIREBASE_API_KEY || "AIzaSyCqLvs1Oa0fjghLgVsBjIyWfUQku9AhsKQ";
-        const geminiApiKey = process.env.VITE_GEMINI_API_KEY || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
+        const geminiApiKey = process.env.VITE_GEMINI_API_KEY || "";
 
         const runtimeConfig = `
         <script>
