@@ -9,32 +9,30 @@ env:
   - variable: VITE_ENV
     value: "production"
     availability: ["BUILD", "RUNTIME"]
-  - variable: VITE_FIREBASE_API_KEY
-    value: "AIzaSyB68BfuL01yOKga-16UZJtxMfH997Gni0E"
-    availability: ["BUILD", "RUNTIME"]
-  - variable: VITE_FIREBASE_AUTH_DOMAIN
-    value: "sampahku2026.firebaseapp.com"
-    availability: ["BUILD", "RUNTIME"]
-  - variable: VITE_FIREBASE_PROJECT_ID
-    value: "sampahku2026"
-    availability: ["BUILD", "RUNTIME"]
-  - variable: VITE_FIREBASE_STORAGE_BUCKET
-    value: "sampahku2026.firebasestorage.app"
-    availability: ["BUILD", "RUNTIME"]
-  - variable: VITE_FIREBASE_MESSAGING_SENDER_ID
-    value: "776475826770"
-    availability: ["BUILD", "RUNTIME"]
-  - variable: VITE_FIREBASE_APP_ID
-    value: "1:776475826770:web:e874257466f2f0324ddd8b"
-    availability: ["BUILD", "RUNTIME"]
-  - variable: VITE_FIREBASE_MEASUREMENT_ID
-    value: "G-FCG2XK0FF3"
-    availability: ["BUILD", "RUNTIME"]
 
-# AKTIFKAN KEMBALI SECRETS
+# PINDAHKAN API KEY KE SECRETS (Harus di-set di Firebase Console)
 secrets:
   - variable: VITE_GEMINI_API_KEY
     secret: GEMINI_API_KEY
+  - variable: VITE_FIREBASE_API_KEY
+    secret: FIREBASE_API_KEY
+
+# Variabel berikut sebaiknya di-set lewat Dashboard Firebase App Hosting 
+# atau dibiarkan di sini TANPA value jika repo ini publik.
+# Saya hapus value-nya agar tidak kena flag scanner Google lagi.
+env:
+  - variable: VITE_FIREBASE_AUTH_DOMAIN
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_PROJECT_ID
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_STORAGE_BUCKET
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_MESSAGING_SENDER_ID
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_APP_ID
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_MEASUREMENT_ID
+    availability: ["BUILD", "RUNTIME"]
 
 scripts:
   buildCommand: "npm run build"
