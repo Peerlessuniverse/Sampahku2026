@@ -417,7 +417,7 @@ const Home: React.FC = () => {
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-8">
               <button
-                onClick={() => window.open("https://utas.me/lp/tokosampah/3-hari-menghilangkan-bau-sampah-dapur", "_blank", "noopener,noreferrer")}
+                onClick={() => window.location.href = "/landing3harisampah.html"}
                 className="px-12 py-5 bg-white text-[#1a1b4b] rounded-[2rem] font-black text-xl hover:scale-110 active:scale-95 transition-all shadow-3xl shadow-violet-500/20 uppercase tracking-tighter italic cursor-pointer"
               >
                 Dapatkan Akses

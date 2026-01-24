@@ -456,7 +456,7 @@ const Scanner: React.FC = () => {
 
         <div className="flex flex-col items-center">
           <button
-            onClick={() => window.open("https://utas.me/lp/tokosampah/3-hari-menghilangkan-bau-sampah-dapur", "_blank", "noopener,noreferrer")}
+            onClick={() => window.location.href = "/landing3harisampah.html"}
             className="inline-flex items-center gap-4 bg-white text-[#064e3b] font-black px-10 py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_60px_rgba(74,222,128,0.1)] uppercase tracking-tighter text-xl italic group cursor-pointer"
           >
             Dapatkan Akses <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
