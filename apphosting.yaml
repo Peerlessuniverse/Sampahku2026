@@ -32,8 +32,10 @@ env:
 secrets:
   - variable: VITE_GEMINI_API_KEY
     secret: GEMINI_API_KEY
+    availability: ["BUILD", "RUNTIME"]
   - variable: VITE_FIREBASE_API_KEY
     secret: FIREBASE_API_KEY
+    availability: ["BUILD", "RUNTIME"]
 
 scripts:
   buildCommand: "npm run build"
