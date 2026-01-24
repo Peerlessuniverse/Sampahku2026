@@ -9,6 +9,27 @@ env:
   - variable: VITE_ENV
     value: "production"
     availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_API_KEY
+    value: "AIzaSyB68BfuL01yOKga-16UZJtxMfH997Gni0E"
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_AUTH_DOMAIN
+    value: "sampahku2026.firebaseapp.com"
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_PROJECT_ID
+    value: "sampahku2026"
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_STORAGE_BUCKET
+    value: "sampahku2026.firebasestorage.app"
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_MESSAGING_SENDER_ID
+    value: "776475826770"
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_APP_ID
+    value: "1:776475826770:web:e874257466f2f0324ddd8b"
+    availability: ["BUILD", "RUNTIME"]
+  - variable: VITE_FIREBASE_MEASUREMENT_ID
+    value: "G-FCG2XK0FF3"
+    availability: ["BUILD", "RUNTIME"]
 
 # AKTIFKAN KEMBALI SECRETS
 secrets:
