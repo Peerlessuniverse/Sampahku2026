@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>3 Hari Bebas Bau Sampah | SampahKu Cosmic Protocol</title>
+    <meta name="description"
+        content="Ubah dapurmu menjadi ruang harmonis tanpa bau busuk dalam 3 hari. Download checklist gratis dari SampahKu." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #02020a;
+            --card: rgba(255, 255, 255, 0.03);
+            --muted: #94a3b8;
+            --text: #ffffff;
+            --accent: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.3);
+            --cyan: #22d3ee;
+            --rose: #f43f5e;
+            --emerald: #10b981;
+            --warn: #fbbf24;
+            --stroke: rgba(255, 255, 255, 0.08);
+            --shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            --radius: 2.5rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Cosmic Background Elements */
+        .cosmic-blob {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .galactic-pulse {
+            position: fixed;
+            top: 20%;
+            left: -10%;
+            width: 60%;
+            height: 60%;
+            background: 径向渐变(circle at 50% 50%, rgba(139, 92, 246, 0.05), transparent 70%);
+            filter: blur(80px);
+            z-index: -1;
+            animation: pulse 10s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem 8rem;
+            position: relative;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            font-style: italic;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .badge-premium {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            padding: 8px 16px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: var(--accent);
+            border-radius: 999px;
+            font-style: italic;
+        }
+
+        /* Hero Layout */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (max-width: 960px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .pillrow {
+                justify-content: center;
+            }
+
+            .cta-group {
+                justify-content: center;
+            }
+
+            .bullets-card {
+                margin-top: 2rem;
+            }
+        }
+
+        .glass-panel {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
+            padding: 3.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 900;
+            line-height: 0.95;
+            margin: 0 0 1.5rem;
+            letter-spacing: -4px;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+
+        h1 mark {
+            background: none;
+            color: var(--accent);
+        }
+
+        .description {
+            font-size: 1.25rem;
+            color: var(--muted);
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            max-width: 60ch;
+        }
+
+        .pillrow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 3rem;
+        }
+
+        .pill {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--stroke);
+            border-radius: 999px;
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .btn-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1.25rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            color: white;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            font-style: italic;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px var(--accent-glow);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            letter-spacing: -0.5px;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-5px) scale(1.02);
+            filter: brightness(1.2);
+            box-shadow: 0 30px 60px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 1rem;
+            transition: color 0.3s;
+        }
+
+        .btn-secondary:hover {
+            color: white;
+        }
+
+        /* Features/Benefits */
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .benefit-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--stroke);
+            border-radius: 2rem;
+            padding: 2rem;
+            transition: border 0.3s;
+        }
+
+        .benefit-card:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .benefit-card h3 {
+            font-size: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0 0 0.75rem;
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .benefit-card p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Sidebar Steps */
+        .bullets-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px solid var(--stroke);
+            border-radius: 3rem;
+            padding: 3rem;
+        }
+
+        .bullets-card h2 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-style: italic;
+            margin: 0 0 2rem;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 12px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .step-content b {
+            color: var(--text);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .step-content p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--stroke);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Notice Box */
+        .notice-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2.5rem;
+            font-size: 0.9rem;
+            color: var(--emerald);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        svg {
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cosmic-blob"></div>
+    <div class="galactic-pulse"></div>
+
+    <div class="wrap">
+        <nav class="navbar">
+            <div class="brand">Sampah<span>Ku.</span></div>
+            <div class="badge-premium">E-Book Manifestation</div>
+        </nav>
+
+        <main class="hero">
+            <section class="glass-panel">
+                <h1>Bersihkan Dapurmu <br> <mark>Tanpa Bau Busuk.</mark></h1>
+
+                <p class="description">
+                    Bosan dengan bau sampah yang mengganggu jiwa? Dapatkan <b>"Protokol 3 Hari SampahKu"</b> — checklist
+                    rahasia untuk mengubah limbah organik menjadi harmoni tanpa alat mahal.
+                </p>
+
+                <div class="pillrow">
+                    <div class="pill">✨ 100% Gratis</div>
+                    <div class="pill">⚡ Kilat - 1 Menit</div>
+                    <div class="pill">🏠 Untuk Rumah Tangga</div>
+                    <div class="pill">🧪 Nol Kimia Berbahaya</div>
+                </div>
+
+                <div class="notice-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
+                    <div>
+                        <b>Alur Transmisi:</b> Klik tombol WhatsApp → Kirim pesan otomatis → Amankan link manifestasi di
+                        balasan.
+                    </div>
+                </div>
+
+                <div class="cta-group">
+                    <a id="btnWa" class="btn-main" href="#">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                        Amankan Panduan Via WhatsApp
+                    </a>
+                    <a href="#cara" class="btn-secondary">Lihat Cara Kerja</a>
+                </div>
+
+                <div class="benefit-grid">
+                    <div class="benefit-card">
+                        <h3>Penyebab Root</h3>
+                        <p>Pahami kenapa materi organik menjadi mesin bau dalam sekejap.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>Prinsip PKK</h3>
+                        <p>Pisahkan, Keringkan, Perlakukan. Sistem sederhana tanpa jargon rumit.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>Hasil Nyata</h3>
+                        <p>Dapur segar, jiwa tenang. Transformasi nyata dalam 72 jam.</p>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="bullets-card" id="cara">
+                <h2>Protokol Akses</h2>
+                <div class="step-list">
+                    <div class="step-item">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+                            <b>Inisiasi</b>
+                            <p>Klik tombol untuk terhubung dengan pusat data WhatsApp SampahKu.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+                            <b>Kirim Sinyal</b>
+                            <p>Kirim pesan otomatis yang sudah kami siapkan di ponselmu.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+                            <b>Eksfiltrasi Data</b>
+                            <p>Terima balasan berisi link eksklusif menuju form download.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+                            <b>Manifestasi</b>
+                            <p>Isi form singkat dan checklist 3 Hari jatuh ke tanganmu.</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <footer class="footer">
+            <div>© <span id="year"></span> SampahKu Cosmic Protocol</div>
+            <div>Bukan Sekadar Olah Limbah, Tapi Tata Jiwa</div>
+        </footer>
+    </div>
+
+    <script>
+        const WA_NUMBER = "6285156298035";
+        const WA_PREFILL_TEXT = "Halo SampahKu! Saya ingin mengamankan E-Book 'Protokol 3 Hari Bebas Bau' sekarang. 🙏";
+
+        const waUrl = `https://api.whatsapp.com/send/?phone=${WA_NUMBER}&text=${encodeURIComponent(WA_PREFILL_TEXT)}&type=phone_number&app_absent=0`;
+
+        document.getElementById("btnWa").href = waUrl;
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        localStorage.setItem("sampahku_marketing_source", "landing_ebook");
+    </script>
+</body>
+
+</html>
