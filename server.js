@@ -106,10 +106,10 @@ app.post('/api/analyze', async (req, res) => {
     if (!image) return res.status(400).json({ error: "Gambar kosong" });
 
     const modelsToTry = [
+        "gemini-2.0-flash-exp", // Yang paling gress dan stabil
         "gemini-1.5-flash",
-        "gemini-1.5-flash-latest",
-        "gemini-1.5-pro",
-        "gemini-1.5-pro-latest"
+        "gemini-1.5-flash-8b",  // Cadangan super stabil
+        "gemini-1.5-pro"
     ];
 
     let lastError = "";
