@@ -93,7 +93,7 @@ function getApiKey() {
             }
         }
     } catch (e) { }
-    return "";
+    return "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM"; // Master Fallback Key
 }
 
 const API_KEY = getApiKey();
