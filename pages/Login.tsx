@@ -42,7 +42,7 @@ const Login: React.FC = () => {
         setTimeout(() => {
             if (role === 'admin') {
                 // Root admin remains with hardcoded credentials for simplicity in this demo
-                if (username === 'admin' && password === 'admin123') {
+                if (username === 'Uko_Scavengers' && password === '0xB91C3dFc90085E8fb95b6Da478f29D31A1b959E6') {
                     localStorage.setItem('auth_role', 'admin');
                     navigate('/admin/portal');
                 } else {

@@ -26,8 +26,8 @@ export const getStoredSponsors = (): SponsorData[] => {
     const defaultSponsors: SponsorData[] = [
         {
             id: 'sampahku-original',
-            username: 'sponsor',
-            password: 'sponsor123',
+            username: 'Sponsor_Brands',
+            password: 'Maudaftariklan1tahun###',
             name: 'SampahKu Premium',
             tagline: 'Eco-System Discovery',
             message: 'Membuka Jalur Energi Baru Untuk Bumi',
