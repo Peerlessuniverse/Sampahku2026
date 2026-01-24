@@ -435,21 +435,21 @@ const CarbonCalculator: React.FC<{ isStandalone?: boolean }> = ({ isStandalone =
 
                             <div className="relative z-10 space-y-4">
                                 <h2 className="text-[10px] font-black uppercase tracking-[0.8em] text-cyan-400 mb-8">Hasil Manifestasi Kosmik</h2>
-                                <div className="flex items-baseline justify-center gap-4">
-                                    <span className="text-[8rem] md:text-[14rem] font-black tracking-tighter text-white leading-none drop-shadow-[0_0_60px_rgba(34,211,238,0.3)]">
+                                <div className="flex flex-col md:flex-row items-center md:items-baseline justify-center gap-2 md:gap-4">
+                                    <span className="text-7xl md:text-[14rem] font-black tracking-tighter text-white leading-none drop-shadow-[0_0_60px_rgba(34,211,238,0.3)]">
                                         {(emissions.total / 1000).toFixed(1)}
                                     </span>
-                                    <div className="text-left">
-                                        <span className="text-4xl md:text-6xl font-black text-cyan-400 block italic leading-none">TON</span>
+                                    <div className="text-center md:text-left">
+                                        <span className="text-2xl md:text-6xl font-black text-cyan-400 block italic leading-none">TON</span>
                                         <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Karbon / Tahun</span>
                                     </div>
                                 </div>
 
-                                <div className="inline-flex items-center gap-4 px-10 py-5 rounded-full bg-white text-black font-black uppercase tracking-widest text-sm italic shadow-2xl mt-12 hover:scale-105 transition-transform">
+                                <div className="inline-flex items-center gap-3 md:gap-4 px-6 md:px-10 py-4 md:py-5 rounded-full bg-white text-black font-black uppercase tracking-widest text-xs md:text-sm italic shadow-2xl mt-12 hover:scale-105 transition-transform">
                                     {emissions.total < indonesianAverage ? (
-                                        <><Award size={24} /> Pamor Pelindung Langit</>
+                                        <><Award size={20} className="md:w-6 md:h-6" /> Pamor Pelindung Langit</>
                                     ) : (
-                                        <><AlertTriangle size={24} /> Beban Atmosfer Tinggi</>
+                                        <><AlertTriangle size={20} className="md:w-6 md:h-6" /> Beban Atmosfer Tinggi</>
                                     )}
                                 </div>
                             </div>
