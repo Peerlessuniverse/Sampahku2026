@@ -2,7 +2,15 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { GoogleGenerativeAI } from "@google/generative-ai";
+
+// Load .env.local to access API keys in Node.js
+try {
+    process.loadEnvFile('.env.local');
+} catch (e) {
+    console.warn("[SYS] .env.local not found, using system environment variables.");
+}
+
+import { analyzeWasteFlow } from './services/genkitEngine.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,8 +30,26 @@ app.use((req, res, next) => {
 });
 
 // RADAR VERSION TAG
-const RADAR_VERSION = "2.1.0-GALAXY";
+const RADAR_VERSION = "2.1.1-SUPERNOVA";
 console.log(`[SYS] Initializing RADAR ENGINE ${RADAR_VERSION}...`);
+
+// Debug endpoint to see what models are actually accessible
+app.get('/api/debug-models', async (req, res) => {
+    const key = getApiKey();
+    if (!key) return res.status(500).json({ error: "Missing Key" });
+    const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${key}`;
+    try {
+        const resp = await fetch(url);
+        const data = await resp.json();
+        res.json({
+            version: RADAR_VERSION,
+            keyPrefix: key.slice(0, 10),
+            models: data
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -52,75 +78,31 @@ const API_KEY = getApiKey();
 app.post('/api/analyze', async (req, res) => {
     const { image } = req.body;
     if (!image) return res.status(400).json({ error: "Gambar kosong" });
-    if (!API_KEY) return res.status(500).json({ error: "API KEY TIDAK TERDETEKSI!" });
+    if (!getApiKey()) return res.status(500).json({ error: "API KEY TIDAK TERDETEKSI! Periksa .env atau Secret Manager." });
 
-    const maskedKey = `***${API_KEY.slice(-5)}`;
+    console.log(`[RADAR] Request diterima pada ${new Date().toLocaleTimeString()}`);
 
-    // List kombinasi Model dan API Version yang akan dicoba secara berurutan
-    const strategies = [
-        { v: "v1beta", m: "gemini-1.5-flash" },
-        { v: "v1beta", m: "gemini-1.5-flash-latest" },
-        { v: "v1", m: "gemini-1.5-flash" },
-        { v: "v1beta", m: "gemini-1.5-flash-8b" },
-        { v: "v1beta", m: "gemini-2.0-flash-exp" }
-    ];
+    try {
+        console.log(`[RADAR] Mengaktifkan Genkit Flow 'analyzeWasteFlow'...`);
 
-    let lastErrors = [];
+        // Execute Genkit Flow
+        const result = await analyzeWasteFlow(image);
 
-    for (const strat of strategies) {
-        const ENDPOINT = `https://generativelanguage.googleapis.com/${strat.v}/models/${strat.m}:generateContent?key=${API_KEY}`;
+        console.log(`[RADAR] Sukses! Terdeteksi sebagai: ${result.materialType} (Confidence: ${result.confidence})`);
+        return res.json(result);
 
-        try {
-            console.log(`[RADAR] Trying Strategy: ${strat.v} | ${strat.m}`);
+    } catch (err) {
+        console.error(`[RADAR ANALYZE ERROR]:`, err.message);
 
-            const payload = {
-                contents: [{
-                    parts: [
-                        { text: "ANDA ADALAH: Master Radar AI. ANALISIS GAMBAR INI (Output JSON murni):\n{\n  \"isRecyclable\": boolean,\n  \"materialType\": \"Plastic/Paper/Organic/Metal/E-Waste/Residue/Human/Non-Waste\",\n  \"disposalInstructions\": \"Instruksi spesifik\",\n  \"energyPotential\": \"Narasi potensi\",\n  \"transformationRoute\": \"organic|inorganic|b3|residu|none\",\n  \"confidence\": number\n}" },
-                        { inlineData: { mimeType: "image/jpeg", data: image } }
-                    ]
-                }]
-            };
-
-            const response = await fetch(ENDPOINT, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                const msg = data.error?.message || "Unknown error";
-                console.warn(`[RADAR] Strategy ${strat.m} failed: ${msg}`);
-                lastErrors.push(`${strat.m} (${strat.v}): ${msg}`);
-                continue; // Coba strategi berikutnya
-            }
-
-            // Jika Berhasil
-            const text = data.candidates[0].content.parts[0].text;
-            const startIdx = text.indexOf('{');
-            const endIdx = text.lastIndexOf('}');
-
-            if (startIdx !== -1 && endIdx !== -1) {
-                console.log(`[RADAR] SUCCESS with ${strat.m} (${strat.v})`);
-                return res.json(JSON.parse(text.substring(startIdx, endIdx + 1)));
-            }
-
-        } catch (err) {
-            console.error(`[RADAR] Error on ${strat.m}:`, err.message);
-            lastErrors.push(`${strat.m}: ${err.message}`);
-        }
+        // Detailed error for debugging while launching
+        res.status(500).json({
+            error: "Analisis Radar Gagal (via Genkit)",
+            message: err.message,
+            suggestion: "Pastikan API Key memiliki akses ke Gemini 1.5 Flash dan kuota harian masih tersedia."
+        });
     }
-
-    // Jika semua strategi gagal
-    res.status(500).json({
-        error: "Analisis Radar Gagal Total",
-        details: lastErrors,
-        keyCheck: maskedKey,
-        suggestion: "Bro, kalau semua 404, coba buka AI Studio pake akun baru itu, terus PASTIKAN kamu bisa chat di sana. Kalau di chat AI Studio aja nggak bisa, berarti akunnya kena blokir region atau butuh SMS verification."
-    });
 });
+
 
 // Single point of entry for all frontend requests
 app.get('*', (req, res) => {

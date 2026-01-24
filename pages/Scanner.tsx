@@ -296,7 +296,7 @@ const Scanner: React.FC = () => {
                     <div className="text-left bg-black/40 rounded-2xl p-4 border border-rose-500/10">
                       <p className="text-[8px] font-black text-rose-400 uppercase tracking-widest mb-2">Diagnostic Log:</p>
                       <pre className="text-[10px] text-white/40 font-mono whitespace-pre-wrap break-all leading-tight">
-                        {error.includes('[') ? 'Cek detail di log browser/jaringan' : 'Menghubungi pusat data...'}
+                        {error}
                       </pre>
                     </div>
                   </div>

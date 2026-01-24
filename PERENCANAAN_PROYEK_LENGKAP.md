@@ -38,7 +38,7 @@
 │   │   ├── Home.tsx                # Dashboard interaktif & Globe
 │   │   ├── Transformation.tsx      # Landing page 4 kategori sampah
 │   │   ├── TransformationDetail.tsx # Detail metode (Takakura, Loseda, dll)
-│   │   ├── Scanner.tsx             # Interface AI "Mata Alam"
+│   │   ├── Scanner.tsx             # Interface AI "Scanner Sampahku"
 │   │   ├── WTE.tsx                 # Simulator Waste to Energy
 │   │   ├── AdminSponsors.tsx       # Portal Kendali Partner
 │   │   └── Login.tsx               # Gerbang Akses Admin
@@ -62,7 +62,7 @@ Terbagi menjadi 4 pilar utama dengan metode detail:
 3.  **Limbah Khusus B3:** Dropbox E-Waste, Pengolahan Jelantah.
 4.  **Material Residu:** Teknologi RDF, Insinerasi Modern.
 
-### C. Mata Alam (AI Scanner)
+### C. Scanner Sampahku (AI Scanner)
 *   User mengunggah foto sampah.
 *   AI menganalisis material tersebut.
 *   Output: Jenis material, tingkat akurasi (confidence score), dan instruksi pembuangan/pengolahan yang sinkron dengan modul Transformasi.
