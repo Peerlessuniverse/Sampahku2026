@@ -13,7 +13,7 @@ env:
     value: "AIzaSyCqLvs1Oa0fjghLgVsBjIyWfUQku9AhsKQ"
     availability: ["BUILD", "RUNTIME"]
   - variable: VITE_GEMINI_API_KEY
-    value: "AIzaSyA2MqBR5IBcajikE-gWLCXslX2LvdPCyJc"
+    value: "AIzaSyAK-UtjmP6fx_JlUqFzC6u14sTqj_Vl0I0"
     availability: ["BUILD", "RUNTIME"]
   - variable: VITE_FIREBASE_AUTH_DOMAIN
     value: "sampahku2026.firebaseapp.com"
