@@ -22,18 +22,48 @@ app.use((req, res, next) => {
 
 // Health check endpoint for testing production status
 app.get('/health', (req, res) => {
-    res.send('Radar AI Backend: ONLINE 🚀');
+    try {
+        const rootFiles = fs.readdirSync(__dirname);
+        const distExists = fs.existsSync(distPath);
+        const distFiles = distExists ? fs.readdirSync(distPath) : ["DIST NOT FOUND"];
+
+        res.json({
+            status: 'Radar AI Backend: ONLINE 🚀',
+            timestamp: new Date().toISOString(),
+            port: PORT,
+            currentDir: __dirname,
+            distPath: distPath,
+            distExists: distExists,
+            filesInRoot: rootFiles,
+            filesInDist: distFiles,
+            env: {
+                NODE_ENV: process.env.NODE_ENV,
+                VITE_ENV: process.env.VITE_ENV,
+                PORT: process.env.PORT
+            }
+        });
+    } catch (e) {
+        res.status(500).json({ status: 'Radar AI Backend: ERROR ❌', error: e.message });
+    }
 });
 
 const distPath = path.join(__dirname, 'dist');
 
 // Log the resolution path for debugging in production
-console.log(`Checking build directory: ${distPath}`);
+console.log(`\n--- DEPOT RADAR DIAGNOSTIC ---`);
+console.log(`Target Build Directory: ${distPath}`);
 if (fs.existsSync(distPath)) {
     console.log("✅ Build directory found.");
+    const assetsPath = path.join(distPath, 'assets');
+    if (fs.existsSync(assetsPath)) {
+        console.log(`✅ Assets directory found: ${fs.readdirSync(assetsPath).length} files.`);
+    } else {
+        console.warn("⚠️ WARNING: 'assets' directory NOT FOUND in dist!");
+    }
 } else {
     console.error("❌ ERROR: Build directory 'dist' NOT FOUND!");
 }
+console.log(`------------------------------\n`);
 
 app.use(express.static(distPath));
 
@@ -116,7 +146,21 @@ app.post('/api/analyze', async (req, res) => {
 });
 
 app.use((req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'));
+    const indexPath = path.join(distPath, 'index.html');
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+    } else {
+        res.status(404).send(`
+            <div style="font-family: sans-serif; padding: 20px; background: #02020a; color: #fff; height: 100vh;">
+                <h1 style="color: #ef4444;">📡 Radar Error: Terminal Offline</h1>
+                <p>File 'index.html' tidak ditemukan di direktori build.</p>
+                <hr style="border: 1px solid #1e1b4b;">
+                <p><b>Path:</b> ${indexPath}</p>
+                <p><b>Unit Status:</b> Backend Online, Frontend Hilang.</p>
+                <p>Pastikan 'npm run build' berhasil dijalankan sebelum memulai server.</p>
+            </div>
+        `);
+    }
 });
 
 app.listen(PORT, '0.0.0.0', () => {
