@@ -30,11 +30,11 @@ app.get('/health', (req, res) => {
         const assetsPath = path.join(distPath, 'assets');
         const assetsFiles = fs.existsSync(assetsPath) ? fs.readdirSync(assetsPath) : ["ASSETS NOT FOUND"];
 
+        const allEnvKeys = Object.keys(process.env);
         const viteEnv = {};
-        Object.keys(process.env).forEach(key => {
-            if (key.startsWith('VITE_')) {
+        allEnvKeys.forEach(key => {
+            if (key.startsWith('VITE_') || key.includes('KEY')) {
                 const val = process.env[key] || "";
-                // Jangan tampilkan isi Key-nya, cuma status ada dan panjangnya saja buat debug
                 viteEnv[key] = val ? `DITETAPKAN (Panjang: ${val.length})` : "KOSONG/UNDEFINED";
             }
         });
@@ -47,9 +47,8 @@ app.get('/health', (req, res) => {
             distPath: distPath,
             distExists: distExists,
             filesInRoot: rootFiles,
-            filesInDist: distFiles,
-            filesInAssets: assetsFiles,
-            envVars: viteEnv,
+            allAvailableEnvKeys: allEnvKeys.sort(),
+            filteredEnv: viteEnv,
             system: {
                 NODE_ENV: process.env.NODE_ENV,
                 PORT: process.env.PORT
