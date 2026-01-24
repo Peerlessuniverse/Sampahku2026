@@ -57,11 +57,6 @@ Alat ukur jejak karbon personal untuk meningkatkan kesadaran dampak lingkungan.
 
 ---
 
-## 🔒 Akses Admin (Mode Demo)
-- **URL:** `/login` atau melalui footer "Menjadi Sponsor".
-- **Username:** `admin`
-- **Password:** `admin123`
-
 ---
 
 *Dikembangkan dengan ❤️ untuk masa depan bumi yang lebih hijau dan selaras.*
