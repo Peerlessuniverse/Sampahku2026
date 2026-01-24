@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // RADAR VERSION TAG
-const RADAR_VERSION = "2.0.1-FLASH-FIX";
+const RADAR_VERSION = "2.0.2-ULTRABOOST";
 
 // Health check endpoint
 app.get('/health', (req, res) => {
