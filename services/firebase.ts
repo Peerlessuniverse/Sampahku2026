@@ -13,10 +13,22 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+let app;
+try {
+    if (!firebaseConfig.apiKey) {
+        console.warn("📡 Radar Warning: Firebase API Key missing. Unit might be running in restricted mode.");
+    }
+    app = initializeApp(firebaseConfig);
+} catch (e) {
+    console.error("📡 Radar Critical Error: Firebase Initialization Failed!", e);
+    // Create a mock app if necessary or just let it fail gracefully
+    app = { options: {} };
+}
+
+export const auth = getAuth(app as any);
 export const googleProvider = new GoogleAuthProvider();
-export const db = getFirestore(app);
+export const db = getFirestore(app as any);
 
 // Initialize Analytics conditionally (only in browser)
-export const analytics = typeof window !== "undefined" ? getAnalytics(app) : null;
+export const analytics = typeof window !== "undefined" && firebaseConfig.measurementId ? getAnalytics(app as any) : null;
+export { app };
