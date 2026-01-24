@@ -158,20 +158,21 @@ app.post('/api/analyze', async (req, res) => {
     res.status(500).json({ error: "Radar Gagal: " + lastError });
 });
 
-app.get('*', (req, res) => {
-    // Skip API routes if any were missed
-    if (req.path.startsWith('/api')) return next();
+app.get('*', (req, res, next) => {
+    // Skip API routes 
+    if (req.path.startsWith('/api/')) return next();
 
     const indexPath = path.join(distPath, 'index.html');
-    if (fs.existsSync(indexPath)) {
-        // RADAR DYNAMIC INJECTION: Menyuntikkan API Key secara dinamis saat halaman dimuat
-        let html = fs.readFileSync(indexPath, 'utf8');
+    try {
+        if (fs.existsSync(indexPath)) {
+            // RADAR DYNAMIC INJECTION: Menyuntikkan API Key secara dinamis saat halaman dimuat
+            let html = fs.readFileSync(indexPath, 'utf8');
 
-        // Capture from environment or use master fallbacks
-        const firebaseApiKey = process.env.VITE_FIREBASE_API_KEY || "AIzaSyCqLvs1Oa0fjghLgVsBjIyWfUQku9AhsKQ";
-        const geminiApiKey = process.env.VITE_GEMINI_API_KEY || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
+            // Capture from environment or use master fallbacks
+            const firebaseApiKey = process.env.VITE_FIREBASE_API_KEY || "AIzaSyCqLvs1Oa0fjghLgVsBjIyWfUQku9AhsKQ";
+            const geminiApiKey = process.env.VITE_GEMINI_API_KEY || "AIzaSyAnqZZsNHraZllZSXDMIBn3iOM5Gv2m4fM";
 
-        const runtimeConfig = `
+            const runtimeConfig = `
         <script>
             window.RADAR_CONFIG = {
                 VITE_FIREBASE_API_KEY: "${firebaseApiKey}",
@@ -188,13 +189,13 @@ app.get('*', (req, res) => {
         </script>
         `;
 
-        // Inject config BEFORE any other scripts to ensure it's available
-        html = html.replace('<head>', `<head>${runtimeConfig}`);
+            // Inject config BEFORE any other scripts to ensure it's available
+            html = html.replace('<head>', `<head>${runtimeConfig}`);
 
-        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-        res.send(html);
-    } else {
-        res.status(404).send(`
+            res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+            res.send(html);
+        } else {
+            res.status(404).send(`
             <div style="font-family: sans-serif; padding: 40px; background: #02020a; color: #fff; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
                 <h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 20px;">📡 Radar Error: Terminal Offline</h1>
                 <p style="font-size: 1.2rem; color: #94a3b8;">File 'index.html' tidak ditemukan di direktori build.</p>
@@ -205,6 +206,10 @@ app.get('*', (req, res) => {
                 <p style="margin-top: 20px; color: #4ade80;">Pastikan 'npm run build' berhasil dijalankan.</p>
             </div>
         `);
+        }
+    } catch (err) {
+        console.error("Critical error during page load:", err);
+        res.status(500).send("📡 Radar Critical Failure: " + err.message);
     }
 });
 
