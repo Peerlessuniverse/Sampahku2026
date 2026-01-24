@@ -188,20 +188,56 @@ const Scanner: React.FC = () => {
         <div className="bg-white/[0.03] backdrop-blur-3xl rounded-[2rem] shadow-[0_40px_80px_rgba(0,0,0,0.6)] border-2 border-white/10 overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             {/* Input Section */}
-            <div className="p-6 md:p-8 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-white/5 bg-black/20 min-h-[300px]">
+            <div className="p-6 md:p-10 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-white/5 bg-black/20 min-h-[400px]">
               {!image ? (
-                <div
-                  className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-[2rem] bg-white/[0.01] hover:bg-emerald-900/20 hover:border-emerald-500/30 transition-all cursor-pointer group relative overflow-hidden active:scale-[0.98]"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <div className="absolute inset-0 bg-emerald-600/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="relative z-10 flex flex-col items-center text-center px-6">
-                    <div className="p-6 bg-gradient-to-br from-emerald-600 to-green-600 text-white rounded-[2rem] shadow-xl shadow-emerald-500/40 mb-6 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
-                      <Camera size={40} />
-                    </div>
-                    <p className="text-white text-2xl font-black mb-2 tracking-tighter uppercase leading-none italic">Pindai Objek</p>
-                    <p className="text-[10px] text-white/40 font-black uppercase tracking-[0.5em]">Input Gambar Sampah</p>
+                <div className="w-full h-full flex flex-col gap-6 animate-in fade-in duration-1000">
+                  <div className="text-center mb-2">
+                    <p className="text-[10px] text-emerald-400/60 font-black uppercase tracking-[0.4em] mb-2 italic">Input Source</p>
+                    <h2 className="text-2xl font-black text-white italic tracking-tighter uppercase leading-none">Pilih Jalur <span className="text-emerald-400">Data.</span></h2>
                   </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
+                    {/* Camera Button */}
+                    <button
+                      onClick={() => {
+                        if (fileInputRef.current) {
+                          fileInputRef.current.setAttribute('capture', 'environment');
+                          fileInputRef.current.click();
+                        }
+                      }}
+                      className="group relative flex flex-col items-center justify-center p-8 rounded-[2rem] bg-white/[0.03] border-2 border-white/5 hover:border-emerald-500/40 hover:bg-emerald-500/10 transition-all active:scale-95 overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      <div className="relative z-10 flex flex-col items-center">
+                        <div className="p-5 bg-emerald-500 text-black rounded-2xl shadow-xl shadow-emerald-500/20 mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                          <Camera size={28} />
+                        </div>
+                        <p className="text-white font-black uppercase italic tracking-tighter text-sm">Ambil Foto</p>
+                        <p className="text-[8px] text-white/30 font-bold uppercase tracking-widest mt-1">Live Scanner</p>
+                      </div>
+                    </button>
+
+                    {/* Gallery Button */}
+                    <button
+                      onClick={() => {
+                        if (fileInputRef.current) {
+                          fileInputRef.current.removeAttribute('capture');
+                          fileInputRef.current.click();
+                        }
+                      }}
+                      className="group relative flex flex-col items-center justify-center p-8 rounded-[2rem] bg-white/[0.03] border-2 border-white/5 hover:border-blue-500/40 hover:bg-blue-500/10 transition-all active:scale-95 overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      <div className="relative z-10 flex flex-col items-center">
+                        <div className="p-5 bg-blue-500 text-white rounded-2xl shadow-xl shadow-blue-500/20 mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
+                          <Upload size={28} />
+                        </div>
+                        <p className="text-white font-black uppercase italic tracking-tighter text-sm">Buka Galeri</p>
+                        <p className="text-[8px] text-white/30 font-bold uppercase tracking-widest mt-1">Upload File</p>
+                      </div>
+                    </button>
+                  </div>
+
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -210,6 +246,12 @@ const Scanner: React.FC = () => {
                     onChange={handleFileChange}
                     title="Unggah Gambar Sampah"
                   />
+
+                  <div className="text-center pt-2">
+                    <p className="text-[7px] text-white/20 font-bold uppercase tracking-[0.3em] italic">
+                      Format Terdukung: JPG, PNG, WEBP (Max 5MB)
+                    </p>
+                  </div>
                 </div>
               ) : (
                 <div className="relative w-full max-h-[400px] rounded-2xl overflow-hidden shadow-2xl group border-2 border-white/10 animate-in zoom-in duration-700 flex items-center justify-center bg-black/40">
