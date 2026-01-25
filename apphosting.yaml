@@ -12,8 +12,11 @@ env:
   - variable: VITE_FIREBASE_API_KEY
     value: "AIzaSyCqLvs1Oa0fjghLgVsBjIyWfUQku9AhsKQ"
     availability: ["BUILD", "RUNTIME"]
-  - variable: VITE_GEMINI_API_KEY
-    value: "AIzaSyAK-UtjmP6fx_JlUqFzC6u14sTqj_Vl0I0"
+  - variable: GEMINI_API_KEY
+    secret: GEMINI_API_KEY
+    availability: ["RUNTIME"]
+  - variable: VITE_GEMINI_API_KEY # Legacy support reference
+    secret: GEMINI_API_KEY
     availability: ["BUILD", "RUNTIME"]
   - variable: VITE_FIREBASE_AUTH_DOMAIN
     value: "sampahku2026.firebaseapp.com"
