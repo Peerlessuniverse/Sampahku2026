@@ -139,4 +139,6 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 RADAR ENGINE ${RADAR_VERSION} ONLINE ON PORT ${PORT}`);
+    console.log(`[SYS] CWD: ${process.cwd()}`);
+    console.log(`[SYS] Environment: ${process.env.NODE_ENV || 'development'}`);
 });
