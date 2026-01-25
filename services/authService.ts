@@ -13,6 +13,8 @@ export interface UserProfile {
 
 const USER_KEY = 'sampahku_user_session';
 
+import { migrateLocalCreditsToCloud } from "./creditService";
+
 export const loginWithGoogle = async (): Promise<UserProfile> => {
     try {
         const result = await signInWithPopup(auth, googleProvider);
@@ -35,6 +37,10 @@ export const loginWithGoogle = async (): Promise<UserProfile> => {
         });
 
         localStorage.setItem(USER_KEY, JSON.stringify(userProfile));
+
+        // MIGRATE GUEST CREDITS TO CLOUD
+        await migrateLocalCreditsToCloud(userProfile.uid);
+
         window.dispatchEvent(new CustomEvent('authChanged', { detail: { user: userProfile } }));
         return userProfile;
     } catch (error: any) {

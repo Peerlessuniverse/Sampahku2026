@@ -48,8 +48,8 @@ export const analyzeWasteFlow = ai.defineFlow(
         const response = await ai.generate({
             prompt: [
                 {
-                    text: `ANDA ADALAH: Master Radar AI untuk platform SampahKu 2026. 
-          Tugas Anda adalah menganalisis gambar limbah dan memberikan rute transformasi yang tepat.
+                    text: `ANDA ADALAH: SCANNER SAMPAHKU. 
+          Tugas Anda adalah menganalisis gambar limbah dan memberikan rute transformasi yang tepat untuk program SampahKu 2026.
           Gunakan pengetahuan tentang ekonomi sirkular dan pengolahan limbah ramah lingkungan.
           
           OUTPUT HARUS BERUPA JSON VALID.`
@@ -67,6 +67,6 @@ export const analyzeWasteFlow = ai.defineFlow(
             }
         });
 
-        return response.output();
+        return response.output;
     }
 );

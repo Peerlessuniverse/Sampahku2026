@@ -18,6 +18,36 @@ export const getCredits = (): number => {
     return stored ? parseInt(stored) : 0;
 };
 
+// Logic untuk menggabungkan poin lokal (Guest) ke Cloud saat pertama kali login
+export const migrateLocalCreditsToCloud = async (uid: string) => {
+    const localCredits = getCredits();
+    if (localCredits > 0) {
+        // Cek dulu credits di cloud
+        const cloudData = await getUserCredits(uid);
+
+        // Hanya pindahkan jika ini sepertinya login baru/sinkronisasi
+        // Tambahkan kredit lokal ke cloud sebagai "Saldo Awal Migrasi" atau merge history
+        // Untuk sederhananya, kita update cloud dengan selisih jika lokal > cloud, 
+        // atau kita bisa reset lokal jadi 0 setelah sync.
+
+        // Strategi: Push semua histori lokal yang belum ada di cloud
+        const localHistory = getCreditHistory();
+
+        for (const tx of localHistory) {
+            // Kirim satu per satu atau batch (sekarang manual loop sederhana)
+            await updateUserCredits(uid, tx.amount, tx.description + " (from Guest)", tx.id);
+        }
+
+        // Clear local storage agar tidak double counting nanti saat sync balik
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(HISTORY_KEY);
+        localStorage.removeItem(COMPLETED_ACTIVITIES_KEY);
+    }
+
+    // Setelah migrasi, tarik data terbaru dari cloud
+    await syncWithCloud();
+};
+
 export const syncWithCloud = async () => {
     const user = getCurrentUser();
     if (!user) return;
@@ -52,7 +82,7 @@ export const addCredits = async (amount: number, description: string, activityId
 
     const history = getCreditHistory();
     const transaction: CreditTransaction = {
-        id: Date.now().toString(),
+        id: activityId || Date.now().toString(),
         amount,
         description,
         timestamp: new Date().toISOString(),

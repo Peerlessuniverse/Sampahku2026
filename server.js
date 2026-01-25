@@ -3,12 +3,9 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
-// Load .env.local to access API keys in Node.js
-try {
-    process.loadEnvFile('.env.local');
-} catch (e) {
-    console.warn("[SYS] .env.local not found, using system environment variables.");
-}
+// Use dotenv for robust environment variable management across Node versions
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 
 import { analyzeWasteFlow } from './services/genkitEngine.js';
 

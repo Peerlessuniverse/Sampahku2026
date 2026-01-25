@@ -50,7 +50,7 @@ export const analyzeWasteFlow = ai.defineFlow(
                 }
             });
 
-            return response.output();
+            return response.output;
         } catch (error) {
             console.error("[GENKIT FLOW ERROR]:", error.message);
             throw error;
