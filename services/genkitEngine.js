@@ -5,11 +5,16 @@ import { googleAI, gemini15Flash } from '@genkit-ai/googleai';
  * GENKIT RUNTIME ENGINE - JS VERSION FOR BACKEND
  */
 
+// Safe API Key retrieval to prevent startup crash
+const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || "DUMMY_KEY_FOR_BUILD";
+
+if (apiKey === "DUMMY_KEY_FOR_BUILD") {
+    console.warn("⚠️ [GENKIT] WARN: No Valid API Key found in env. AI features will fail at runtime.");
+}
+
 export const ai = genkit({
     plugins: [
-        googleAI({
-            apiKey: process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY
-        })
+        googleAI({ apiKey })
     ],
     model: gemini15Flash,
 });
