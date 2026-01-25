@@ -19,6 +19,7 @@
     "@genkit-ai/googleai": "^1.28.0",
     "@google/generative-ai": "^0.24.1",
     "@types/leaflet": "^1.9.21",
+    "@types/node": "^25.0.10",
     "@vitejs/plugin-react": "^5.0.0",
     "cobe": "^0.6.5",
     "dotenv": "^17.2.3",
@@ -31,12 +32,11 @@
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.12.0",
     "sirv-cli": "^3.0.1",
+    "typescript": "^5.9.3",
     "vite": "^6.2.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "genkit-cli": "^1.28.0",
-    "typescript": "^5.7.3"
+    "genkit-cli": "^1.28.0"
   }
 }
