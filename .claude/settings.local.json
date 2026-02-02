@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(firebase deploy:*)",
+      "Bash(firebase help:*)",
+      "Bash(node scripts/migrateAdvertiserToPartner.js:*)",
+      "Bash(del:*)"
+    ]
+  }
+}

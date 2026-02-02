@@ -1,0 +1,62 @@
+[
+    {
+        "slug": "manfaat-kulit-jeruk",
+        "title": "5 Manfaat Tersembunyi Kulit Jeruk untuk Rumah",
+        "category": "Organic",
+        "target_audience": "Ibu Rumah Tangga",
+        "keywords": [
+            "kulit jeruk",
+            "pembersih alami",
+            "eco enzyme"
+        ],
+        "status": "pending"
+    },
+    {
+        "slug": "bahaya-mikroplastik",
+        "title": "Mikroplastik: Pembunuh Senyap di Piring Kita",
+        "category": "Inorganic",
+        "target_audience": "Umum",
+        "keywords": [
+            "mikroplastik",
+            "kesehatan",
+            "bahaya plastik"
+        ],
+        "status": "pending"
+    },
+    {
+        "slug": "tips-zero-waste-pemula",
+        "title": "Memulai Gaya Hidup Zero Waste dalam 7 Hari",
+        "category": "Lifestyle",
+        "target_audience": "Pemula",
+        "keywords": [
+            "zero waste",
+            "hidup minim sampah",
+            "tips lingkungan"
+        ],
+        "status": "pending"
+    },
+    {
+        "slug": "minyak-jelantah-jadi-emas",
+        "title": "Jangan Buang Jelantah! Ubah Jadi Cuan",
+        "category": "Economy",
+        "target_audience": "Pelaku Usaha Kecil",
+        "keywords": [
+            "minyak jelantah",
+            "biodiesel",
+            "bank sampah"
+        ],
+        "status": "pending"
+    },
+    {
+        "slug": "bahaya-baterai-bekas",
+        "title": "Kenapa Baterai Bekas Tidak Boleh Dibuang Sembarangan?",
+        "category": "Hazardous",
+        "target_audience": "Umum",
+        "keywords": [
+            "b3",
+            "baterai",
+            "limbah elektronik"
+        ],
+        "status": "pending"
+    }
+]

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Aktivasi E-Book | SampahKu Cosmic Protocol</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #02020a;
+            --card: rgba(255, 255, 255, 0.03);
+            --muted: #94a3b8;
+            --text: #ffffff;
+            --accent: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.3);
+            --cyan: #22d3ee;
+            --stroke: rgba(255, 255, 255, 0.08);
+            --shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            --radius: 2.5rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cosmic-blob {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 80% 80%, #1e1b4b 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .glass-panel {
+            background: var(--card);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
+            padding: 3.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .badge-premium {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            padding: 8px 16px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: var(--accent);
+            border-radius: 999px;
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin: 0 0 1rem;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+
+        .description {
+            font-size: 1rem;
+            color: var(--muted);
+            margin-bottom: 2.5rem;
+        }
+
+        form {
+            text-align: left;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: grid;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-left: 1rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--stroke);
+            border-radius: 1.25rem;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            background: rgba(139, 92, 246, 0.05);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 1.25rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            font-style: italic;
+            cursor: pointer;
+            box-shadow: 0 20px 40px var(--accent-glow);
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+            box-shadow: 0 25px 50px var(--accent-glow);
+        }
+
+        .btn-main:active {
+            transform: scale(0.98);
+        }
+
+        .footer-note {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .error-msg {
+            color: #f43f5e;
+            font-size: 10px;
+            font-weight: 700;
+            margin-top: 4px;
+            margin-left: 1rem;
+            display: none;
+        }
+
+        .accent-text {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cosmic-blob"></div>
+
+    <div class="wrap">
+        <div class="glass-panel">
+            <div class="badge-premium">Pintu Gerbang Manifestasi</div>
+            <h1>Selangkah Lagi <br> Menuju <span class="accent-text">Harmoni.</span></h1>
+            <p class="description">Isi koordinat kamu di bawah ini untuk membuka akses download file "Protokol 3 Hari".
+            </p>
+
+            <form id="optinForm">
+                <div class="input-group">
+                    <label for="name">ID Nama</label>
+                    <input type="text" id="name" placeholder="Siapa nama kamu?" required minlength="2">
+                    <div class="error-msg" id="nameError">Nama terlalu singkat, Bro!</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Saluran Email</label>
+                    <input type="email" id="email" placeholder="email@kamu.com" required>
+                    <div class="error-msg" id="emailError">Format email tidak valid.</div>
+                </div>
+
+                <button type="submit" class="btn-main" id="submitBtn">
+                    Konfirmasi & Download
+                </button>
+            </form>
+
+            <div class="footer-note">
+                © <span id="year"></span> SampahKu • Transmisi Terenkripsi
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DOWNLOAD_URL = "https://example.com/checklist-3-hari.pdf"; // Change this later
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        const form = document.getElementById("optinForm");
+        const submitBtn = document.getElementById("submitBtn");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+
+            // Basic UI Feedback
+            submitBtn.innerText = "MENGHUBUNGKAN...";
+            submitBtn.style.opacity = "0.7";
+            submitBtn.disabled = true;
+
+            // Simpan lokal (Audit Jejak Marketing)
+            const payload = {
+                name,
+                email,
+                ts: new Date().toISOString(),
+                source: localStorage.getItem("sampahku_marketing_source") || "direct_optin"
+            };
+
+            localStorage.setItem("sampahku_lead", JSON.stringify(payload));
+
+            // Simulasi proses "transmisi" kosmik
+            setTimeout(() => {
+                window.location.href = DOWNLOAD_URL;
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

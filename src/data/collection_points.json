@@ -1,0 +1,182 @@
+[
+  {
+    "id": "loc-0",
+    "name": "Bank Sampah Unit - Zona A",
+    "type": "Bank Sampah Unit",
+    "lat": -6.207448598018418,
+    "lng": 106.89164080323236,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 62, Jakarta"
+  },
+  {
+    "id": "loc-1",
+    "name": "Pusat Kompos - Zona B",
+    "type": "Pusat Kompos",
+    "lat": -6.21192151978641,
+    "lng": 106.82668951746416,
+    "status": "CLOSED",
+    "address": "Jl. Simulasi No. 42, Jakarta"
+  },
+  {
+    "id": "loc-2",
+    "name": "Bank Sampah Unit - Zona C",
+    "type": "Bank Sampah Unit",
+    "lat": -6.163535993747412,
+    "lng": 106.85738464263387,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 83, Jakarta"
+  },
+  {
+    "id": "loc-3",
+    "name": "Bank Sampah Unit - Zona D",
+    "type": "Bank Sampah Unit",
+    "lat": -6.198180742394328,
+    "lng": 106.85107662046352,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 57, Jakarta"
+  },
+  {
+    "id": "loc-4",
+    "name": "Bank Sampah Unit - Zona E",
+    "type": "Bank Sampah Unit",
+    "lat": -6.248357562150849,
+    "lng": 106.89234732432668,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 25, Jakarta"
+  },
+  {
+    "id": "loc-5",
+    "name": "Vending Machine Reverse - Zona F",
+    "type": "Vending Machine Reverse",
+    "lat": -6.196937285540297,
+    "lng": 106.87860964281712,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 75, Jakarta"
+  },
+  {
+    "id": "loc-6",
+    "name": "Drop Box E-Waste - Zona G",
+    "type": "Drop Box E-Waste",
+    "lat": -6.244922987816174,
+    "lng": 106.89517427504065,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 7, Jakarta"
+  },
+  {
+    "id": "loc-7",
+    "name": "Pusat Kompos - Zona H",
+    "type": "Pusat Kompos",
+    "lat": -6.174642306753426,
+    "lng": 106.84226763690022,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 31, Jakarta"
+  },
+  {
+    "id": "loc-8",
+    "name": "Vending Machine Reverse - Zona I",
+    "type": "Vending Machine Reverse",
+    "lat": -6.174612457493595,
+    "lng": 106.8089318912549,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 96, Jakarta"
+  },
+  {
+    "id": "loc-9",
+    "name": "Vending Machine Reverse - Zona J",
+    "type": "Vending Machine Reverse",
+    "lat": -6.218148906176519,
+    "lng": 106.87366890411408,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 5, Jakarta"
+  },
+  {
+    "id": "loc-10",
+    "name": "Vending Machine Reverse - Zona K",
+    "type": "Vending Machine Reverse",
+    "lat": -6.172759780366994,
+    "lng": 106.87029298306608,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 50, Jakarta"
+  },
+  {
+    "id": "loc-11",
+    "name": "Bank Sampah Unit - Zona L",
+    "type": "Bank Sampah Unit",
+    "lat": -6.17571481437433,
+    "lng": 106.84939816367948,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 77, Jakarta"
+  },
+  {
+    "id": "loc-12",
+    "name": "Vending Machine Reverse - Zona M",
+    "type": "Vending Machine Reverse",
+    "lat": -6.154832205318004,
+    "lng": 106.8833586585159,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 70, Jakarta"
+  },
+  {
+    "id": "loc-13",
+    "name": "Bank Sampah Unit - Zona N",
+    "type": "Bank Sampah Unit",
+    "lat": -6.235900023740444,
+    "lng": 106.86673345555943,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 99, Jakarta"
+  },
+  {
+    "id": "loc-14",
+    "name": "Bank Sampah Unit - Zona O",
+    "type": "Bank Sampah Unit",
+    "lat": -6.162835274695462,
+    "lng": 106.8034731412105,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 75, Jakarta"
+  },
+  {
+    "id": "loc-15",
+    "name": "Pusat Kompos - Zona P",
+    "type": "Pusat Kompos",
+    "lat": -6.2319310977272355,
+    "lng": 106.84850625274932,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 71, Jakarta"
+  },
+  {
+    "id": "loc-16",
+    "name": "Vending Machine Reverse - Zona Q",
+    "type": "Vending Machine Reverse",
+    "lat": -6.214759037685843,
+    "lng": 106.84222657897118,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 76, Jakarta"
+  },
+  {
+    "id": "loc-17",
+    "name": "Pusat Kompos - Zona R",
+    "type": "Pusat Kompos",
+    "lat": -6.18472516764858,
+    "lng": 106.81808538975957,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 66, Jakarta"
+  },
+  {
+    "id": "loc-18",
+    "name": "Vending Machine Reverse - Zona S",
+    "type": "Vending Machine Reverse",
+    "lat": -6.184491015061035,
+    "lng": 106.82577921544278,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 32, Jakarta"
+  },
+  {
+    "id": "loc-19",
+    "name": "Pusat Kompos - Zona T",
+    "type": "Pusat Kompos",
+    "lat": -6.234772111357513,
+    "lng": 106.83101942739927,
+    "status": "OPEN",
+    "address": "Jl. Simulasi No. 54, Jakarta"
+  }
+]

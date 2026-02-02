@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Gratis: 3 Hari Menghilangkan Bau Sampah Dapur | SampahKu 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#02020a',
+                            green: '#022c22',
+                            emerald: '#10b981',
+                            light: '#e2e8f0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #02020a;
+            color: white;
+        }
+
+        /* 3D Book Cover Effect */
+        .book-container {
+            perspective: 1000px;
+            display: inline-block;
+        }
+
+        .book {
+            width: 300px;
+            height: 450px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(-25deg) rotateX(5deg);
+            transition: transform 0.5s ease;
+            box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .book:hover {
+            transform: rotateY(-15deg) rotateX(0deg) scale(1.05);
+        }
+
+        .book-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 4px 10px 10px 4px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .book-spine {
+            position: absolute;
+            width: 40px;
+            height: 100%;
+            background: #e2e8f0;
+            /* Matching light bg of cover */
+            transform: rotateY(90deg) translateZ(-20px);
+            left: -20px;
+            box-shadow: inset 10px 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .book {
+                width: 200px;
+                height: 300px;
+                transform: rotateY(-15deg);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotateY(-25deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotateY(-25deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotateY(-25deg);
+            }
+        }
+
+        .animate-book-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased bg-gradient-to-br from-[#02020a] to-[#0f172a] overflow-x-hidden">
+
+    <!-- Hero Section -->
+    <div class="flex-grow flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 relative">
+        <!-- Background Glows -->
+        <div class="absolute top-0 right-0 w-1/2 h-1/2 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none">
+        </div>
+        <div class="absolute bottom-0 left-0 w-1/2 h-1/2 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
+
+            <!-- Left Column: Copywriting -->
+            <div class="space-y-8 text-center lg:text-left order-2 lg:order-1">
+                <div
+                    class="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">
+                    Ebook Agresif & Gratis
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
+                    Hentikan Bau Busuk <br />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">Sampah
+                        Dapur Anda</span><br />
+                    Hanya Dalam 3 Hari.
+                </h1>
+
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                    Panduan praktis tanpa basa-basi untuk orang sibuk. Tanpa beli alat mahal, tanpa cairan kimia aneh.
+                    Cukup teknik "Masuk Akal" yang bisa Anda terapkan sore ini juga.
+                </p>
+
+                <!-- Email Capture Form -->
+                <div class="w-full max-w-md mx-auto lg:mx-0 mt-8">
+                    <form id="ebookForm" class="flex flex-col sm:flex-row gap-3">
+                        <input type="email" id="emailInput" name="email" placeholder="Masukkan email Anda..."
+                            class="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all font-medium"
+                            required />
+                        <button type="submit" id="submitBtn"
+                            class="whitespace-nowrap px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-bold text-lg shadow-2xl hover:shadow-emerald-500/40 transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                            📥 Kirim Panduan
+                        </button>
+                    </form>
+                    <p class="text-center text-xs text-slate-400 mt-3">
+                        🔒 Privasi aman. Kami tidak spam!
+                    </p>
+                    <p class="text-center text-xs text-slate-500 mt-2">
+                        📊 Bergabung dengan <span id="reader-count" class="text-emerald-400 font-bold">127</span>+
+                        pembaca cerdas lainnya
+                    </p>
+                </div>
+
+                <!-- Counter Logic -->
+                <script>
+                    // Social Proof Counter - Auto Increment
+                    let readerCount = 127; // Starting count
+                    const countElement = document.getElementById('reader-count');
+
+                    // Load saved count from localStorage
+                    const savedCount = localStorage.getItem('sampahku_ebook_readers_v1');
+                    if (savedCount) {
+                        readerCount = parseInt(savedCount);
+                        countElement.innerText = readerCount;
+                    }
+
+                    // Increment every 2 minutes (120,000ms)
+                    setInterval(() => {
+                        readerCount++;
+                        countElement.innerText = readerCount;
+                        localStorage.setItem('sampahku_ebook_readers_v1', readerCount);
+                    }, 120000); // 2 minutes
+                </script>
+
+                <script>
+                    // Email Form Submission Handler - Optimized
+                    document.getElementById('ebookForm').addEventListener('submit', async function (e) {
+                        e.preventDefault();
+
+                        const email = document.getElementById('emailInput').value;
+                        const submitBtn = document.getElementById('submitBtn');
+                        const originalText = submitBtn.innerHTML;
+
+                        // UTAS Direct Checkout URL (product already in cart!)
+                        const utasCheckoutUrl = 'https://utas.me/tokosampah/checkout?ct=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiZGlnaXRhbCIsIml0ZW0iOnsiYmY4NWIxMzAwMDk1NGEzYmY5NjIzYjMyOWZjYjgwNzYtZGVmYXVsdCI6eyJwcm9kdWN0X2d1aWQiOiJiZjg1YjEzMDAwOTU0YTNiZjk2MjNiMzI5ZmNiODA3NiIsInByb2R1Y3RfbmFtZSI6IlNvbHVzaSAzIEhhcmkgTWVuZ2hpbGFuZ2thbiBCYXUgU2FtcGahIERhcHVyIiwicHJvZHVjdF9wcmljZSI6MCwicHJvZHVjdF90eXBlIjoiZGlnaXRhbCIsInByb2R1Y3RfdmFyaWFudCI6ImRlZmF1bHQiLCJwcm9kdWN0X2ltYWdlIjoiaHR0cHM6Ly9pbWFnZS51dGFzLmNvL2ltYWdlLzQwODQ4N2JmMDU1YTRhNmUzNTA3NzhhMjJiM2IwMmMyNGMzYjE1LmpwZyIsInByb2R1Y3RfbG9jYXRpb24iOiIwIiwicHJvZHVjdF93ZWlnaHQiOm51bGwsInF0eSI6MSwicXR5X21heCI6bnVsbCwic3VidG90YWwiOjAsImlzX2dyb3VwX3Byb2R1Y3QiOjAsImlzX3ByZV9vcmRlciI6Im9mZiIsImNvbnN1bHRhdGlvbl90aXRsZSI6bnVsbCwiY29uc3VsdGF0aW9uX21lc3NhZ2UiOm51bGwsInBhcmVudCI6bnVsbCwiZW1haWxfYXR0ZW5kZWVzIjpudWxsLCJlbWFpbF9ndWVzdCI6bnVsbCwiZGF0ZV90aW1lX3NlbGVjdGVkIjpudWxsLCJ0aW1lem9uZSI6bnVsbCwiaXNfZml4ZWRfcHJpY2UiOiIxIiwicmFuZ2VfcHJpY2VfbGlzdCI6IiIsImlzX2N1c3RvbV9wcmljZSI6MCwibWluaW11bV9wcmljZSI6IiIsImlzX2Z1bm5lbCI6ZmFsc2UsImZ1bm5lbF9pZCI6bnVsbCwid2lkdGgiOm51bGwsImhlaWdodCI6MCwibGVuZ3RoIjpub2xsLCJsYXRpdHVkZSI6MCwibG9uZ2l0dWRlIjowLCJhZGRyZXNzIjoiIn19LCJ0b3RhbCI6MCwidG90YWxfZGlnaXRhbCI6MCwidG90YWxfcGh5c2ljYWwiOjAsInRvdGFsX2NvbnN1bHRhdGlvbl90ZXh0IjowLCJ0b3RhbF9jb25zdWx0YXRpb25fdmlkZW8iOjAsInN0b3JlIjoidG9rb3NhbXBhaCIsInVzZXJfZ3VpZCI6Ijc2ZjhhZTg0LTU5ZDctNDJiNi1iYTUzLWEwZDlkMTY0YmI1YSIsImlhdCI6MTc2OTYwMzM2MSwiZXhwIjoxNzY5NjA2OTYxLCJqdGkiOiI1MzExNTYxZmZhZjVmNGIyMjM1ZGVjOGNhZTIwYTlhMCIsIm5iZiI6MTc2OTYwMzM2MSwic3ViIjoiY2hlY2tvdXQifQ.DstktGzKfgWe9VVbkoycqbCdh475I_pgbTX1M0SCaDc';
+
+                        // Show loading state
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '⏳ Memproses...';
+
+                        try {
+                            // Capture email to Firebase in background (no need to wait!)
+                            fetch('https://asia-southeast1-sampahku2026.cloudfunctions.net/captureEbookLead', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    email: email,
+                                    source: 'landing3harisampah',
+                                    timestamp: new Date().toISOString()
+                                })
+                            }).catch(err => console.log('Background capture:', err)); // Fire and forget!
+
+                            // Immediately redirect to UTAS checkout (don't wait for response!)
+                            submitBtn.innerHTML = '✅ Mengalihkan...';
+
+                            // Small delay for UX (user sees success state)
+                            setTimeout(() => {
+                                window.location.href = utasCheckoutUrl;
+                            }, 500); // Just 0.5 second! Much faster! ⚡
+
+                        } catch (error) {
+                            console.error('Error:', error);
+                            // Even if error, still redirect (email might have been captured)
+                            alert('Melanjutkan ke checkout...');
+                            window.location.href = utasCheckoutUrl;
+                        }
+                    });
+                </script>
+            </div>
+
+            <!-- Right Column: 3D Book Mockup -->
+            <div class="flex justify-center items-center order-1 lg:order-2 perspective-1000">
+                <div class="book-container animate-book-float">
+                    <div class="book">
+                        <div class="book-cover" style="background-image: url('/images/ebook_cover_3hari.jpg');"></div>
+                        <div class="book-spine"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Social Proof Section -->
+    <div class="border-t border-white/5 bg-black/20 py-16">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-center text-emerald-500 font-bold uppercase tracking-widest text-sm mb-12">KATA MEREKA YANG
+                SUDAH MEMBACA</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div
+                    class="p-6 bg-[#0f172a] rounded-2xl border border-white/5 hover:border-emerald-500/20 transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center font-bold text-sm">
+                            WD</div>
+                        <div>
+                            <p class="font-bold text-white text-sm">Winda Dwi</p>
+                            <p class="text-slate-500 text-xs">Ibu Rumah Tangga (Bekasi)</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        "Saya kira harus beli komposter mahal. Ternyata cuma butuh kardus bekas dan teknik sirkulasi
+                        udara yang benar. Dapur jadi wangi!"
+                    </p>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div
+                    class="p-6 bg-[#0f172a] rounded-2xl border border-white/5 hover:border-emerald-500/20 transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center font-bold text-sm">
+                            AR</div>
+                        <div>
+                            <p class="font-bold text-white text-sm">Andi Rahmat</p>
+                            <p class="text-slate-500 text-xs">Karyawan Swasta (Jaksel)</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        "Ebooknya to the point. Gak banyak teori. Hari pertama praktek, lalat buah langsung berkurang
+                        drastis. Sangat recommended."
+                    </p>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div
+                    class="p-6 bg-[#0f172a] rounded-2xl border border-white/5 hover:border-emerald-500/20 transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center font-bold text-sm">
+                            S</div>
+                        <div>
+                            <p class="font-bold text-white text-sm">Siska</p>
+                            <p class="text-slate-500 text-xs">Anak Kost (Bandung)</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        "Sebagai anak kost, tips memisahkan sampah basah & keringnya ngebantu banget. Kamar kost jadi
+                        nggak bau apek lagi."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

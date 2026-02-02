@@ -1,0 +1,451 @@
+[
+  {
+    "id": "u-1017",
+    "name": "Andi Wibowo",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AndiWibowo",
+    "credits": 47996,
+    "rank": "Cosmic Guardian",
+    "badges": [
+      "Early Adopter",
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1046",
+    "name": "Lestari Nugroho",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=LestariNugroho",
+    "credits": 46328,
+    "rank": "Cosmic Guardian",
+    "badges": []
+  },
+  {
+    "id": "u-1021",
+    "name": "Siti Wibowo",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=SitiWibowo",
+    "credits": 44830,
+    "rank": "Cosmic Guardian",
+    "badges": []
+  },
+  {
+    "id": "u-1000",
+    "name": "Wulan Pratama",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=WulanPratama",
+    "credits": 44426,
+    "rank": "Planet Protector",
+    "badges": []
+  },
+  {
+    "id": "u-1019",
+    "name": "Maya Indri",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=MayaIndri",
+    "credits": 43744,
+    "rank": "Planet Protector",
+    "badges": []
+  },
+  {
+    "id": "u-1040",
+    "name": "Arief Wijaya",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AriefWijaya",
+    "credits": 42270,
+    "rank": "Planet Protector",
+    "badges": []
+  },
+  {
+    "id": "u-1030",
+    "name": "Hendi Wibowo",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=HendiWibowo",
+    "credits": 40326,
+    "rank": "Planet Protector",
+    "badges": [
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1006",
+    "name": "Dian Lestari",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=DianLestari",
+    "credits": 40196,
+    "rank": "Planet Protector",
+    "badges": []
+  },
+  {
+    "id": "u-1018",
+    "name": "Wulan Sari",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=WulanSari",
+    "credits": 40196,
+    "rank": "Planet Protector",
+    "badges": [
+      "Top Contributor",
+      "Recycle Hero"
+    ]
+  },
+  {
+    "id": "u-1038",
+    "name": "Lestari Wibowo",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=LestariWibowo",
+    "credits": 39814,
+    "rank": "Planet Protector",
+    "badges": []
+  },
+  {
+    "id": "u-1039",
+    "name": "Ika Sari",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=IkaSari",
+    "credits": 38643,
+    "rank": "Eco Scout",
+    "badges": [
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1031",
+    "name": "Andi Firmansyah",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AndiFirmansyah",
+    "credits": 37368,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter"
+    ]
+  },
+  {
+    "id": "u-1045",
+    "name": "Hendi Nugroho",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=HendiNugroho",
+    "credits": 35816,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter"
+    ]
+  },
+  {
+    "id": "u-1011",
+    "name": "Reza Pratama",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=RezaPratama",
+    "credits": 32489,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1042",
+    "name": "Maya Purnomo",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=MayaPurnomo",
+    "credits": 28116,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1025",
+    "name": "Gita Indri",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=GitaIndri",
+    "credits": 26777,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1014",
+    "name": "Eko Utami",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=EkoUtami",
+    "credits": 25362,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter"
+    ]
+  },
+  {
+    "id": "u-1027",
+    "name": "Eko Kusuma",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=EkoKusuma",
+    "credits": 25313,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1023",
+    "name": "Gita Utami",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=GitaUtami",
+    "credits": 24854,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1005",
+    "name": "Gita Pratama",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=GitaPratama",
+    "credits": 24215,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1037",
+    "name": "Wulan Aminah",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=WulanAminah",
+    "credits": 24147,
+    "rank": "Eco Scout",
+    "badges": [
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1022",
+    "name": "Nadia Yulia",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=NadiaYulia",
+    "credits": 23363,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1007",
+    "name": "Dewi Santoso",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=DewiSantoso",
+    "credits": 21520,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1032",
+    "name": "Wulan Santoso",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=WulanSantoso",
+    "credits": 20928,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter",
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1004",
+    "name": "Bayu Susanti",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=BayuSusanti",
+    "credits": 20610,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1047",
+    "name": "Joko Nugroho",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=JokoNugroho",
+    "credits": 19077,
+    "rank": "Eco Scout",
+    "badges": [
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1034",
+    "name": "Andi Saputra",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AndiSaputra",
+    "credits": 18991,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1029",
+    "name": "Fajar Saputra",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=FajarSaputra",
+    "credits": 17323,
+    "rank": "Eco Scout",
+    "badges": [
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1012",
+    "name": "Ika Sari",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=IkaSari",
+    "credits": 17217,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1028",
+    "name": "Lestari Saputra",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=LestariSaputra",
+    "credits": 16166,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1009",
+    "name": "Dian Aminah",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=DianAminah",
+    "credits": 15921,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1008",
+    "name": "Rina Susanti",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=RinaSusanti",
+    "credits": 14322,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1026",
+    "name": "Arief Hidayat",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AriefHidayat",
+    "credits": 13244,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter"
+    ]
+  },
+  {
+    "id": "u-1033",
+    "name": "Fajar Indri",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=FajarIndri",
+    "credits": 12827,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter",
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1041",
+    "name": "Andi Santoso",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AndiSantoso",
+    "credits": 12443,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1049",
+    "name": "Eko Kusuma",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=EkoKusuma",
+    "credits": 11409,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1036",
+    "name": "Hendi Rahardian",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=HendiRahardian",
+    "credits": 10989,
+    "rank": "Eco Scout",
+    "badges": [
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1015",
+    "name": "Dian Wijaya",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=DianWijaya",
+    "credits": 10909,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter"
+    ]
+  },
+  {
+    "id": "u-1020",
+    "name": "Fajar Purnomo",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=FajarPurnomo",
+    "credits": 10729,
+    "rank": "Eco Scout",
+    "badges": [
+      "Top Contributor",
+      "Recycle Hero"
+    ]
+  },
+  {
+    "id": "u-1001",
+    "name": "Dian Setiawan",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=DianSetiawan",
+    "credits": 9609,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1016",
+    "name": "Agus Santoso",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AgusSantoso",
+    "credits": 8850,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter"
+    ]
+  },
+  {
+    "id": "u-1013",
+    "name": "Gita Utami",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=GitaUtami",
+    "credits": 8800,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter"
+    ]
+  },
+  {
+    "id": "u-1024",
+    "name": "Maya Aminah",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=MayaAminah",
+    "credits": 7259,
+    "rank": "Eco Scout",
+    "badges": [
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1010",
+    "name": "Arief Utami",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AriefUtami",
+    "credits": 6899,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1048",
+    "name": "Maya Yulia",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=MayaYulia",
+    "credits": 6334,
+    "rank": "Eco Scout",
+    "badges": [
+      "Top Contributor"
+    ]
+  },
+  {
+    "id": "u-1035",
+    "name": "Agus Kusuma",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AgusKusuma",
+    "credits": 6286,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1002",
+    "name": "Arief Kusuma",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AriefKusuma",
+    "credits": 5603,
+    "rank": "Eco Scout",
+    "badges": []
+  },
+  {
+    "id": "u-1003",
+    "name": "Nadia Kusuma",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=NadiaKusuma",
+    "credits": 5586,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter"
+    ]
+  },
+  {
+    "id": "u-1043",
+    "name": "Lestari Sari",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=LestariSari",
+    "credits": 4921,
+    "rank": "Eco Scout",
+    "badges": [
+      "Early Adopter"
+    ]
+  },
+  {
+    "id": "u-1044",
+    "name": "Bayu Wijaya",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=BayuWijaya",
+    "credits": 1840,
+    "rank": "Eco Scout",
+    "badges": []
+  }
+]
